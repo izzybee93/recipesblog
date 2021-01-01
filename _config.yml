@@ -12,8 +12,8 @@ disqus_shortname:
 logo: /siteicon.png
 description: Food blog template for Jekyll.
 author:
-  name:
-  email:
+  name: 
+  email: 
   twitter: # twitter username without the @ symbol
 social:
   name: Treat Template
@@ -23,7 +23,7 @@ social:
 # -----
 # Build
 
-timezone: Etc/UTC
+timezone: GMT
 
 paginate: 10
 paginate_path: "/:num/"
