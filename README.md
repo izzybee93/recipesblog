@@ -1,37 +1,70 @@
-## Welcome to GitHub Pages
+# Treat
 
-You can use the [editor on GitHub](https://github.com/mcomisso/recipesblog/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Food/baking blog template for Jekyll. Browse through a [live demo](https://spring-bat.cloudvent.net/).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+![Treat template screenshot](images/_screenshot.png)
 
-### Markdown
+Treat was made by [CloudCannon](http://cloudcannon.com/), the Cloud CMS for Jekyll.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Find more templates, themes and step-by-step Jekyll tutorials at [CloudCannon Academy](https://learn.cloudcannon.com/).
 
-```markdown
-Syntax highlighted code block
+## Features
 
-# Header 1
-## Header 2
-### Header 3
+* Contact form
+* Pre-built pages
+* Pre-styled components
+* Blog with pagination
+* Disqus comments for posts
+* Configurable sidebar
+* Optimised for editing in [CloudCannon](http://cloudcannon.com/)
+* RSS/Atom feed
+* SEO tags
+* Google Analytics
 
-- Bulleted
-- List
+## Setup
 
-1. Numbered
-2. List
+1. Add your site and author details in `_config.yml`.
+2. Add your Google Analytics, Disqus and MailChimp keys to `_config.yml`.
+3. Add your details to `_data/sidebar.yml`
+4. Get a workflow going to see your site's output (with [CloudCannon](https://app.cloudcannon.com/) or Jekyll locally).
 
-**Bold** and _Italic_ and `Code` text
+## Develop
 
-[Link](url) and ![Image](src)
-```
+Treat was built with [Jekyll](http://jekyllrb.com/) version 3.4.3, but should support newer versions as well.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Install the dependencies with [Bundler](http://bundler.io/):
 
-### Jekyll Themes
+~~~bash
+$ bundle install
+~~~
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/mcomisso/recipesblog/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Run `jekyll` commands through Bundler to ensure you're using the right versions:
 
-### Support or Contact
+~~~bash
+$ bundle exec jekyll serve
+~~~
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+## Editing
+
+Treat is already optimised for adding, updating and removing recipes, navigation, page content, and sidebar information in CloudCannon.
+
+### Posts/Recipes
+
+* Add, update or remove a post in the *Posts* collection.
+* The recipes page is organised by categories.
+* Change the defaults when new posts are created in `_posts/_defaults.md`.
+
+### Contact Form
+
+* Preconfigured to work with CloudCannon, but easily changed to another provider (e.g. [FormSpree](https://formspree.io/)).
+* Sends email to the address listed in company details.
+
+### Navigation
+
+* Exposed as a data file to give clients better access.
+* Set in the *Data* / *Navigation* section.
+
+### Footer
+
+* Exposed as a data file to give clients better access.
+* Set in the *Data* / *Footer* section.
