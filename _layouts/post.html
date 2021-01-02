@@ -4,7 +4,17 @@ layout: default
 <article class="post">
 	{% include post-heading.html post=page post_page=true %}
 	<div class="image">
-		<img src="{{ site.url | append: page.featured_image | replace: '\/\/', '/' }}" alt="{{ page.title }}">
+		
+		{% if jekyll.environment == "development" %}
+		
+		<img src="{{ site.url | append: '/' | append: page.featured_image }}" alt="{{ page.title }}">
+
+		{% else %}
+
+		<img src="{{ site.url | append: page.featured_image }}" alt="{{ page.title }}">
+		
+		{% endif %}
+		
 	</div>
 
 	<div class="recipe-body">
