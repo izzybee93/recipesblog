@@ -4,7 +4,7 @@ categories: risotto
 date: 2021-01-01
 featured_image: /images/recipes/butternutsagerisotto.jpeg
 recipe:
-  servings: 4 persons
+  servings: serves 4
   prep: 20 mins
   cook: 20 mins
   ingredients_markdown: |-

@@ -26,7 +26,7 @@ layout: default
 			<h2>Ingredients</h2>
 			
 			<div class="recipe-overview">
-				{% include recipe-icon.html icon="quantity" %}<span>{{ page.recipe.servings }}</span>
+				<i class="fas fa-utensils" style="margin-right: 4px; color: darkred;"></i><span>{{ page.recipe.servings }}</span>
 			</div>
 
 			{{ page.recipe.ingredients_markdown | markdownify }}
