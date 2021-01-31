@@ -2,7 +2,7 @@
 title: Roasted red pepper hummus
 categories: snacks
 date: 2021-01-01
-featured_image: /images/recipes/redpepperhummus.jpeg
+featured_image: /images/recipes/redpepperhummus.jpg
 recipe:
   servings: serves 8
   ingredients_markdown: |-

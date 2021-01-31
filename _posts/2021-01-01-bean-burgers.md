@@ -2,7 +2,7 @@
 title: Bean burgers
 categories: dinner
 date: 2021-01-01
-featured_image: /images/recipes/beanburgers.jpeg
+featured_image: /images/recipes/beanburgers.jpg
 recipe:
   servings: makes 4
   ingredients_markdown: |-
