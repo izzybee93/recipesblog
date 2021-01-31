@@ -4,18 +4,18 @@ categories: snacks
 date: 2021-01-01
 featured_image: /images/recipes/redpepperhummus.jpeg
 recipe:
-  servings: 8
+  servings: serves 8
   ingredients_markdown: |-
-  * 2 red bell peppers, chopped
-  * 1 tbsp vegetable oil
-  * 1 400g can chickpeas
-  * juice from 1 large lemon
-  * 4 tbsp tahini
-  * 1 small garlic clove, minced
-  * 2 tbsp extra-virgin olive oil
-  * 1 tsp smoked paprika
-  * ½ tsp sea salt, to taste
-  * 1-2 tbsp water
+    * 2 red bell peppers, chopped
+    * 1 tbsp vegetable oil
+    * 1 400g can chickpeas
+    * juice from 1 large lemon
+    * 4 tbsp tahini
+    * 1 small garlic clove, minced
+    * 2 tbsp extra-virgin olive oil
+    * 1 tsp smoked paprika
+    * ½ tsp sea salt, to taste
+    * 1-2 tbsp water
 
 directions_markdown: |-
     1. Preheat the oven to 180°C. Place the peppers on a tray, coated with the oil. Roast for 15 mins, until starting to brown at the edges. Remove from the oven and allow to cool.
