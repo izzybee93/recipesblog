@@ -3,7 +3,7 @@ title: Chickpea and roasted vegetable salad
 categories: lunch salad
 featured_image: /images/recipes/chickpearoastedvegsalad.png
 recipe:
-  servings: 8
+  servings: serves 8
   ingredients_markdown: |-
     * 2 400g can chickpeas, drained and rinsed
     * 1 aubergine, cut into cubes

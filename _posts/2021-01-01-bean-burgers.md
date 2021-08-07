@@ -12,7 +12,7 @@ recipe:
     * 1 tsp smoked paprika
     * ½ tsp turmeric
     * ½ tsp chilli powder
-    * 1 tablespoon tomato paste
+    * 1 tbsp tomato paste
     * 1 tsp harissa paste
     * 1 tsp soy sauce
     * 50g rolled oats

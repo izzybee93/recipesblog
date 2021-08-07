@@ -3,7 +3,7 @@ title: Shakshuka
 categories: brunch
 featured_image: /images/recipes/shakshuka.jpeg
 recipe:
-  servings: 2
+  servings: serves 2
   ingredients_markdown: |-
     * 1 tbsp vegetable oil
     * 1 small red onion, chopped

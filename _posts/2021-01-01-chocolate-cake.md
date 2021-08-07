@@ -3,7 +3,7 @@ title: Chocolate cake
 categories: treats
 featured_image: /images/recipes/chocolatecake.jpeg
 recipe:
-  servings: 12
+  servings: serves 12
   ingredients_markdown: |-
     * 225g self-raising flour
     * 1 tsp bicarbonate soda

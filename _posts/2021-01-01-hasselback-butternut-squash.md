@@ -3,7 +3,7 @@ title: Hasselback butternut squash
 categories: dinner
 featured_image: /images/recipes/hasslebackbutternut.jpeg
 recipe:
-  servings: 8
+  servings: serves 8
   ingredients_markdown: |-
     * 1 medium butternut squash
     * 60 ml water

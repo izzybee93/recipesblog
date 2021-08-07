@@ -3,7 +3,7 @@ title: Sweet potato peanut satay curry
 categories: dinner
 featured_image: /images/recipes/sweetpotatopeanutsataycurry.jpeg
 recipe:
-  servings: 4
+  servings: serves 4
   ingredients_markdown: |-
     * 2 large sweet potatoes, peeled and chopped into chunks
     * 1 tbsp vegetable oil
