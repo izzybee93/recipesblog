@@ -1,8 +1,8 @@
 # ----
 # Site
 
-title: Treat Template
-url: "https://spring-bat.cloudvent.net/"
+title: Baker Beanie
+url: "https://bakerbeanie.me/"
 baseurl:
 google_analytics_key:
 newsletter_action:
@@ -16,7 +16,7 @@ author:
   email: 
   twitter: # twitter username without the @ symbol
 social:
-  name: Treat Template
+  name: Baker Beanie
   links:
     - https://github.com/CloudCannon/treat-jekyll-template
 
@@ -88,3 +88,7 @@ _options:
   author_image:
     width: 400
     height: 400
+
+post_ext: md    
+post_template: post
+draft_template: draft

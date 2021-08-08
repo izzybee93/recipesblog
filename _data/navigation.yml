@@ -1,6 +1,4 @@
-- name: Home
+- name: Recipes
   link: /
 - name: About
   link: /about/
-- name: Recipes
-  link: /recipes/

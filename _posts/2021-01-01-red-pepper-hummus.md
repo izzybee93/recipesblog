@@ -1,7 +1,6 @@
 ---
 title: Roasted red pepper hummus
 categories: snacks
-date: 2021-01-01
 featured_image: /images/recipes/redpepperhummus.jpg
 recipe:
   servings: serves 8
@@ -17,7 +16,7 @@ recipe:
     * ½ tsp sea salt, to taste
     * 1-2 tbsp water
 
-directions_markdown: |-
+  directions_markdown: |-
     1. Preheat the oven to 180°C. Place the peppers on a tray, coated with the oil. Roast for 15 mins, until starting to brown at the edges. Remove from the oven and allow to cool.
 
     2. Combine the tahini and lemon juice in a food processor and mix for 1 minute. Scrape the sides of the bowl then process for 30 more seconds.
