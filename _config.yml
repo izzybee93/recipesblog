@@ -10,15 +10,14 @@ disqus_shortname:
 
 # Values for the jekyll-seo-tag gem (https://github.com/jekyll/jekyll-seo-tag)
 logo: /siteicon.png
-description: Food blog template for Jekyll.
+description: A blog full of tasty vegetarian and vegan recipes
 author:
   name: 
   email: 
-  twitter: # twitter username without the @ symbol
+  twitter:
 social:
   name: Baker Beanie
   links:
-    - https://github.com/CloudCannon/treat-jekyll-template
 
 # -----
 # Build

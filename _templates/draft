@@ -1,9 +1,11 @@
 ---
 title: "{{ title }}"
 categories:
-featured_image:
+featured_image: /images/recipes/
 recipe:
   servings: 
-  ingredients_markdown:
-  directions_markdown:
+  ingredients_markdown: |-
+    *
+  directions_markdown: |-
+    1.
 ---

@@ -1,7 +1,7 @@
 ---
-title: Bean burgers
+title: Veggie burgers
 categories: dinner
-featured_image: /images/recipes/beanburgers.jpg
+featured_image: /images/recipes/veggieburgers.jpg
 recipe:
   servings: makes 4
   ingredients_markdown: |-
