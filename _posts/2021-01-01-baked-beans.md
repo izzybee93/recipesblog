@@ -1,6 +1,6 @@
 ---
 title: Baked beans
-categories: 
+categories: lunch
 featured_image: "/images/recipes/bakedbeans.jpeg"
 recipe:
   servings: serves 2
@@ -25,5 +25,4 @@ recipe:
     and cook for a couple more minutes.\n\n2. Add the beans and passata, and simmer
     for 5-10 minutes, until the mixture is piping hot and the sauce has thickened
     a little. Season with black pepper and serve."
-date: 2021-08-09 22:40 +0000
 ---

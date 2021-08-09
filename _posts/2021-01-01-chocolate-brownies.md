@@ -18,5 +18,4 @@ recipe:
     3. In a separate bowl, combine the cocoa powder, almond flour, baking powder and sea salt. Add to the wet mixture and stir until fully combined, with no lumps. Stir in the chocolate chips.
 
     4. Pour into the pan and bake for 35-45 minutes. Allow to cool completely before slicing.
-date: 2021-08-09 22:57 +0000
 ---
