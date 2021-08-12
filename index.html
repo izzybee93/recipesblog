@@ -4,11 +4,9 @@ image_view: true
 ---
 <h1>Recipes</h1>
 
-
-
 {% if page.image_view %}
 	{% for category in site.categories %}
-		<h2>{{ category[0] | capitalize }}</h2>
+		<h2>{{ category | first | capitalize }}</h2>
 		<div class="recipes">
 			{% assign sortedcategories = category[1] | sort %}
 			{% for recipe in sortedcategories %}

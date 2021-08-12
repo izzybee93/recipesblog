@@ -5,6 +5,33 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		<!-- Twitter Metadata -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:image" content="{{site.url | append: '/images/bee.png'}}" />
+
+		{% if page.layout == 'post' %}
+		<meta name="twitter:title" content="{{page.title}}" />
+		<meta name="twitter:description" content="{{page.description}}" />
+		{% else %}
+		<meta name="twitter:title" content="Baker Beanie" />
+		<meta name="twitter:description" content="{{ site.description }}" />
+		{% endif %}
+
+		<!-- Facebook Metadata -->
+		{% if page.layout == 'post' %}
+		<meta property="og:url"                content="{{ site.url }}{{page.url}}" />
+		<meta property="og:og:site_name"       content="~/" />
+		<meta property="og:title"              content="{{ page.title }}" />
+		<meta property="og:description"        content="{{ page.description }}" />
+		<meta property="og:type"               content="article" />
+		{% else %}
+		<meta property="og:url"                content="{{ site.url }}" />
+		<meta property="og:og:site_name"       content="~/" />
+		<meta property="og:description"        content="{{ site.description }}" />
+		<meta property="og:type"               content="website" />
+		{% endif %}
+		<meta property="og:image"              content="{{site.url | append: '/images/bee.png'}}" />
+
 		<script src="https://kit.fontawesome.com/538595c0dd.js" crossorigin="anonymous"></script>
 
 		{% seo %}
