@@ -46,6 +46,20 @@ footer {
 	font-size: .8em;
 }
 
+
+.titleBox {
+
+	.title { 
+		font-size: 5em;
+	}
+
+	font-family: 'SimplySweetSerif', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
 hr {
 	 border: 0;
 	 border-top: 1px solid #eee;
