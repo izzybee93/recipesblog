@@ -26,7 +26,7 @@ timezone: GMT
 
 paginate: 10
 paginate_path: "/:num/"
-permalink: /:categories/:title:output_ext
+permalink: none
 
 defaults:
   -
