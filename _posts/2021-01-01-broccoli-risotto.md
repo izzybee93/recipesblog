@@ -14,5 +14,4 @@ recipe:
     cooked (about 10-15 mins). \n3. Stir in the broccoli, thyme and black pepper.
     Continue to add stock until rice is cooked and stock is absorbed. Stir in the
     oat cream until heated through. \n4. Serve topped with toasted pine nuts."
-date: 2021-08-14 22:44 +0000
 ---
