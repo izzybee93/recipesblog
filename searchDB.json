@@ -1,0 +1,10 @@
+---
+layout: 
+---
+
+{% for post in site.posts %}
+  {% assign ingredients = post.recipe.ingredients_markdown | strip_html | strip_newlines | split: '*' %}
+  {% for ingredient in ingredients %}
+    {{ ingredients }} A
+  {% endfor %}
+{% endfor %}
