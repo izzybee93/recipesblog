@@ -17,5 +17,4 @@ recipe:
     4. Scoop out 1½ tbsp of the dough each time and roll into balls. Place the balls of dough about 5cm apart on a baking sheet. Using the back of a fork, flatten in a crisscross pattern.
 
     5. Bake for 12 – 15 minutes (a longer bake will create a crunchier cookie). Let cool a few minutes, then transfer to wire rack.
-date: 2021-08-22 18:41 +0000
 ---
