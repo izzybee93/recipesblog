@@ -1,7 +1,7 @@
 ---
 title: Smoky beans
 categories: lunch
-featured_image: "/images/recipes/bakedbeans.jpeg"
+featured_image: "/images/recipes/smokybeans.jpeg"
 recipe:
   servings: serves 2
   ingredients_markdown: |-
