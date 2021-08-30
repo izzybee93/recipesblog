@@ -5,7 +5,7 @@ featured_image: "/images/recipes/pastatomatospinachaubergine.jpeg"
 recipe:
   servings: serves 2
   ingredients_markdown: "* 180g pasta\n* 2 tbsp olive oil \n* 1 garlic clove\n* 200g
-    smooth passata\n* A few basil leaves\n*Sea salt, to taste\n*Black pepper, to taste\n* 4 handfuls spinach\n* 1 aubergine, chopped"
+    smooth passata\n* A few basil leaves\n* Sea salt, to taste\n* Black pepper, to taste\n* 4 handfuls spinach\n* 1 aubergine, chopped"
   directions_markdown: "1. Preheat the oven to 180°C. Place the aubergine on a baking
     tray and spray with olive oil. Roast the aubergine for 15 mins, until soft.\n2.
     Cook the pasta. \n3. Meanwhile, heat the olive oil in a large frying pan. Chop
