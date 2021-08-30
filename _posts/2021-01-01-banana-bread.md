@@ -19,5 +19,5 @@ recipe:
     Add the dry mixture to the wet ingredients and mix well. Stir in the dried fruit
     or nuts. \n\n4. Pour into the loaf tin and bake for 20 minutes. Check and cover
     with foil if the cake is browning too quickly. Bake for another 20 minutes, or
-    until a skewer comes out clean. Allow to cool before slicing."
+    until a skewer inserted into the centre comes out clean. Allow to cool before slicing."
 ---
