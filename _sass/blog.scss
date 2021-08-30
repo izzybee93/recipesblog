@@ -44,8 +44,8 @@
 			li {
 				list-style-type: none;
 				&:before {
-					content: '~';
-					color: darkred;
+					content: '■';
+					color: rgb(140, 190, 175);
 					padding-right: 0.5em;
 				}
 			}
@@ -62,11 +62,10 @@
 				&:before {
 					content: counter(step-counter);
 					margin-right: 0px;
-					background-color: darkred;
+					background-color: rgb(140, 190, 175);
 					color: white;
 					border-radius: 15%;
-					/* padding: 1px 7px; */
-					font-size: .7em;
+					font-size: .9em;
 					position: absolute;
 					left: -34px;
 					top: -2px;
