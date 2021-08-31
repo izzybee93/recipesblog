@@ -26,7 +26,7 @@ recipe:
 
     4. Add the aquafaba, vegan buttermilk, vanilla, oil, and apple cider vinegar into the mixing bowl and mix in. Mix until there are no large lumps remaining.
 
-    5. Pour the batter into the cake pan and bake for 30 minutes. Insert a skewer into the center - if it comes out clean, it is cooked.
+    5. Pour the batter into the cake pan and bake for 30 minutes, or until a skewer inserted into the centre comes out clean.
 
     6. Transfer to a wire cooling rack and allow to cool completely before frosting.
 ---
