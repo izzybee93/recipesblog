@@ -3,7 +3,7 @@ title: Carrot and coriander soup
 categories: lunch
 featured_image: "/images/recipes/carrotcoriandersoup.jpeg"
 recipe:
-  servings: serves 6-8
+  servings: serves 4
   ingredients_markdown: "* 450g carrots, chopped into medium chunks \n* 1 large sweet
     potato, chopped into large chunks\n* 2 tbsp vegetable oil\n* 1 red onion, chopped\n*
     2 garlic cloves, crushed\n* 1 tsp ground coriander\n* 1 tsp cumin\n* 1 tsp tumeric\n*

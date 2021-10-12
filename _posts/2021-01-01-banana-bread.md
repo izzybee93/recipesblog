@@ -6,7 +6,7 @@ recipe:
   servings: makes 1 loaf
   ingredients_markdown: |-
     * 3 large overripe bananas
-    * 80ml vegetable oil, plus extra for greasing
+    * 80ml vegetable oil
     * 70g soft brown sugar
     * 225g self-raising flour
     * 2 tsp baking powder
