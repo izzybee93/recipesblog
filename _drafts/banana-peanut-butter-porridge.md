@@ -1,5 +1,5 @@
 ---
-title: "Soya Mince Ragu"
+title: "Banana Peanut Butter Porridge"
 categories:
 featured_image: /images/recipes/
 recipe:
