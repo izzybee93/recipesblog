@@ -1,5 +1,5 @@
 ---
-title: "Sesame, Ginger and Lime Stir Fry Sauce"
+title: "Roasted vegetable chickpea buddha bowl"
 categories:
 featured_image: /images/recipes/
 recipe:

@@ -8,7 +8,7 @@ recipe:
     * 2 red bell peppers, chopped
     * 1 tbsp vegetable oil
     * 1 400g can chickpeas
-    * juice from 1 large lemon
+    * Juice of 1 large lemon
     * 4 tbsp tahini
     * 1 small garlic clove, minced
     * 2 tbsp extra-virgin olive oil
