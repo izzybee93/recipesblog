@@ -1,6 +1,6 @@
 ---
 title: Stuffed courgettes
-categories: dinner
+categories: mains
 featured_image: /images/recipes/stuffedcourgettes.jpeg
 recipe:
   servings: serves 3

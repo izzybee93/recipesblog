@@ -1,6 +1,6 @@
 ---
 title: Hasselback butternut squash
-categories: dinner
+categories: mains
 featured_image: /images/recipes/hasslebackbutternut.jpeg
 recipe:
   servings: serves 8

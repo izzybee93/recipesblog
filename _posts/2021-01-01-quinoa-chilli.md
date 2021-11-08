@@ -1,6 +1,6 @@
 ---
 title: Quinoa chilli
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/quinoachilli.jpeg"
 recipe:
   servings: 

@@ -1,6 +1,6 @@
 ---
 title: Veggie paella
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/veggiepaella.jpeg"
 recipe:
   servings: serves 2

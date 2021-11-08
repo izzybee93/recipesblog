@@ -1,6 +1,6 @@
 ---
 title: Soya mince ragu
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/soyaminceragu.png"
 recipe:
   servings: serves 4

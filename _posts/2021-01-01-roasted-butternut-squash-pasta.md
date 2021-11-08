@@ -1,6 +1,6 @@
 ---
 title: Roasted butternut squash pasta
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/butternutpasta.jpeg"
 recipe:
   servings: serves 2

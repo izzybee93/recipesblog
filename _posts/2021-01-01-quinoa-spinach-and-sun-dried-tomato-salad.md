@@ -1,6 +1,6 @@
 ---
 title: Quinoa, spinach and sun-dried tomato salad
-categories: lunch salad
+categories: mains salad
 featured_image: "/images/recipes/qunioaspinachsalad.jpeg"
 recipe:
   servings: serves 4

@@ -1,6 +1,6 @@
 ---
 title: Butternut squash and chickpea curry
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/butternutchickpeacurry.jpeg"
 recipe:
   servings: serves 4

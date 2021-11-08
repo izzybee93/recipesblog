@@ -1,6 +1,6 @@
 ---
 title: Veggie burgers
-categories: dinner
+categories: mains
 featured_image: /images/recipes/veggieburgers.jpeg
 recipe:
   servings: makes 4

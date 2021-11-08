@@ -1,6 +1,6 @@
 ---
 title: Sweet potato avocado salad
-categories: salad lunch
+categories: salad mains
 featured_image: "/images/recipes/sweetpotatoavocadosalad.jpeg"
 recipe:
   servings: serves 2

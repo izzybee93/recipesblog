@@ -1,6 +1,6 @@
 ---
 title: Mexican-style quinoa salad
-categories: lunch
+categories: mains salad
 featured_image: "/images/recipes/mexicanquinoasalad.png"
 recipe:
   servings: serves 2

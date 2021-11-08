@@ -1,6 +1,6 @@
 ---
 title: Bean chilli
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/beanchilli.jpeg"
 recipe:
   servings: 

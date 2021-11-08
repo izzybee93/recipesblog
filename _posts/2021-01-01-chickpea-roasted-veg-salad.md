@@ -1,6 +1,6 @@
 ---
 title: Chickpea and roasted vegetable salad
-categories: lunch salad
+categories: mains salad
 featured_image: /images/recipes/chickpearoastedvegsalad.png
 recipe:
   servings: serves 8

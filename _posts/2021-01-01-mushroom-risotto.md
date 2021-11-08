@@ -1,6 +1,6 @@
 ---
 title: Mushroom risotto
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/mushroomrisotto.jpeg"
 recipe:
   servings: serves 2

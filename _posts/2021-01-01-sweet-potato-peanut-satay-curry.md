@@ -1,6 +1,6 @@
 ---
 title: Sweet potato peanut satay curry
-categories: dinner
+categories: mains
 featured_image: /images/recipes/sweetpotatopeanutsataycurry.jpeg
 recipe:
   servings: serves 4

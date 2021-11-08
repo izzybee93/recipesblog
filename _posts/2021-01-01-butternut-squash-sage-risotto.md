@@ -1,6 +1,6 @@
 ---
 title: Butternut squash & sage risotto
-categories: dinner
+categories: mains
 featured_image: /images/recipes/butternutsagerisotto.jpeg
 recipe:
   servings: serves 4

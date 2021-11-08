@@ -1,6 +1,6 @@
 ---
 title: Pasta with tomato, spinach and aubergine
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/pastatomatospinachaubergine.jpeg"
 recipe:
   servings: serves 2

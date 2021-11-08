@@ -1,6 +1,6 @@
 ---
 title: "Sweet potato soup"
-categories: lunch
+categories: mains
 featured_image: /images/recipes/sweetpotatosoup.jpeg
 recipe:
   servings: serves 4

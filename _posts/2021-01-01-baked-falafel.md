@@ -1,6 +1,6 @@
 ---
 title: Baked falafel
-categories: lunch dinner
+categories: mains mains
 featured_image: "/images/recipes/bakedfalafel.jpg"
 recipe:
   servings: makes 12

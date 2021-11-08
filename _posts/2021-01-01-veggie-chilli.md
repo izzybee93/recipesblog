@@ -1,6 +1,6 @@
 ---
 title: Veggie chilli
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/veggiechilli.png"
 recipe:
   servings: serves 4

@@ -1,6 +1,6 @@
 ---
 title: Carrot and coriander soup
-categories: lunch
+categories: mains
 featured_image: "/images/recipes/carrotcoriandersoup.jpeg"
 recipe:
   servings: serves 4

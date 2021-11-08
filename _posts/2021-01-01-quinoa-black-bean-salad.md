@@ -1,6 +1,6 @@
 ---
 title: Quinoa and black bean salad
-categories: lunch salad
+categories: mains salad
 featured_image: "/images/recipes/qunioablackbeansalad.png"
 recipe:
   servings: serves 2

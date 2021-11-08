@@ -1,6 +1,6 @@
 ---
 title: "Mexican-style salad"
-categories: salad lunch
+categories: salad mains
 featured_image: /images/recipes/mexicansalad.jpeg
 recipe:
   servings: serves 2

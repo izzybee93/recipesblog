@@ -1,6 +1,6 @@
 ---
 title: Miso aubergine
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/misoaubergine.jpeg"
 recipe:
   servings: makes 2

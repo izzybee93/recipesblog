@@ -1,6 +1,6 @@
 ---
 title: Veggie meatballs
-categories: dinner
+categories: mains
 featured_image: /images/recipes/veggiemeatballs.png
 recipe:
   servings: makes 16

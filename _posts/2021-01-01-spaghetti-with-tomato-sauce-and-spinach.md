@@ -1,6 +1,6 @@
 ---
 title: Spaghetti with tomato sauce and spinach
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/spaghettitomatospinach.jpeg"
 recipe:
   servings: serves 2

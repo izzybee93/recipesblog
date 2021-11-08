@@ -1,6 +1,6 @@
 ---
 title: Broccoli Risotto
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/broccolirisotto.jpeg"
 recipe:
   servings: serves 2

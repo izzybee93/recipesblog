@@ -1,6 +1,6 @@
 ---
 title: Carrot couscous salad
-categories: lunch salad
+categories: mains salad
 featured_image: "/images/recipes/carrotcouscoussalad.png"
 recipe:
   servings: serves 3

@@ -1,6 +1,6 @@
 ---
 title: Vegetable tagine
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/vegetabletagine.jpeg"
 recipe:
   servings: serves 4

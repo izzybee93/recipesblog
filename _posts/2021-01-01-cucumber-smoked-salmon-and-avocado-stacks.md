@@ -1,6 +1,6 @@
 ---
 title: Cucumber, smoked salmon and avocado stacks
-categories: lunch
+categories: mains
 featured_image: "/images/recipes/cucumbersmokedsalmonstacks.jpeg"
 recipe:
   servings: serves 4

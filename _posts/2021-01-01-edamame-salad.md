@@ -1,6 +1,6 @@
 ---
 title: Edamame salad
-categories: salad lunch
+categories: salad mains
 featured_image: "/images/recipes/edamamesalad.jpeg"
 recipe:
   servings: serves 2

@@ -1,6 +1,6 @@
 ---
 title: Roasted vegetable couscous
-categories: lunch
+categories: mains
 featured_image: "/images/recipes/roastedvegetablecouscous.jpg"
 recipe:
   servings: serves 2

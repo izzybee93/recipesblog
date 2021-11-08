@@ -1,6 +1,6 @@
 ---
 title: Butternut squash soup
-categories: lunch
+categories: mains
 featured_image: "/images/recipes/butternutsquashsoup.jpeg"
 recipe:
   servings: serves 4

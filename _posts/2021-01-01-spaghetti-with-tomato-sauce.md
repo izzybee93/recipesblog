@@ -1,6 +1,6 @@
 ---
 title: Spaghetti with tomato sauce
-categories: dinner
+categories: mains
 featured_image: "/images/recipes/spaghettitomatosauce.jpeg"
 recipe:
   servings: serves 2

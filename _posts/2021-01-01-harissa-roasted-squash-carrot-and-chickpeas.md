@@ -1,6 +1,6 @@
 ---
 title: Harissa roasted squash, carrot and chickpeas
-categories: dinner
+categories: mains
 featured_image: /images/recipes/harissaroatsedsquash.jpeg
 recipe:
   servings: serves 2

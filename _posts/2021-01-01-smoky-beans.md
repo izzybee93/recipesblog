@@ -1,6 +1,6 @@
 ---
 title: Smoky beans
-categories: lunch
+categories: mains
 featured_image: "/images/recipes/smokybeans.jpeg"
 recipe:
   servings: serves 2
