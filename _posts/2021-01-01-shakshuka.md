@@ -1,6 +1,6 @@
 ---
 title: Shakshuka
-categories: brunch
+categories: breakfast
 featured_image: /images/recipes/shakshuka.jpeg
 recipe:
   servings: serves 2

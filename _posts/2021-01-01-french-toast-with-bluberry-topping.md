@@ -1,6 +1,6 @@
 ---
 title: French Toast With Bluberry Topping
-categories: brunch
+categories: breakfast
 featured_image: "/images/recipes/frenchtoastblueberry.jpeg"
 recipe:
   servings: serves 3

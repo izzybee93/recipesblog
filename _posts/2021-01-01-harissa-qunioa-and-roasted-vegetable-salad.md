@@ -1,7 +1,7 @@
 ---
 title: Harissa qunioa and roasted vegetable salad
 categories: mains salad
-featured_image: "/images/recipes/harissaquinoavegetablesalad.joeg"
+featured_image: "/images/recipes/harissaquinoavegetablesalad.jpeg"
 recipe:
   servings: serves 2
   ingredients_markdown: |-
@@ -19,5 +19,4 @@ recipe:
     2. Meanwhile, preheat the oven to 180°C. Roast the peppers and broccoli for 10-15 mins.
     3. In a large bowl, add the quinoa, turmeric, paprika, salt, harissa paste and olive oil, and mix well.
     4. Stir in the black beans and roasted vegetables. Serve warm or cold.
-date: 2021-11-08 00:27 +0000
 ---
