@@ -1,6 +1,6 @@
 ---
 title: Chocolate and peanut butter smoothie
-categories: breakfast&Brunch
+categories: breakfast
 featured_image: "/images/recipes/chocolatepeanutsmoothie.png"
 recipe:
   servings: serves 2
