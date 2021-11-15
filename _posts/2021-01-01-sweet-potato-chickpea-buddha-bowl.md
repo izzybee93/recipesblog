@@ -5,7 +5,7 @@ featured_image: "/images/recipes/sweetpotatochickpeabowl.jpeg"
 recipe:
   servings: serves 2
   ingredients_markdown: |-
-    * 160g basmati rice, rinsed
+    * 160g rice, rinsed
     * 2 tbsp sesame oil
     * 1 large sweet potato, peeled and sliced
     * 1 400g can chickpeas, drained and rinsed
