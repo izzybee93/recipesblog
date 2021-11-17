@@ -1,5 +1,5 @@
 ---
-title: "Iced Coffee Cake"
+title: "Veggie Noodle Stir Fry"
 categories:
 featured_image: /images/recipes/
 recipe:
