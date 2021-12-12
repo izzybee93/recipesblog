@@ -1,7 +1,7 @@
 ---
 title: Veggie chilli
 categories: mains
-featured_image: "/images/recipes/veggiechilli.png"
+featured_image: "/images/recipes/veggiechilli.jpg"
 recipe:
   servings: serves 4
   ingredients_markdown: "* 100g soya mince\n* 160ml vegetable stock\n* 1 tbsp vegetable
