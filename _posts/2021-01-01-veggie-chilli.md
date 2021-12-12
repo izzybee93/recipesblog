@@ -4,7 +4,7 @@ categories: mains
 featured_image: "/images/recipes/veggiechilli.png"
 recipe:
   servings: serves 4
-  ingredients_markdown: "* 250g soya mince\n* 400ml vegetable stock\n* 1 tbsp vegetable
+  ingredients_markdown: "* 100g soya mince\n* 160ml vegetable stock\n* 1 tbsp vegetable
     oil \n* 1 large onion, finely chopped\n* 2 garlic cloves, finely chopped\n* 1
     tsp ground cumin\n* 1 tbsp smoked paprika\n* 1 tsp turmeric\n* 1 tsp chilli powder\n*
     400g tin chopped tomatoes \n* 2 tbsp tomato paste \n* 1 carrot, chopped into small
