@@ -1,5 +1,5 @@
 ---
-title: "Sourdough Sesame Buns"
+title: "Chocolate Banana Bread"
 categories:
 featured_image: /images/recipes/
 recipe:
