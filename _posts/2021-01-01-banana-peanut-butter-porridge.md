@@ -1,7 +1,7 @@
 ---
 title: Banana and peanut butter porridge
 categories: breakfast
-featured_image: "/images/recipes/bananapeanutbutterporridge.png"
+featured_image: "/images/recipes/bananapeanutbutterporridge.jpeg"
 recipe:
   servings: serves 1
   ingredients_markdown: |-
