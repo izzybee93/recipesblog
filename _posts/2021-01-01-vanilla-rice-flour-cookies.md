@@ -6,7 +6,7 @@ recipe:
   servings: makes 20-30
   ingredients_markdown: |-
     * 250g rice flour
-    * 1 1/2 tsp baking powder
+    * 1½ tsp baking powder
     * Pinch sea salt
     * 112g vegan butter
     * 140g caster sugar
