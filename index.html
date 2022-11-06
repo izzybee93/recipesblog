@@ -20,15 +20,14 @@ image_view: true
 	
 	</script>
 
+<h1 style="margin-bottom: 16pt">Recipes</h1>
+
 <div>
-<form id="searchBar">
-
-  <label for="title">Search: </label>
-  <input type="text" id="searchTerm" name="title" onInput="onChange()"/>
-
+<form style="margin-bottom: 24pt" id="searchBar">
+  <input type="text" id="searchTerm" placeholder="Search for a recipe..." name="title" onInput="onChange()"/>
 </form>
 </div>
-<h1>Recipes</h1>
+
 
 {% if page.image_view %}
 	{% for category in site.categories %}
