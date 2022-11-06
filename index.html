@@ -2,6 +2,24 @@
 title: Recipes
 image_view: true
 ---
+
+<script>
+
+	function onChange() {
+		var searchItem = document.getElementById('searchTerm').value.toLowerCase();
+		
+		var recipes = document.getElementsByClassName('recipe');
+	
+		for (index in recipes) {
+			var innerRecipe = recipes[index];
+			var innerRecipeClassList = innerRecipe.className.toLowerCase();
+			
+			innerRecipe.classList.toggle("hiddenRecipe", !innerRecipeClassList.includes(searchItem));
+		}
+	};
+	
+	</script>
+
 <h1>Recipes</h1>
 
 {% if page.image_view %}
@@ -10,10 +28,16 @@ image_view: true
 		<div class="recipes">
 			{% assign sortedcategories = category[1] | sort %}
 			{% for recipe in sortedcategories %}
-				<div class="recipe" style="background-image: url('{{ recipe.featured_image }}')">
+				<div class="recipe {{ recipe.title }}" style="background-image: url('{{ recipe.featured_image }}')">
 					<a href="{{ site.baseurl }}{{ recipe.url }}"><span>{{ recipe.title | capitalize }}</span></a>
 				</div>
 			{% endfor %}
 		</div>
 	{% endfor %}
-{% endif %}
+{% endif %} 
+
+<style> 
+	.hiddenRecipe {
+		display: none !important;
+	}
+</style>
