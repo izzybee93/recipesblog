@@ -20,6 +20,13 @@ image_view: true
 	
 	</script>
 
+<form id="searchBar">
+
+  <label for="title">Search: </label>
+  <input type="text" id="searchTerm" name="title" onChange="onChange()"/>
+
+</form>
+
 <h1>Recipes</h1>
 
 {% if page.image_view %}
