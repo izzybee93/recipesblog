@@ -1,5 +1,5 @@
 ---
-title: "Chocolate Banana Bread"
+title: "Creamy Tahini Broccoli-pasta"
 categories:
 featured_image: /images/recipes/
 recipe:
