@@ -1,7 +1,7 @@
 ---
 title: Apple crumble
 categories: treats
-featured_image: "/images/recipes/applecrumble.jpg"
+featured_image: "/images/recipes/applecrumble.jpeg"
 recipe:
   servings: serves 8
   ingredients_markdown: |-
