@@ -1,7 +1,7 @@
 ---
 title: Blueberry and banana smoothie
 categories: breakfast
-featured_image: "/images/recipes/blueberrybananasmoothie.png"
+featured_image: "/images/recipes/blueberrybananasmoothie.jpeg"
 recipe:
   servings: serves 2
   ingredients_markdown: |-
