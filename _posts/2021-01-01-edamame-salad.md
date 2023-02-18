@@ -12,7 +12,7 @@ recipe:
     * 2 tsp sesame seeds
     * Juice of ½ a lime
     * 1 tbsp sesame oil
-    * 1 tbsp soy sauce
+    * 1 tbsp reduced sodium soy sauce
     * 1 tsp honey
     * ¼ tsp ground ginger
   directions_markdown: |-

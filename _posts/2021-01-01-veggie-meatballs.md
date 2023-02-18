@@ -12,7 +12,7 @@ recipe:
     * 1 tsp oregano
     * 1 tsp basil
     * 1 tbsp tomato paste
-    * 1 tsp soy sauce
+    * 1 tsp reduced sodium soy sauce
     * 50g rolled oats
     * 1 tbsp plain flour
     * 2 tbsp olive oil 

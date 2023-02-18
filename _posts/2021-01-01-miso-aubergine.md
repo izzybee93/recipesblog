@@ -8,7 +8,7 @@ recipe:
     * 2 medium aubergines
     * 4 tsp white miso paste
     * 2 tsp honey
-    * 1 tbsp soy sauce
+    * 1 tbsp reduced sodium soy sauce
     * 2 tsp toasted sesame oil
     * 1 tsp rice vinegar
     * Thumb-sized piece root ginger, peeled and grated

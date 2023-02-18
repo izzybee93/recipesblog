@@ -11,6 +11,7 @@ recipe:
     * 120g edamame, cooked
     * 2 medium carrots
     * 1 large courgette
+    * Veggies can be swapped for any such as pepper, broccoli, corn, cauliflower, beansprouts
     * 4 tbsp reduced sodium soy sauce
     * Juice of ½ lime
     * 1 tsp honey
@@ -19,7 +20,7 @@ recipe:
     * 1 tsp cornflour
     * Handful of fresh coriander, chopped
     * 1 tsp sesame seeds
-  directions_markdown: "1. Cook the rice noodles. \n2. Slice the carrot and courgette
+  directions_markdown: "1. Cook the rice noodles. Drain and rinse, then set aside. \n2. Slice the carrot and courgette
     into long strips, using a peeler.\n3. In a small jug, add the soy sauce, lime,
     honey, ginger and water, and stir. Add the cornflour and mix well.\n4. In a large
     wok, heat the sesame oil. Add the garlic and cook for 1 minute. Add the edamame

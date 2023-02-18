@@ -18,7 +18,7 @@ recipe:
     * 30g peanut butter
     * Juice of ½ an orange
     * Juice of 1 lime
-    * 1 tbsp soy sauce
+    * 1 tbsp reduced sodium soy sauce
     * 1 tbsp honey or maple syrup
     * 2 tbsp toasted sesame oil
     * ½ tsp cayenne pepper

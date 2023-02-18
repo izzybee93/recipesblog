@@ -13,7 +13,7 @@ recipe:
     * ¼ tsp chilli powder
     * ¼ tsp sea salt
     * 1 tbsp brown sugar
-    * 1 tbsp soy sauce
+    * 1 tbsp reduced sodium soy sauce
     * 1 tsp dijon mustard
     * 1 tbsp apple cider vinegar
     * 400g can cannellini beans, drained and rinsed

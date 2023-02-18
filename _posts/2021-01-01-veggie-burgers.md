@@ -14,7 +14,7 @@ recipe:
     * ½ tsp chilli powder
     * 1 tbsp tomato paste
     * 1 tsp harissa paste
-    * 1 tsp soy sauce
+    * 1 tsp reduced sodium soy sauce
     * 50g rolled oats
     * 2 tbsp pumpkin seeds
 

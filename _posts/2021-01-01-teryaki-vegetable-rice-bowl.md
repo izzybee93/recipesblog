@@ -1,7 +1,7 @@
 ---
-title: Teryaki vegetable rice bowl
+title: Teriyaki vegetable rice bowl
 categories: mains
-featured_image: "/images/recipes/teryakiricebowl.jpeg"
+featured_image: "/images/recipes/teriyakiricebowl.jpeg"
 recipe:
   servings: serves 2
   ingredients_markdown: |-
@@ -15,10 +15,10 @@ recipe:
     * 100g edamame, cooked
     * 2 medium carrots, peeled into strips
     * 1 avocado, sliced
-    * Teryaki sauce
+    * Teriyaki sauce
   directions_markdown: |-
     1. Cook the rice, adding 1 tbsp sesame oil to the water.
     2. In a medium frying pan, add the chickpeas and spices. Toss together and cook on a medium-high heat until slightly
     crispy.
-    3. Divide the rice between 2 bowls, and top with chickpeas, edamame, carrot and avocado. Drizzle with teryaki sauce.
+    3. Divide the rice between 2 bowls, and top with chickpeas, edamame, carrot and avocado. Drizzle with teriyaki sauce.
 ---
