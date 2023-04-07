@@ -6,8 +6,8 @@ recipe:
   servings: serves 4
   ingredients_markdown: |-
     * 1 pack of lasagne sheets
-    * 200g spinach, roughly chopped
-    * 200g frozen peas
+    * 250g spinach, roughly chopped
+    * 250g frozen peas
     * 1 tablespoon of nutritional yeast
     * For the pesto:
     * 80g pine nuts
