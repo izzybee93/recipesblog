@@ -13,14 +13,15 @@
 
 		<!-- Twitter Metadata -->
 		<meta name="twitter:card" content="summary" />
-		<meta name="twitter:image" content="{{site.url | append: '/images/bee.png'}}" />
 
 		{% if page.layout == 'post' %}
 		<meta name="twitter:title" content="{{page.title}}" />
 		<meta name="twitter:description" content="{{page.description}}" />
+		<meta name="twitter:image" content="{{site.url | append: page.featured_image}}" />
 		{% else %}
 		<meta name="twitter:title" content="{{ site.title }}" />
 		<meta name="twitter:description" content="{{ site.description }}" />
+		<meta name="twitter:image" content="{{site.url | append: '/images/bee.png'}}" />
 		{% endif %}
 
 		<!-- Facebook Metadata -->
@@ -30,6 +31,7 @@
 		<meta property="og:title"              content="{{ page.title }}" />
 		<meta property="og:description"        content="{{ page.description }}" />
 		<meta property="og:type"               content="article" />
+		<meta property="og:image" 			   content="{{site.url | append: page.featured_image}}" />
 		{% else %}
 		<meta property="og:url"                content="{{ site.url }}" />
 		<meta property="og:og:site_name"       content="BakerBeanie" />
