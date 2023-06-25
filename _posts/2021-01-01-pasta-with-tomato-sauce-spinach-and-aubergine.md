@@ -10,7 +10,7 @@ recipe:
     tray and spray with olive oil. Roast the aubergine for 15 mins, until soft.\n2.
     Cook the pasta. \n3. Meanwhile, heat the olive oil in a large frying pan. Chop
     the garlic in half. Add to the pan and cook on a medium-high heat for a few minutes.
-    Add the pasatta and continue to cook on a medium heat, stirring frequently. Add
+    Add the passata and continue to cook on a medium heat, stirring frequently. Add
     the basil and season with salt and black pepper.\n4. Place the spinach into a
     sieve, and pour over some boiling water to wilt the leaves. \n5. When the pasta
     is almost done, drain it and add it to the sauce, along with the spinach and aubergine.

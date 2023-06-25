@@ -1,6 +1,6 @@
 ---
 title: Baked falafel
-categories: mains mains
+categories: mains
 featured_image: "/images/recipes/bakedfalafel.jpg"
 recipe:
   servings: makes 12
