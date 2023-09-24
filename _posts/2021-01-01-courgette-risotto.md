@@ -12,7 +12,7 @@ recipe:
   directions_markdown: "1. Heat the oil in a pan and cook the onions and garlic on
     a medium heat. Add the rice and stir, followed by the wine, and cook for 1 minute.\n2.
     Gradually add the stock, pouring a little at a time until the rice is almost cooked
-    (about 10-15 mins).\n3. Stir in the broccoli, thyme and black pepper. Continue
+    (about 10-15 mins).\n3. Stir in the courgette, thyme and black pepper. Continue
     to add stock until rice is cooked and stock is absorbed. Stir in the cream until
     heated through. \n4. Serve topped with toasted pine nuts."
 ---
