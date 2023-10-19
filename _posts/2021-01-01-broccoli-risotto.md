@@ -1,5 +1,5 @@
 ---
-title: Broccoli Risotto
+title: Broccoli risotto
 categories: mains
 featured_image: "/images/recipes/broccolirisotto.jpeg"
 recipe:

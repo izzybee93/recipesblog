@@ -19,7 +19,7 @@ recipe:
     on the baking tray and brush with olive oil. Roast for 20 minutes or until they
     start to soften and the tomatillos turn army green in color.  \n3. Roughly slice
     the onion and place in a bowl of cold water for 5 minutes.\n4. In a food processor,
-    add the onion, garlic, tomatoes, tomatillos, chilli, salt and coriander.\n5. Blend
+    add the onion, garlic, tomatoes, tomatillos, chilli, salt lime and coriander.\n5. Blend
     until almost smooth. Season to taste.\n6. Serve warm or cold, with tortillas,
     tacos, fajitas and more."
 ---
