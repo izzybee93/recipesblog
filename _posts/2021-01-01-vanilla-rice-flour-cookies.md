@@ -19,5 +19,4 @@ recipe:
     dough. Chill the dough for 10 minutes.\n5. Divide the mixture into 20-30 pieces
     and roll each into a ball.\n6. Transfer the dough balls to the prepared baking
     tray, and flatten them slightly.\n7. Bake for 25-30 minutes, or until golden."
-date: 2022-07-07 17:06 +0000
 ---
