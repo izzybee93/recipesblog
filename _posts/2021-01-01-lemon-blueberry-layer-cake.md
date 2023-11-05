@@ -4,7 +4,7 @@ categories: treats
 featured_image: "/images/recipes/lemonblueberrylayercake.jpeg"
 recipe:
   servings: makes 1 cake
-  ingredients_markdown: "* 360ml non-dairy milk\n* 2 tbsp apple cider vinegar\n* 360g
+  ingredients_markdown: "* 360ml oat milk\n* 2 tbsp apple cider vinegar\n* 360g
     self-raising flour\n* 1 tsp baking powder\n* 1 tsp bicarbonate of soda\n* 250g
     caster sugar\n* ½ tsp salt\n* 180ml vegetable oil\n* 2 tsp vanilla extract \n*
     Zest of 1 lemon\n* Icing sugar for dusting\n* 250g blueberries\n* 30g caster sugar\n*

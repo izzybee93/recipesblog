@@ -16,7 +16,7 @@ recipe:
     * 60g dark brown sugar
     * 2 tbsp maple syrup or honey
     * 200ml non-dairy milk
-  directions_markdown: "1. Preheat the oven to 180°C. Grease and line a loaf tin.
+  directions_markdown: "1. Preheat the oven to 180°C. Line a loaf tin.
     \n2. In a medium bowl, add the flour, cocoa powder, baking powder and bicaronate 
     of soda. Mix and set aside. \n2. In a large bowl, mash the bananas. Add the oil,
     sugar, maple syrup/honey, vanilla, apple cider vinegar, and milk, then whisk together.\n3. 
