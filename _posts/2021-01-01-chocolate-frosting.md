@@ -6,7 +6,7 @@ recipe:
   servings: 1 cake or 12 muffins
   ingredients_markdown: |-
     * 150g vegan butter
-    * 100g icing sugar
+    * 100g icing sugar, sieved
     * 40g cocoa powder
     * 1 teaspoon vanilla extract
     * 1-2 tablespoons soya or almond milk (if needed)
