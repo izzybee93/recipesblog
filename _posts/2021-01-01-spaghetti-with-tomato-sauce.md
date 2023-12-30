@@ -12,7 +12,7 @@ recipe:
 
     2. Meanwhile, heat the olive oil in a large frying pan. Chop the garlic in half. Add to the pan and cook on a medium-high heat for a few minutes.
 
-    3. Add the pasatta and continue to cook on a medium heat, stirring frequently. Add the basil and season with salt and black pepper.
+    3. Add the passata and continue to cook on a medium heat, stirring frequently. Add the basil and season with salt and black pepper.
 
     4. When the pasta is almost done, drain it and add it to the sauce. Toss together until the pasta is coated. Serve with extra black pepper on top."
 ---
