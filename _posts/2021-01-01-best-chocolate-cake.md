@@ -1,5 +1,5 @@
 ---
-title: Best chocolate cake
+title: Chocolate cake
 categories: treats
 featured_image: "/images/recipes/bestchocolatecake.jpg"
 recipe:
