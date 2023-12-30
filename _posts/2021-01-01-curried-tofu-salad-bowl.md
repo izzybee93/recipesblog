@@ -1,5 +1,5 @@
 ---
-title: Curried tofu salad bowl
+title: Curried tofu salad
 categories: mains salad
 featured_image: "/images/recipes/curriedtofusaladbowl.jpeg"
 recipe:
