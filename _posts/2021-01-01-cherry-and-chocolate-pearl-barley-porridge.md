@@ -1,7 +1,7 @@
 ---
 title: Cherry and chocolate pearl barley porridge
 categories: breakfast
-featured_image: "/images/recipes/cherrychocolatepearlbarleyporridge.png"
+featured_image: "/images/recipes/cherrychocolatepearlbarleyporridge.jpeg"
 recipe:
   servings: serves 1
   ingredients_markdown: "* 120g pearl barley, cooked\n* 100ml nom-dairy milk\n* 50g
