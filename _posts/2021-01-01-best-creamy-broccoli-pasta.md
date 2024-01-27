@@ -1,5 +1,5 @@
 ---
-title: Best creamy broccoli pasta
+title: Creamy broccoli pasta
 categories: mains
 featured_image: "/images/recipes/bestcreamybroccolipasta.jpeg"
 recipe:
