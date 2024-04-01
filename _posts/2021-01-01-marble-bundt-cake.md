@@ -32,8 +32,8 @@ recipe:
     to the tin using 2 ladles. Pour 1 ladle of chocolate batter in one side of the
     bundt tin. Pour 1 ladle of the vanilla batter directly on top. Both cake batters
     will naturally spread. Keep alternating until there is no more cake batter.\n7.
-    Bake the cake in the oven for 50-60 minutes or until you can insert a skewer or
-    toothpick into the cake and it comes out clean.\n8. Allow the cake to cool in
+    Bake the cake in the oven for 50-60 minutes or until a skewer inserted in the centre
+    comes out clean.\n8. Allow the cake to cool in
     the tin for 10 minutes. Turn the bundt tin upside down on a plate and gently tap
     the tin until the cake is removed. Allow to cool completely before glazing.\n9.
     To make the glaze, add the chocolate to a glass bowl and melt using a bain-marie.
