@@ -1,7 +1,7 @@
 ---
 title: Blueberry and cinnamon porridge
 categories: breakfast
-featured_image: "/images/recipes/blueberrycinnamonporridge.png"
+featured_image: "/images/recipes/blueberrycinnamonporridge.jpeg"
 recipe:
   servings: serves 1
   ingredients_markdown: |-
