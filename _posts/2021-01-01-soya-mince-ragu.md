@@ -4,7 +4,7 @@ categories: mains
 featured_image: "/images/recipes/soyaminceragu.jpeg"
 recipe:
   servings: serves 4
-  ingredients_markdown: "* 100-150g soya mince\n* 1 tbsp vegetable oil\n* 1 onion,
+  ingredients_markdown: "* 100g soya mince\n* 1 tbsp vegetable oil\n* 1 onion,
     chopped\n* 1 garlic clove, crushed\n* 2 carrots, chopped \n* 1 400g can chopped
     tomatoes\n* 1 tbsp tomato paste\n* 500ml vegetable stock\n* 1 tsp dried oregano
     \n* ½ tsp dried thyme\n* ½ tsp dried rosemary\n* ½ tsp sea salt, to taste\n* 

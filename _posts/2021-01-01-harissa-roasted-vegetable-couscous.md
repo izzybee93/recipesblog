@@ -12,7 +12,7 @@ recipe:
     Roast the pepper, courgette and broccoli for 10 mins. \n2. In a large bowl, add
     the couscous then vegetable stock, pouring until the water is 0.5cm above the
     couscous. Set aside for 10 mins.\n3. Add the chickpeas to the roasted vegetables
-    and continue to roast for 5 mins.\n4. Using a fork, loosen the cous cous. Add
+    and continue to roast for 5 mins.\n4. Using a fork, loosen the couscous. Add
     the lemon juice, harissa paste and olive oil, and mix well. Add all the vegetables
     and chickpeas, and mix together. Add a drizzle more olive oil and mix again. Serve
     warm or cold."
