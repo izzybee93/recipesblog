@@ -1,7 +1,7 @@
 ---
 title: Banana and cinnamon porridge
 categories: breakfast
-featured_image: "/images/recipes/bananacinnamonporridge.png"
+featured_image: "/images/recipes/bananacinnamonporridge.jpeg"
 recipe:
   servings: serves 1
   ingredients_markdown: |-

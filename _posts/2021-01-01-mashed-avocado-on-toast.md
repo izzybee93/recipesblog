@@ -1,7 +1,7 @@
 ---
 title: Mashed avocado on toast
 categories: breakfast
-featured_image: "/images/recipes/mashedavocadotoast.png"
+featured_image: "/images/recipes/mashedavocadotoast.jpeg"
 recipe:
   servings: serves 2
   ingredients_markdown: |-
