@@ -1,5 +1,5 @@
 ---
-title: Chocolate espresso cake
+title: Chocolate coffee cake
 categories: treats
 featured_image: "/images/recipes/chocolateespressocake.jpeg"
 recipe:

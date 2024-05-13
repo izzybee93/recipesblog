@@ -1,5 +1,5 @@
 ---
-title: Mocha bundt cake
+title: Mocha coffee bundt cake
 categories: treats
 featured_image: "/images/recipes/mochabundtcake.jpeg"
 recipe:
