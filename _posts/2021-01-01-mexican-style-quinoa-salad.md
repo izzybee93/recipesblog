@@ -8,7 +8,7 @@ recipe:
     * 170g quinoa
     * 2 tomatoes, chopped
     * 1 avocado, chopped into chunks
-    * 160g sweetcorn, drained
+    * 160g sweetcorn
     * 1 400g can black beans, drained and rinsed
     * Large handful of fresh coriander, chopped
     * 2 tbsp extra virgin olive oil

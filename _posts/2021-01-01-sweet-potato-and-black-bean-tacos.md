@@ -11,7 +11,7 @@ recipe:
     * 1 garlic clove, crushed
     * 1 pepper, chopped
     * 1 400g can black beans, drained and rinsed
-    * 100g sweetcorn
+    * 80g sweetcorn
     * 2 tomatoes, chopped
     * 1 tsp turmeric
     * 1 tsp smoked paprika
