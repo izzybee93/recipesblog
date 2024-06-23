@@ -7,7 +7,7 @@ recipe:
   ingredients_markdown: |-
     * 140g risotto rice
     * 1 tbsp vegetable oil
-    * ¼ tsp garlic poqder
+    * ¼ tsp garlic powder
     * ~800ml vegetable stock
     * 1 large courgette, chopped
     * 125g frozen peas

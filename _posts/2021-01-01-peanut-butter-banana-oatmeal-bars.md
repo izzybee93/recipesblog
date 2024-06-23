@@ -1,5 +1,5 @@
 ---
-title: Peanut butter banana oatmeal bars
+title: Peanut butter banana granola bars
 categories: treats breakfast
 featured_image: "/images/recipes/peanutbutterbananaoatmealbars.jpeg"
 recipe:
