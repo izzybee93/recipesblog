@@ -1,7 +1,7 @@
 ---
 title: Italian salad
 categories: salad mains
-featured_image: "/images/recipes/italiansalad.png"
+featured_image: "/images/recipes/italiansalad.jpeg"
 recipe:
   servings: serves 3-4
   ingredients_markdown: |-
