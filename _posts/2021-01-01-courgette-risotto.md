@@ -8,7 +8,7 @@ recipe:
     chopped\n* 1 garlic clove, minced\n* ~800ml vegetable stock\n* 1 small glass white
     wine\n* 2 large courgettes, chopped\n* ½ tsp dried thyme\n* Ground black pepper,
     to taste\n* 125ml oat or soya cream (optional)\n* A handful of toasted pine nuts
-    (optional)\""
+    (optional)\"
   directions_markdown: "1. Heat the oil in a pan and cook the onions and garlic on
     a medium heat. Add the rice and stir, followed by the wine, and cook for 1 minute.\n2.
     Gradually add the stock, pouring a little at a time until the rice is almost cooked
