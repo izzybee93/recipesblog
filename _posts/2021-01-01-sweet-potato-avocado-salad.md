@@ -15,7 +15,7 @@ recipe:
     * Juice of ½ a lime
     * ½ tsp chilli powder
     * ½ tsp garlic powder
-  directions_markdown: "1. Preheat the oven to 180C. Prepare a baking tray of sweet
+  directions_markdown: "1. Preheat the oven to 180°C. Prepare a baking tray of sweet
     potatoes, spray with vegetable oil and sprinkle over the smoked paprika. Roast
     for 20 mins until soft. Roast the red pepper for 10-15 mins.\n\n2. Meanwhile,
     to make the dressing, combine the olive oil, lime juice, chilli and garlic and

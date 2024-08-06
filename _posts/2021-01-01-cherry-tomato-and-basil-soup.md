@@ -9,7 +9,7 @@ recipe:
     500ml vegetable stock\n* Black pepper, to taste \n* Sea salt, to taste\n* Handful
     fresh basil, shredded"
   directions_markdown: |-
-    1. Preheat the oven to 180C. Prepare a large baking tray.
+    1. Preheat the oven to 180°C. Prepare a large baking tray.
     2. On the baking tray, add the tomatoes, onion, garlic, and potato. Coat with the olive oil and roast for 25 minutes, until the cherry tomatoes have burst.
     3. Transfer all ingredients to a pan, along with the basil and vegetable stock. Blend with a hand blender until completely smooth. Simmer on a medium heat and adjust seasonings as needed (if too acidic, balance with more salt). Top with a swirl of pesto, cream and black pepper.
 ---

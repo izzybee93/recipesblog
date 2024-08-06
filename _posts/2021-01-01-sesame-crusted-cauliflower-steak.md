@@ -8,7 +8,7 @@ recipe:
     3 tbsp sesame seeds\n* ½ tsp chilli powder\n* 2 tbsp groundnut oil\n* Juice 1
     lime\n* 2 tbsp soy sauce\n* 1 tsp hoisin sauce\n* ½ tsp ground ginger\n* ¼ tsp
     garlic powder\n* Handful fresh coriander, chopped "
-  directions_markdown: "1. Preheat the oven to 180C. Line a large baking tray. Drizzle
+  directions_markdown: "1. Preheat the oven to 180°C. Line a large baking tray. Drizzle
     with 1 tbsp oil. \n2. Cut the cauliflower vertically into 4 slices and take centre
     slices. \n3. In a dish large enough to place the cauliflower, mix the breadcrumbs,
     sesame seed and chilli powder. In another dish, add the almond milk, then place
