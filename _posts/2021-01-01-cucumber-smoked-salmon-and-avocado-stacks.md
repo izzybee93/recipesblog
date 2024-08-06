@@ -21,9 +21,9 @@ recipe:
     and pepper, and 1 tbsp dill. \n2. In a separate bowl, gently fold the avocado
     with half of the lemon juice, 1 tbsp chives and season.\n3. To make the dressing,
     whisk 2 tbsp olive oil, tomatoes, capers, the remaining lemon juice and the zest
-    with some seasoning.\n4. Spoon 1/4 of the cucumber mix onto a plate in a metal
+    with some seasoning.\n4. Spoon ¼ of the cucumber mix onto a plate in a metal
     ring approximately 8cm, and fill in the circle, making a layer of cucumber. Top
-    with 1/4 of the avocado mix, and spread evenly to the sides of the ring. Add a
+    with ¼ of the avocado mix, and spread evenly to the sides of the ring. Add a
     layer of smoked salmon, covering all the avocado, then lift off the ring to leave
     a three tiered stack. Repeat with the remaining mix on 3 more plates. Spoon over
     the dressing and add the coriander to serve."

@@ -44,7 +44,7 @@ recipe:
     extract and beat for another minute. The frosting should be smooth and pipeable
     but not so soft that it slumps.\n8. To assemble the cake, spread about 1/6 of
     the frosting evenly over the first cake layer, then pipe a frosting dam along
-    the edge to hold in the berry filling. Gently spread 1/2 the berry filling over
+    the edge to hold in the berry filling. Gently spread half the berry filling over
     the top of the frosting, taking care not to press in and lift any of the buttercream
     into the berry layer. Add the next cake layer and repeat until you have your 3
     cake layers assembled with the berry layer and frosting. Smooth a thin layer of

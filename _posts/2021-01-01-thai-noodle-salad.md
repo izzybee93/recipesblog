@@ -9,7 +9,7 @@ recipe:
     * A mix of red cabbage, lettuce, carrots, cucumber, shredded or grated
     * 1 bell pepper, finely sliced
     * 250g cooked edamame
-    * 1/2 bunch fresh corander, chopped
+    * Large handful fresh corander, chopped
     * 4 tbsp roasted, crushed peanuts (optional garnish)
     * 1 tbsp sesame seeds (optional garnish)
     * Peanut sauce:
