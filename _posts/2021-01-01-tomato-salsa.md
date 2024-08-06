@@ -17,5 +17,5 @@ recipe:
     for 20 minutes or until they start to pop. \n3. Roughly slice the onion and place
     in a bowl of cold water for 5 minutes.\n4. In a food processor, add the onion,
     garlic, tomatoes, chilli, salt and coriander.\n5. Blend until almost smooth. Season
-    to taste.\n6. Serve warm or cold, with tortillas, tacos, fajitas and more.\"
+    to taste.\n6. Serve warm or cold, with tortillas, tacos, fajitas and more."
 ---
