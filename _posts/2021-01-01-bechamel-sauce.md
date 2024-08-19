@@ -1,14 +1,14 @@
 ---
 title: Bechamel sauce
 categories: sauces
-featured_image: "/images/recipes/bechamelsauce.png"
+featured_image: "/images/recipes/bechamelsauce.jpeg"
 recipe:
   servings: serves 4
   ingredients_markdown: |-
     * 3 tbsp olive oil
     * 2 tbsp plain flour
     * 4 tbsp nutritional yeast
-    * 400ml soya milk (or other non-dairy milk), plus more if needed
+    * 400ml soya milk or oat milk, plus more if needed
     * ½ tsp sea salt
     * Ground black pepper, to taste
   directions_markdown: |-
