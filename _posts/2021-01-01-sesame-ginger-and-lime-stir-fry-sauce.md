@@ -1,7 +1,7 @@
 ---
 title: "Sesame, ginger and lime stir fry sauce"
 categories: sauces
-featured_image: /images/recipes/stirfrysauce.png
+featured_image: /images/recipes/stirfrysauce.jpeg
 recipe:
   servings: serves 2
   ingredients_markdown: |-
