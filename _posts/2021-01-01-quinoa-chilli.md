@@ -3,7 +3,7 @@ title: Quinoa chilli
 categories: mains
 featured_image: "/images/recipes/quinoachilli.jpeg"
 recipe:
-  servings: 
+  servings: serves 4
   ingredients_markdown: "* 150g quinoa\n* 1 tbsp vegetable oil \n* 1 large onion,
     finely chopped\n* 2 garlic cloves, finely chopped\n* 1 tsp ground cumin\n* 1 tbsp
     smoked paprika\n* 1 tsp turmeric\n* 1 tsp chilli powder\n* 300ml vegetable stock
