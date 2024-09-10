@@ -22,7 +22,7 @@ recipe:
     \n4. Line a large baking tray with baking paper. Divide the dough into equal portions
     - take a piece and roll into a ball then place on the baking tray. Leave space
     between each ball and flatten slightly with your hand. Transfer the tray to the
-    fridge for another 30 minutes or more before baking. \n4. Preheat the oven to 180°C.
+    fridge for another 30 minutes or more before baking.\n4. Preheat the oven to 180°C.
     Bake the cookies for 13-15 minutes until golden. Be careful not to overbake as
     they will firm up as they cool. Leave to cool on the tray for 10 minutes then
     transfer to a wire rack."

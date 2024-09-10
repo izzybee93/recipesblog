@@ -4,8 +4,8 @@ categories: salad mains
 featured_image: "/images/recipes/beetrootcouscoussalad.jpeg"
 recipe:
   servings: serves 3
-  ingredients_markdown: "* 225g dry couscous\n* 2 large beetroots, chopped\n* ½ cucumber,
-    chopped \n* 1 400g can chickpeas, drained and rinsed \n* ~500ml vegetable stock\n*
+  ingredients_markdown: "* 150g dry couscous\n* 2 large beetroots, chopped\n* ½ cucumber,
+    chopped \n* 1 400g can chickpeas, drained and rinsed \n* ~300ml vegetable stock\n*
     2 tbsp extra virgin olive oil\n* Juice of 1 lemon\n* ¼ tsp garlic powder\n* Black
     pepper, to taste"
   directions_markdown: |-
