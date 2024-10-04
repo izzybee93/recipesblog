@@ -5,20 +5,28 @@ featured_image: "/images/recipes/coffeewalnutcake.jpeg"
 recipe:
   servings: makes 1 cake
   ingredients_markdown: |-
-    * 4 tbsp instant coffee, mixed with 2 tbsp boiling water
-    * 300g self-raising flour
-    * 140g caster sugar
-    * 1½ tsp baking powder
-    * 300ml soya milk
-    * 120ml vegetable oil
-    * 80g walnuts, chopped (optional)
-    * 2 tsp instant coffee
-    * 100g icing sugar
+    * 20g instant coffee powder mixed with 2 tbsp water
+    * 450g self-raising flour
+    * 100g caster sugar
+    * 110g light brown sugar
+    * 2 tsp baking powder
+    * ½ tsp bicarbonate soda
+    * 450ml soya milk
+    * 150ml vegetable oil
+    * 100g walnuts, chopped (optional)
+    * For the buttercream icing:
+    * 260g icing sugar
+    * 70g vegan butter
+    * 1 tbsp instant coffee powder
+    * 2 tbsp non-dairy milk
   directions_markdown: |-
-    1. Mix the instant coffee and boiling water to a paste and leave to cool.
-    2. Preheat the oven to 180ºC. Line a cake tin or loaf tin with greaseproof paper.
-    3. In a large bowl, combine the flour, caster sugar and baking powder, and set aside. 
-    4. In a measuring jug, mix together the milk, oil and coffee. Add the wet ingredients to the dry and mix until just combined. Stir in the chopped walnuts.
-    5. Pour the mixture into the tin. Tap it firmly on the work surface, then bake for 30-35 minutes until skewer inserted into the centre comes out clean. Leave to cool in the tin for a few minutes, then turn out onto a wire rack to cool completely before decorating.
-    6. To make the icing, dissolve 2 tsp instant coffee in 1-2 tbsp water. Combine the icing sugar and coffee to make a thick icing. Using a palette knife, spread over the top of the cake and leave to set.
+    1. Preheat the oven to 180ºC. Prepare two cake tins.
+    2. In a large bowl, combine the flour, sugar, baking powder and bicarbonate of soda.  
+    3. In a measuring jug, mix the milk, oil and coffee mixture. Add to the dry ingredients and mix until smooth. Stir through the chopped walnuts.
+    4. Divide the mixture evenly between the two tins. Bake for 20-22 minutes until an inserted skewer or knife comes out clean.
+    5. Leave to cool in the tin for a few minutes, then turn out onto a wire rack, remove the baking parchment and leave to cool completely or overnight before decorating.
+    6. In a medium bowl, add the sugar and butter and beat together with a hand mixer.
+    7. Mix the instant coffee and milk into a paste and add to the icing. 
+    8. Mix well, starting at low speed and gradually increasing until the frosting thickens and becomes smooth.
+    9. Spread at least a third of the icing on the first cake layer. Place the second layer on top and another third of the icing on top. Pipe decorations with the remaining icing.
 ---
