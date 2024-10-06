@@ -9,7 +9,7 @@ recipe:
     * 2 400g cans chickpeas, drained and rinsed
     * ½ small red onion, roughly chopped
     * 1 large handful fresh parsley, mostly leaves
-    * 1½ large handfuls fresh corander
+    * 1½ large handfuls fresh coriander
     * 4 cloves garlic, quartered
     * 1 tsp fine sea salt
     * ½ tsp ground black pepper

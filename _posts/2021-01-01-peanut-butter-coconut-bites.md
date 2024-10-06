@@ -1,9 +1,9 @@
 ---
 title: Peanut butter coconut bites
 categories: snacks
-featured_image: "/images/recipes/peanutcoconutbites.png"
+featured_image: "/images/recipes/peanutcoconutbites.jpeg"
 recipe:
-  servings: makes 20
+  servings: makes 16-20
   ingredients_markdown: |-
     * 85g oats
     * 40g unsweetened shredded coconut
