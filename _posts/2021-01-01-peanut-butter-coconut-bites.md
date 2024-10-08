@@ -1,7 +1,7 @@
 ---
 title: Peanut butter coconut bites
 categories: snacks
-featured_image: "/images/recipes/peanutcoconutbites.jpeg"
+featured_image: "/images/recipes/peanutbuttercoconutbites.jpeg"
 recipe:
   servings: makes 16-20
   ingredients_markdown: |-
