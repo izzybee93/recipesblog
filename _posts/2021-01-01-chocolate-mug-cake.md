@@ -1,7 +1,7 @@
 ---
 title: Chocolate mug cake
 categories: treats
-featured_image: "/images/recipes/chocolatemugcake.png"
+featured_image: "/images/recipes/chocolatemugcake.jpeg"
 recipe:
   servings: makes 1
   ingredients_markdown: |-
@@ -13,7 +13,9 @@ recipe:
     * 1 tbsp vegetable oil
     * 4 tbsp non-dairy milk
     * ½ tsp pure vanilla extract
+    * 1 tsp chocolate chips (optional)
   directions_markdown: |-
     1. Add the flour, cocoa powder, sugar, salt and baking powder to a mug. Stir to combine.
-    2. Pour in the oil, non-dairy milk and vanilla and mix well. Cook in the microwave for 2-4 mins, until no longer gooey in the centre. Let cool for a few minutes before serving.
+    2. Pour in the oil, non-dairy milk and vanilla and mix well. Sprinkle some chocolate chips on top. 
+    3. Cook in the microwave for 2-4 mins, until no longer gooey in the centre. Let cool for a few minutes before serving.
 ---

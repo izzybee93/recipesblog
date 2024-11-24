@@ -1,6 +1,6 @@
 ---
 title: Edamame salad with miso dressing
-categories: salad
+categories: salad mains
 featured_image: "/images/recipes/edamamesaladmisodressing.jpeg"
 recipe:
   servings: serves 2
