@@ -14,10 +14,10 @@ recipe:
     * 2 garlic cloves, minced
     * 2 tbsp chopped sage
     * 1 tbsp chopped thyme
-    * 1 tbsp chopped rosemary
+    * ½ tbsp chopped rosemary
     * 1 tsp smoked paprika
     * Pinch ground cloves
-    * 2 tbsp tomato purée
+    * 1 tbsp tomato purée
     * 4 tsp soy sauce
     * 2 tsp miso paste
     * 1 tbsp cornflour
@@ -33,5 +33,5 @@ recipe:
     ramekins, pressing down gently with the back of a spoon. If making a head of time,
     chill for up to two days, or freeze for up to two months, with the ramekin covered.
     Defrost in the fridge before cooking.\n3. Put the ramekin on a baking tray and
-    bake for 15 mins. Leave to cool for 1 minute, then turn out onto a plate."
+    bake for 25-30 minutes. Leave to cool for 1 minute, then turn out onto a plate."
 ---

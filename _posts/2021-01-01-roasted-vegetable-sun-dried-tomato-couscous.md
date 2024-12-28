@@ -1,5 +1,5 @@
 ---
-title: Roasted vegetable couscous
+title: Roasted vegetable and sun-dried tomato couscous
 categories: mains
 featured_image: "/images/recipes/roastedvegetablecouscous.jpg"
 recipe:

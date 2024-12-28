@@ -10,5 +10,5 @@ recipe:
     pepper, to taste"
   directions_markdown: |-
     1. In a large bowl, add the couscous then vegetable stock, pouring until the water is 0.5cm above the couscous. Set aside for 10 mins.
-    2. Using a fork, loosen the cous cous. Add the garlic, lemon juice, leftover beetroot juice and oil and mix well. Add the beetroot, cucumber and chickpeas, then mix together. Add a drizzle more olive oil, season with black pepper and stir again.
+    2. Using a fork, loosen the couscous. Add the garlic, lemon juice, leftover beetroot juice and oil and mix well. Add the beetroot, cucumber and chickpeas, then mix together. Add a drizzle more olive oil, season with black pepper and stir again.
 ---
