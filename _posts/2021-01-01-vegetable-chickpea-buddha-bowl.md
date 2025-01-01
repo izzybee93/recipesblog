@@ -1,11 +1,11 @@
 ---
-title: Vegetable chickpea buddha bowl
+title: Vegetable chickpea rice bowl with tahini sauce
 categories: mains
 featured_image: "/images/recipes/veggiechickpeabuddhabowl.jpeg"
 recipe:
   servings: 2
   ingredients_markdown: |-
-    * 160g rice, rinsed
+    * 150g rice, rinsed
     * 2 tbsp sesame oil
     * 1 garlic clove, crushed
     * 1 large carrot, sliced
