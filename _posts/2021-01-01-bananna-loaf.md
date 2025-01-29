@@ -9,14 +9,16 @@ recipe:
     * 80ml vegetable oil
     * 75g soft brown sugar
     * 100ml soya milk
-    * 225g self-raising flour
+    * 250g self-raising flour
     * 1½ tsp baking powder
     * Pinch sea salt
     * 2 tsp cinnamon
     * ½ tsp nutmeg
+    * ½ tsp ground ginger
+    * 80g chocolate chips (optional)
   directions_markdown: |-
     1. Heat oven to 180°C. Prepare a loaf tin.
     2. In a large bowl, mash the bananas, then add the oil, soya milk and sugar and mix well.
-    3. In a separate bowl, combine the flour, baking powder, salt and cinnamon and nutmeg. Add the dry mixture to the wet ingredients and mix well. Add a splash more soya milk if needed.
-    6. Pour the mixture into the loaf tin and bake for 35 minutes, until a skewer inserted into the centre comes out clean.
+    3. In a separate bowl, combine the flour, baking powder, salt, cinnamon, nutmeg and ginger. Add the dry mixture to the wet ingredients and mix well. Add a splash more soya milk if needed.
+    6. Pour the mixture into the loaf tin. Top with chocolate chips if desired. Bake for 35 minutes, until a skewer inserted into the centre comes out clean.
 ---
