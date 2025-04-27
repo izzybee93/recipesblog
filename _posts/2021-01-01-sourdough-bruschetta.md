@@ -1,7 +1,7 @@
 ---
 title: Sourdough bruschetta
 categories: snacks
-featured_image: "/images/recipes/sourdoughbruschetta.png"
+featured_image: "/images/recipes/sourdoughbruschetta.jpeg"
 recipe:
   servings: serves 4
   ingredients_markdown: |-
