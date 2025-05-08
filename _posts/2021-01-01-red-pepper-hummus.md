@@ -1,7 +1,7 @@
 ---
 title: Roasted red pepper hummus
 categories: snacks
-featured_image: /images/recipes/redpepperhummus.jpg
+featured_image: /images/recipes/redpepperhummus.jpeg
 recipe:
   servings: serves 8
   ingredients_markdown: |-
