@@ -1,7 +1,7 @@
 ---
 title: Lemon tahini dressing
 categories: sauces
-featured_image: "/images/recipes/lemontahinidressing.png"
+featured_image: "/images/recipes/lemontahinidressing.jpeg"
 recipe:
   servings: serves 1-2
   ingredients_markdown: |-
