@@ -6,7 +6,7 @@ recipe:
   servings: serves 2
   ingredients_markdown: |-
     * 1 banana
-    * 125g bluberries, fresh or frozen
+    * 125g blueberries, fresh or frozen
     * 4 tbsp oats
     * 1 tsp cinnamon
     * 250ml almond milk

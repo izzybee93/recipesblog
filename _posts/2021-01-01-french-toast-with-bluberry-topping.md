@@ -1,5 +1,5 @@
 ---
-title: French Toast With Bluberry Topping
+title: French toast with blueberry topping
 categories: breakfast
 featured_image: "/images/recipes/frenchtoastblueberry.jpeg"
 recipe:
