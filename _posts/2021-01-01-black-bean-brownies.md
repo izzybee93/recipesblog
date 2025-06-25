@@ -10,7 +10,7 @@ recipe:
     * 40g oats
     * ½ tsp baking powder
     * ¼ tsp sea salt
-    * 2 tbsp caster sugar
+    * 1 tbsp caster sugar
     * 75g honey
     * 40g vegetable oil
     * 2 tsp vanilla extract
