@@ -11,11 +11,10 @@ recipe:
     * 1 red pepper, chopped
     * 250g cherry tomatoes
     * 100g spinach
-    * 150g feta cheese (optional)
     * 10 sun-dried tomatoes, chopped
     * 5 tbsp olive oil
-    * Finely grated zest and juice of 1 lemon
-    * 1 garlic clove, crushed
+    * Zest and juice of 1 lemon
+    * 1 garlic clove, minced
     * 1 tsp smoked paprika
     * 2 tsp honey
     * ½ tsp chilli powder (optional)
@@ -24,7 +23,7 @@ recipe:
   directions_markdown: |-
     1. Preheat the oven to 170°C. Place the aubergine, pepper and onion on a roasting tray. Drizzle with olive oil and roast for 25 mins. Remove from the oven and add the cherry tomatoes, then return to cook for another 10-15 mins.
 
-    2. Meanwhile, to make the dressing, mix the sundried tomatoes, olive oil, lemon, garlic, smoked paprika, honey and chilli together in a bowl, and set aside.
+    2. To make the dressing, mix the sundried tomatoes, olive oil, lemon, garlic, smoked paprika, honey and chilli together in a bowl, and set aside.
     
-    3. Transfer the roasted vegetables into a large serving dish. Add the chickpeas and stir in the sun-dried tomato dressing. Season to taste. Just before serving, stir the spinach through and crumble the feta over.
+    3. Transfer the roasted vegetables into a large serving dish. Add the chickpeas, spinach and sun-dried tomato dressing. Toss to combine until well coated. Season to taste.
 ---
