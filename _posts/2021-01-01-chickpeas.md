@@ -1,7 +1,7 @@
 ---
 title: Chickpeas
 categories: grains
-featured_image: "/images/recipes/chickpeas.png"
+featured_image: "/images/recipes/chickpeas.jpeg"
 recipe:
   servings: serves 12
   ingredients_markdown: "* 500g dried chickpeas"
