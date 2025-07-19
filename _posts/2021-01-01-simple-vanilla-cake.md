@@ -3,7 +3,7 @@ title: Simple vanilla cake
 categories: treats
 featured_image: "/images/recipes/simplevanillacake.jpeg"
 recipe:
-  servings: serves 8-10
+  servings: serves 8
   ingredients_markdown: |-
     * 285g self-raising flour
     * 150g granulated sugar
