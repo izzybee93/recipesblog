@@ -36,7 +36,7 @@ recipe:
     sugar, cornflour, baking powder, baking soda and salt.\n4. In a measuring jug,
     whisk together the milk, oil, vinegar and vanilla extract.\n5. Add the wet ingredients
     to the dry and mix until combined. Divide the batter evenly between the prepared
-    cake pans and bake for 35 minutes,until a skewer inserted into the centre comes
+    cake pans and bake for 35 minutes, until a skewer inserted into the centre comes
     out clean.\n6. Leave to cool for 10 minutes, then gently remove from the pans
     and leave to cool completely.\n7. For the frosting, add the vegan butter and coconut
     oil to a medium bowl. Beat together until smooth, using mixer with balloon whisk.

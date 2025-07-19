@@ -25,7 +25,7 @@ recipe:
     pans.\n2. In a large bowl, mix together the flour, sugar, cornflour, baking powder,
     baking soda and salt.\n3. In a measuring jug, whisk together the milk, oil, vinegar
     and vanilla extract.\n4. Add the wet ingredients to the dry and mix until combined.
-    Divide the batter evenly between the prepared\ncake pans and bake for 35 minutes,until
+    Divide the batter evenly between the prepared\ncake pans and bake for 35 minutes, until
     a skewer inserted into the centre comes out clean.\n6. Leave to cool for 10 minutes,
     then gently remove from the pans and leave to cool completely.\n7. Place one cake
     on the serving plate. Use a large round cookie cutter to cut out the centre of
