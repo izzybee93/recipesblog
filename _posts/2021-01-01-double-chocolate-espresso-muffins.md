@@ -3,7 +3,7 @@ title: Double chocolate espresso muffins
 categories: treats
 featured_image: "/images/recipes/doublechocolateespressomuffins.jpeg"
 recipe:
-  servings:
+  servings: makes 14
   ingredients_markdown: "* 200g self-raising flour\n* 40g cocoa powder\n* 105g caster
     sugar\n* ¾ teaspoon baking powder\n* 1 teaspoon baking soda\n* ¼ teaspoon salt\n*
     240ml soya milk\n* 80ml strong espresso\n* 110g vegetable oil \n* 20g maple syrup\n*
