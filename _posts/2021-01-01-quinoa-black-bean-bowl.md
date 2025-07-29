@@ -1,5 +1,5 @@
 ---
-title: Quinoa and black bean salad
+title: Quinoa and black bean bowl
 categories: mains salad
 featured_image: "/images/recipes/qunioablackbeansalad.png"
 recipe:
