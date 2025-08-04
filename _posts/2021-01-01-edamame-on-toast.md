@@ -1,6 +1,6 @@
 ---
 title: Mashed edamame on toast
-categories: breakfast lunch
+categories: breakfast
 featured_image: "/images/recipes/mashededamametoast.jpeg"
 recipe:
   servings: serves 2
