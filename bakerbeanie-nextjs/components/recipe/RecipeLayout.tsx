@@ -68,7 +68,7 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
       </div>
       
       <header className="text-center mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-800" style={{ marginBottom: '24px' }}>{recipe.title}</h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-800" style={{ marginBottom: '24px', fontFamily: 'Raleway, sans-serif' }}>{recipe.title}</h1>
         <div className="flex flex-wrap justify-center gap-2 mb-4">
           {recipe.categories.map((category) => (
             <span

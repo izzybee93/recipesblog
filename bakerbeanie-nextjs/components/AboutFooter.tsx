@@ -28,7 +28,7 @@ export default function AboutFooter() {
             >
               About Baker Beanie
             </h2>
-            <p className="text-gray-700 text-lg leading-relaxed max-w-2xl mx-auto">
+            <p className="text-gray-700 text-lg leading-relaxed max-w-2xl mx-auto" style={{ fontFamily: 'Raleway, sans-serif' }}>
               Welcome to baker beanie! A blog full of tasty vegetarian and vegan recipes.
             </p>
           </div>
