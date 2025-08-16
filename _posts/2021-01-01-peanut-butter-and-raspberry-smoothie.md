@@ -1,7 +1,7 @@
 ---
 title: Peanut butter and raspberry smoothie
 categories: breakfast
-featured_image: "/images/recipes/peanutraspberrysmoothie.png"
+featured_image: "/images/recipes/peanutraspberrysmoothie.jpeg"
 recipe:
   servings: serves 1
   ingredients_markdown: |-
