@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Asap:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@font-face {
+  font-family: "SimplySweetSerif";
+  src: url("/SimplySweet_Serif.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #222222;
+  --accent: rgb(140, 190, 175);
+  --baker-blue: #007eff;
+  --light-grey: #999;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Asap', sans-serif;
+  line-height: 1.8em;
+  -webkit-font-smoothing: antialiased;
+  padding: 0;
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+a {
+  color: var(--baker-blue);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  line-height: 1.3em;
+}
+
+h1 {
+  font-size: 1.8em;
+}
+
+h2 {
+  font-size: 1.4em;
+}
+
+time {
+  color: var(--light-grey);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
