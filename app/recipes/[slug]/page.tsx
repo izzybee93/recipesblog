@@ -5,9 +5,9 @@ import { getImageWithBlur } from '@/lib/image'
 import RecipeLayout from '@/components/recipe/RecipeLayout'
 
 interface RecipePageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function generateStaticParams() {
@@ -18,7 +18,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: RecipePageProps) {
-  const recipe = getRecipeBySlug(params.slug)
+  const { slug } = await params
+  const recipe = getRecipeBySlug(slug)
   
   if (!recipe) {
     return {
@@ -38,7 +39,8 @@ export async function generateMetadata({ params }: RecipePageProps) {
 }
 
 export default async function RecipePage({ params }: RecipePageProps) {
-  const recipe = getRecipeBySlug(params.slug)
+  const { slug } = await params
+  const recipe = getRecipeBySlug(slug)
   
   if (!recipe) {
     notFound()

@@ -20,8 +20,8 @@ export interface RecipeFrontmatter {
   categories: string[]
   featured_image: string
   servings: string
-  ingredients: string[]
-  directions: string[]
+  ingredients: string[] | string
+  directions: string[] | string
   draft?: boolean
   excerpt?: string
   prep_time?: string

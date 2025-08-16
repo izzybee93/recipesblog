@@ -46,9 +46,7 @@ export default function SearchBar({ onSearch, placeholder = "Search recipes..." 
           onChange={handleInputChange}
           placeholder={placeholder}
           className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:border-transparent transition-all"
-          style={{
-            focusRingColor: 'rgb(140, 190, 175)',
-          }}
+          style={{}}
           onFocus={(e) => {
             e.currentTarget.style.boxShadow = '0 0 0 2px rgba(140, 190, 175, 0.2)'
             e.currentTarget.style.borderColor = 'rgb(140, 190, 175)'
