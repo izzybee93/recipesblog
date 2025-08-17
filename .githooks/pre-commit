@@ -1,29 +1,60 @@
 #!/bin/sh
 
-# Process new/modified recipe images before commit
-# Strips metadata and optimizes images
+# Process recipe files and images before commit
 
-echo "🖼️ Processing recipe images..."
+# Process recipe MDX files - replace fractions with Unicode characters
+echo "📝 Processing recipe files..."
 
-# Get list of staged image files in the recipes directory
-IMAGES=$(git diff --cached --name-only --diff-filter=ACM | grep "^public/images/recipes/.*\.\(jpg\|jpeg\|png\)$")
+RECIPES=$(git diff --cached --name-only --diff-filter=ACM | grep "^content/recipes/.*\.mdx$")
 
-if [ -z "$IMAGES" ]; then
-  exit 0
+if [ ! -z "$RECIPES" ]; then
+  for RECIPE in $RECIPES; do
+    echo "Processing fractions in: $RECIPE"
+    
+    # Replace common fractions with Unicode equivalents and add degree symbols
+    # Using sed with in-place editing
+    sed -i '' \
+      -e 's/1\/4/¼/g' \
+      -e 's/1\/2/½/g' \
+      -e 's/3\/4/¾/g' \
+      -e 's/1\/3/⅓/g' \
+      -e 's/2\/3/⅔/g' \
+      -e 's/1\/8/⅛/g' \
+      -e 's/3\/8/⅜/g' \
+      -e 's/5\/8/⅝/g' \
+      -e 's/7\/8/⅞/g' \
+      -e 's/1\/5/⅕/g' \
+      -e 's/2\/5/⅖/g' \
+      -e 's/3\/5/⅗/g' \
+      -e 's/4\/5/⅘/g' \
+      -e 's/1\/6/⅙/g' \
+      -e 's/5\/6/⅚/g' \
+      -e 's/\([0-9][0-9][0-9]\?\)C/\1°C/g' \
+      -e 's/\([0-9][0-9][0-9]\?\)F/\1°F/g' \
+      "$RECIPE"
+    
+    # Re-add the processed file to git
+    git add "$RECIPE"
+  done
+  echo "✅ Recipe fractions converted successfully!"
 fi
 
-for IMAGE in $IMAGES; do
-  echo "Processing: $IMAGE"
-  
-  # Strip metadata using exiftool (same as your chop command)
-  exiftool "-gps*=" "$IMAGE" -overwrite_original 2>/dev/null
-  
-  # Optional: Resize with ImageMagick (commented out - see note below)
-  # convert "$IMAGE" -resize 50% "$IMAGE"
-  
-  # Re-add the processed file to git
-  git add "$IMAGE"
-done
+# Process recipe images - strip metadata
+echo "🖼️ Processing recipe images..."
 
-echo "✅ Recipe images processed successfully!"
+IMAGES=$(git diff --cached --name-only --diff-filter=ACM | grep "^public/images/recipes/.*\.\(jpg\|jpeg\|png\)$")
+
+if [ ! -z "$IMAGES" ]; then
+  for IMAGE in $IMAGES; do
+    echo "Processing: $IMAGE"
+    
+    # Strip metadata using exiftool (same as your chop command)
+    exiftool "-gps*=" "$IMAGE" -overwrite_original 2>/dev/null
+    
+    # Re-add the processed file to git
+    git add "$IMAGE"
+  done
+  echo "✅ Recipe images processed successfully!"
+fi
+
 exit 0

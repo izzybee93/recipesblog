@@ -52,21 +52,16 @@ categories: [${categories.map(cat => `"${cat}"`).join(', ')}]
 featured_image: "/images/recipes/${slug}.jpeg"${servings ? `
 servings: "${servings}"` : ''}
 ingredients:
-  - Ingredient 1
-  - Ingredient 2
-  - Ingredient 3
+  - 
 directions:
-  - Step 1
-  - Step 2
-  - Step 3
+  - 
 draft: true
 ---
 
-Add your recipe description here. This will appear at the top of the recipe page.
+{/* Add your recipe description here. This will appear at the top of the recipe page. */}
 
-## Notes
-
-Add any additional notes, tips, or variations here.
+{/* ## Notes
+Add any additional notes, tips, or variations here. */}
 `;
 
   // Define file path

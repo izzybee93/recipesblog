@@ -126,12 +126,34 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
           </div>
 
           <ul className="space-y-2">
-            {recipe.ingredients.map((ingredient, index) => (
-              <li key={index} className="flex items-start">
-                <span className="mr-2" style={{ color: 'rgb(140, 190, 175)' }}>•</span>
-                <span>{ingredient}</span>
-              </li>
-            ))}
+            {recipe.ingredients.map((ingredient, index) => {
+              // Check if this is a section header (no measurements, units, or typical ingredient words)
+              const isSection = !ingredient.match(/\d|cup|tbsp|tsp|ml|g|kg|oz|lb|bunch|handful|clove|slice/) && 
+                               ingredient.length < 30 &&
+                               !ingredient.includes(',') &&
+                               (ingredient === 'Marinade' || ingredient === 'Sauce' || ingredient === 'Dressing' || 
+                                ingredient === 'Topping' || ingredient === 'Garnish' || ingredient === 'Base' ||
+                                ingredient === 'Icing' || ingredient === 'Frosting' || ingredient === 'Filling' ||
+                                ingredient === 'Glaze' || ingredient === 'Pesto' || ingredient === 'Cake' ||
+                                ingredient === 'Muffins' || ingredient === 'Cupcakes' || ingredient === 'Drizzle')
+              
+              if (isSection) {
+                return (
+                  <li key={index} className="mt-4 mb-2">
+                    <h3 className="font-semibold text-lg" style={{ color: 'rgb(140, 190, 175)' }}>
+                      {ingredient}
+                    </h3>
+                  </li>
+                )
+              }
+              
+              return (
+                <li key={index} className="flex items-start">
+                  <span className="mr-2" style={{ color: 'rgb(140, 190, 175)' }}>•</span>
+                  <span>{ingredient}</span>
+                </li>
+              )
+            })}
           </ul>
         </div>
 

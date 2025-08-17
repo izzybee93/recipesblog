@@ -78,7 +78,13 @@ export default async function RecipePage({ params }: RecipePageProps) {
     notFound()
   }
 
-  const imageData = await getImageWithBlur(recipe.meta.featured_image)
+  let imageData
+  try {
+    imageData = await getImageWithBlur(recipe.meta.featured_image)
+  } catch (error) {
+    console.error(`Failed to process image for ${slug}:`, error)
+    imageData = { src: recipe.meta.featured_image, blurDataURL: undefined }
+  }
 
   return (
     <RecipeLayout recipe={recipe.meta} blurDataURL={imageData.blurDataURL}>
