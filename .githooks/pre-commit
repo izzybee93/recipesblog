@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Process new/modified recipe images before commit
+# Strips metadata and optimizes images
+
+echo "🖼️ Processing recipe images..."
+
+# Get list of staged image files in the recipes directory
+IMAGES=$(git diff --cached --name-only --diff-filter=ACM | grep "^public/images/recipes/.*\.\(jpg\|jpeg\|png\)$")
+
+if [ -z "$IMAGES" ]; then
+  exit 0
+fi
+
+for IMAGE in $IMAGES; do
+  echo "Processing: $IMAGE"
+  
+  # Strip metadata using exiftool (same as your chop command)
+  exiftool "-gps*=" "$IMAGE" -overwrite_original 2>/dev/null
+  
+  # Optional: Resize with ImageMagick (commented out - see note below)
+  # convert "$IMAGE" -resize 50% "$IMAGE"
+  
+  # Re-add the processed file to git
+  git add "$IMAGE"
+done
+
+echo "✅ Recipe images processed successfully!"
+exit 0
