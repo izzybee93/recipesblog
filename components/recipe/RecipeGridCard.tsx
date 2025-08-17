@@ -12,9 +12,8 @@ interface RecipeGridCardProps {
 
 export default function RecipeGridCard({ recipe }: RecipeGridCardProps) {
   const [imageError, setImageError] = useState(false)
-  const isPngImage = recipe.featured_image.toLowerCase().endsWith('.png')
   
-  if (imageError || isPngImage) {
+  if (imageError) {
     return (
       <div className="recipe flex-1 min-w-[300px] h-[200px] relative m-1 rounded-lg overflow-hidden group">
         <Link 

@@ -1,6 +1,8 @@
 'use client'
 
+import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Recipe } from '@/types/recipe'
 import { useState } from 'react'
@@ -11,6 +13,89 @@ interface RecipeLayoutProps {
   recipe: Recipe
   blurDataURL?: string
   children: React.ReactNode
+}
+
+// Helper function to convert recipe names to slugs
+function recipeNameToSlug(recipeName: string): string {
+  // Manual mappings for known recipe names that don't match exactly
+  const recipeNameMappings: Record<string, string> = {
+    'strawberry jam filling': 'strawberry-jam-filling',
+    'whipped cream filling': 'whipped-cream-filling', 
+    'beschamel sauce': 'bechamel-sauce',
+    'sesame, ginger and lime stir fry sauce': 'sesame-ginger-and-lime-stir-fry-sauce',
+    'sesame salad dressing': 'sesame-salad-dressing',
+    'meringue drops': 'meringue-drops',
+    'miso salad dressing': 'miso-salad-dressing'
+  }
+  
+  const normalizedName = recipeName.toLowerCase().trim()
+  
+  // Check if we have a manual mapping first
+  if (recipeNameMappings[normalizedName]) {
+    return recipeNameMappings[normalizedName]
+  }
+  
+  // Fallback to automatic slug generation
+  return recipeName
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '') // Remove special characters except spaces and hyphens
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+    .trim()
+}
+
+// Helper function to render ingredient with recipe links
+function renderIngredientWithLinks(ingredient: string): React.ReactNode {
+  const seeRecipePattern = /^(.+?)\s*\(see recipe\)$/i
+  const match = ingredient.match(seeRecipePattern)
+  
+  if (match) {
+    const fullText = match[1].trim()
+    
+    // Extract just the recipe name from ingredient text like "6 tbsp strawberry jam filling"
+    // Look for known recipe names at the end of the ingredient text
+    const knownRecipeNames = [
+      'strawberry jam filling',
+      'whipped cream filling', 
+      'bechamel sauce',
+      'beschamel sauce',
+      'sesame, ginger and lime stir fry sauce',
+      'sesame salad dressing',
+      'meringue drops',
+      'miso salad dressing'
+    ]
+    
+    let recipeName = fullText
+    let ingredientPart = ''
+    
+    // Find the recipe name in the text
+    for (const knownName of knownRecipeNames) {
+      if (fullText.toLowerCase().includes(knownName.toLowerCase())) {
+        const index = fullText.toLowerCase().indexOf(knownName.toLowerCase())
+        ingredientPart = fullText.substring(0, index).trim()
+        recipeName = knownName
+        break
+      }
+    }
+    
+    const slug = recipeNameToSlug(recipeName)
+    
+    return (
+      <React.Fragment>
+        {ingredientPart} {recipeName} (
+        <Link 
+          href={`/recipes/${slug}`}
+          className="hover:underline"
+          style={{ color: 'rgb(140, 190, 175)' }}
+        >
+          see recipe
+        </Link>
+        )
+      </React.Fragment>
+    )
+  }
+  
+  return ingredient
 }
 
 export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLayoutProps) {
@@ -127,15 +212,13 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
 
           <ul className="space-y-2">
             {recipe.ingredients.map((ingredient, index) => {
-              // Check if this is a section header (no measurements, units, or typical ingredient words)
-              const isSection = !ingredient.match(/\d|cup|tbsp|tsp|ml|g|kg|oz|lb|bunch|handful|clove|slice/) && 
-                               ingredient.length < 30 &&
-                               !ingredient.includes(',') &&
-                               (ingredient === 'Marinade' || ingredient === 'Sauce' || ingredient === 'Dressing' || 
-                                ingredient === 'Topping' || ingredient === 'Garnish' || ingredient === 'Base' ||
-                                ingredient === 'Icing' || ingredient === 'Frosting' || ingredient === 'Filling' ||
-                                ingredient === 'Glaze' || ingredient === 'Pesto' || ingredient === 'Cake' ||
-                                ingredient === 'Muffins' || ingredient === 'Cupcakes' || ingredient === 'Drizzle')
+              // List of known section headers
+              const sectionHeaders = ['Marinade', 'Sauce', 'Dressing', 'Topping', 'Garnish', 'Base', 
+                                    'Icing', 'Frosting', 'Filling', 'Glaze', 'Pesto', 'Cake', 
+                                    'Muffins', 'Cupcakes', 'Drizzle']
+              
+              // Check if this is a section header
+              const isSection = sectionHeaders.includes(ingredient.trim())
               
               if (isSection) {
                 return (
@@ -150,7 +233,7 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
               return (
                 <li key={index} className="flex items-start">
                   <span className="mr-2" style={{ color: 'rgb(140, 190, 175)' }}>•</span>
-                  <span>{ingredient}</span>
+                  <span>{renderIngredientWithLinks(ingredient)}</span>
                 </li>
               )
             })}

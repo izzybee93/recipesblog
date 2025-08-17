@@ -14,20 +14,15 @@ interface RecipeCardProps {
 export default function RecipeCard({ recipe, blurDataURL }: RecipeCardProps) {
   const [imageError, setImageError] = useState(false)
   
-  // Check if the image is a PNG file (which we deleted)
-  const isPngImage = recipe.featured_image.toLowerCase().endsWith('.png')
-  
-  // Debug logging
-  console.log('Recipe:', recipe.title, 'isPng:', isPngImage, 'imageError:', imageError, 'image:', recipe.featured_image)
-  
   return (
     <Link href={`/recipes/${recipe.slug}`} className="group">
       <article className="overflow-hidden rounded-lg shadow-lg transition-transform group-hover:scale-105">
         <div className="relative h-48 w-full">
-          {(imageError || isPngImage) ? (
-            <div style={{ background: 'red', color: 'white', padding: '20px' }}>
-              PLACEHOLDER TEST: {recipe.title}
-            </div>
+          {imageError ? (
+            <RecipePlaceholder 
+              title={recipe.title} 
+              className="w-full h-full"
+            />
           ) : (
             <Image
               src={recipe.featured_image}
@@ -37,10 +32,7 @@ export default function RecipeCard({ recipe, blurDataURL }: RecipeCardProps) {
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               placeholder={blurDataURL ? 'blur' : 'empty'}
               blurDataURL={blurDataURL}
-              onError={() => {
-                console.log('Image error for:', recipe.title, recipe.featured_image)
-                setImageError(true)
-              }}
+              onError={() => setImageError(true)}
             />
           )}
           {recipe.draft && (
