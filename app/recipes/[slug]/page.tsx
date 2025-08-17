@@ -27,14 +27,46 @@ export async function generateMetadata({ params }: RecipePageProps) {
     }
   }
 
+  const recipeDescription = recipe.meta.excerpt || `Delicious ${recipe.meta.categories.join(', ')} recipe for ${recipe.meta.title}. ${recipe.meta.servings}.`
+  const recipeUrl = `https://bakerbeanie.me/recipes/${slug}`
+
   return {
     title: `${recipe.meta.title} | Baker Beanie`,
-    description: recipe.meta.excerpt || `Recipe for ${recipe.meta.title}`,
+    description: recipeDescription,
     openGraph: {
       title: recipe.meta.title,
-      description: recipe.meta.excerpt || `Recipe for ${recipe.meta.title}`,
-      images: [recipe.meta.featured_image],
+      description: recipeDescription,
+      url: recipeUrl,
+      siteName: 'Baker Beanie',
+      images: [{
+        url: recipe.meta.featured_image,
+        width: 1200,
+        height: 630,
+        alt: `${recipe.meta.title} - Baker Beanie Recipe`,
+      }],
+      locale: 'en_US',
+      type: 'article',
+      publishedTime: recipe.meta.date,
+      authors: ['Baker Beanie'],
+      section: 'Recipes',
+      tags: recipe.meta.categories,
     },
+    twitter: {
+      card: 'summary_large_image',
+      title: recipe.meta.title,
+      description: recipeDescription,
+      images: [recipe.meta.featured_image],
+      creator: '@bakerbeanie',
+    },
+    keywords: [
+      ...recipe.meta.categories,
+      'vegetarian',
+      'vegan',
+      'recipe',
+      'cooking',
+      'baking',
+      recipe.meta.title.toLowerCase()
+    ],
   }
 }
 
