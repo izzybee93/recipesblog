@@ -1,0 +1,18 @@
+{
+  // VS Code workspace settings for Baker Beanie recipe blog
+  
+  // MDX-specific settings to preserve punctuation and formatting
+  "[mdx]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.defaultFormatter": null,
+    "prettier.proseWrap": "preserve",
+    "prettier.endOfLine": "lf"
+  },
+  
+  // File associations
+  "files.associations": {
+    "*.mdx": "mdx"
+  }
+}

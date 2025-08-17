@@ -248,7 +248,7 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
                 <span className="font-bold flex-shrink-0" style={{ color: 'rgb(140, 190, 175)' }}>
                   {index + 1}.
                 </span>
-                <span>{direction}</span>
+                <span>&nbsp;{direction}</span>
               </li>
             ))}
           </ol>

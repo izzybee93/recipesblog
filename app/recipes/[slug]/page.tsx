@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: RecipePageProps) {
       url: recipeUrl,
       siteName: 'Baker Beanie',
       images: [{
-        url: recipe.meta.featured_image,
+        url: `https://bakerbeanie.me${recipe.meta.featured_image}`,
         width: 1200,
         height: 630,
         alt: `${recipe.meta.title} - Baker Beanie Recipe`,
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: RecipePageProps) {
       card: 'summary_large_image',
       title: recipe.meta.title,
       description: recipeDescription,
-      images: [recipe.meta.featured_image],
+      images: [`https://bakerbeanie.me${recipe.meta.featured_image}`],
       creator: '@bakerbeanie',
     },
     keywords: [
