@@ -8,11 +8,6 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://bakerbeanie.me'),
   title: "Baker Beanie",
   description: "A blog full of tasty vegetarian and vegan recipes",
-  icons: {
-    icon: '/bee.png',
-    shortcut: '/bee.png',
-    apple: '/bee.png',
-  },
   openGraph: {
     title: "Baker Beanie",
     description: "A blog full of tasty vegetarian and vegan recipes",
