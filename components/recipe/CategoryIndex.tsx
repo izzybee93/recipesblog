@@ -62,16 +62,6 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
 
       {/* Desktop Sidebar Layout (left) */}
       <div className="hidden lg:block w-64 p-6 bg-gray-50 rounded-lg">
-        <h2
-          className="text-xl font-bold text-center mb-6"
-          style={{
-            fontFamily: 'SimplySweetSerif, serif',
-            color: 'rgb(140, 190, 175)'
-          }}
-        >
-          Categories
-        </h2>
-
         <nav className="space-y-2">
           {categories.map(category => (
             <button
@@ -99,10 +89,6 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
             </button>
           ))}
         </nav>
-
-        <p className="text-center text-xs text-gray-500 mt-4">
-          Jump to category
-        </p>
       </div>
     </div>
   )

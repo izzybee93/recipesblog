@@ -212,19 +212,15 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
 
           <ul className="space-y-2">
             {recipe.ingredients.map((ingredient, index) => {
-              // List of known section headers
-              const sectionHeaders = ['Marinade', 'Sauce', 'Dressing', 'Topping', 'Garnish', 'Base', 
-                                    'Icing', 'Frosting', 'Filling', 'Glaze', 'Pesto', 'Cake', 
-                                    'Muffins', 'Cupcakes', 'Drizzle']
+              // Check if this is a section header using markdown-style syntax (## Header)
+              const sectionMatch = ingredient.match(/^##\s+(.+)$/)
               
-              // Check if this is a section header
-              const isSection = sectionHeaders.includes(ingredient.trim())
-              
-              if (isSection) {
+              if (sectionMatch) {
+                const headerText = sectionMatch[1].trim()
                 return (
                   <li key={index} className="mt-4 mb-2">
                     <h3 className="font-semibold text-lg" style={{ color: 'rgb(140, 190, 175)' }}>
-                      {ingredient}
+                      {headerText}
                     </h3>
                   </li>
                 )
@@ -244,11 +240,11 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
           <h2 className="text-2xl font-semibold" style={{ marginBottom: '16px' }}>Directions</h2>
           <ol className="space-y-4">
             {recipe.directions.map((direction, index) => (
-              <li key={index} className="flex gap-3">
+              <li key={index} className="flex gap-2">
                 <span className="font-bold flex-shrink-0" style={{ color: 'rgb(140, 190, 175)' }}>
-                  {index + 1}.
+                  {index + 1}.{' '}
                 </span>
-                <span>&nbsp;{direction}</span>
+                <span>{direction}</span>
               </li>
             ))}
           </ol>

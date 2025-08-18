@@ -79,12 +79,6 @@ export default function SearchBar({ onSearch, placeholder = "Search recipes..." 
           </button>
         )}
       </div>
-      
-      {query && (
-        <p className="text-center text-sm text-gray-500 mt-2">
-          Searching for "{query}"
-        </p>
-      )}
     </div>
   )
 }
