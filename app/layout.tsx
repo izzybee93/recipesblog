@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bakerbeanie.me'),
@@ -44,6 +45,7 @@ export default function RootLayout({
         </div>
         <Footer />
         <BackToTop />
+        <Analytics />
       </body>
     </html>
   );
