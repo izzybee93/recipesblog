@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bakerbeanie.me'),
@@ -46,6 +47,7 @@ export default function RootLayout({
         <Footer />
         <BackToTop />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
