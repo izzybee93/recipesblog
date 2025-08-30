@@ -13,12 +13,18 @@ interface RecipeGridCardProps {
 const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardProps) {
   const [imageError, setImageError] = useState(false)
   
+  const handleClick = () => {
+    // Mark that we're navigating from the home page
+    sessionStorage.setItem('navigationHistory', 'from-home')
+  }
+  
   if (imageError) {
     return (
       <div className="recipe flex-1 min-w-[300px] h-[200px] relative m-1 rounded-lg overflow-hidden group">
         <Link 
           href={`/recipes/${recipe.slug}`}
           className="block w-full h-full relative"
+          onClick={handleClick}
         >
           <RecipePlaceholder 
             title={recipe.title} 
@@ -46,6 +52,7 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
       <Link 
         href={`/recipes/${recipe.slug}`}
         className="block w-full h-full relative transition-all duration-200 ease-in-out"
+        onClick={handleClick}
       >
         <Image
           src={recipe.featured_image}

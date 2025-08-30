@@ -14,8 +14,13 @@ interface RecipeCardProps {
 export default function RecipeCard({ recipe, blurDataURL }: RecipeCardProps) {
   const [imageError, setImageError] = useState(false)
   
+  const handleClick = () => {
+    // Mark that we're navigating from the home page
+    sessionStorage.setItem('navigationHistory', 'from-home')
+  }
+  
   return (
-    <Link href={`/recipes/${recipe.slug}`} className="group">
+    <Link href={`/recipes/${recipe.slug}`} className="group" onClick={handleClick}>
       <article className="overflow-hidden rounded-lg shadow-lg transition-transform group-hover:scale-105">
         <div className="relative h-48 w-full">
           {imageError ? (

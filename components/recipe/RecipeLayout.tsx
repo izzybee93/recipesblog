@@ -87,6 +87,10 @@ function renderIngredientWithLinks(ingredient: string): React.ReactNode {
           href={`/recipes/${slug}`}
           className="hover:underline"
           style={{ color: 'rgb(140, 190, 175)' }}
+          onClick={() => {
+            // Mark that we're navigating from another recipe
+            sessionStorage.setItem('navigationHistory', 'from-recipe')
+          }}
         >
           see recipe
         </Link>
@@ -103,9 +107,14 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
   const [imageError, setImageError] = useState(false)
 
   const handleBack = () => {
-    if (window.history.length > 1) {
+    // Check if we have a navigation history in sessionStorage
+    const navigationHistory = sessionStorage.getItem('navigationHistory')
+    
+    // If we came from the home page or another recipe, use browser back
+    if (navigationHistory === 'from-home' || navigationHistory === 'from-recipe') {
       router.back()
     } else {
+      // For all other cases (direct link, new tab, refresh), go to home
       router.push('/')
     }
   }
