@@ -3,14 +3,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Recipe } from '@/types/recipe'
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import RecipePlaceholder from './RecipePlaceholder'
 
 interface RecipeGridCardProps {
   recipe: Recipe
 }
 
-export default function RecipeGridCard({ recipe }: RecipeGridCardProps) {
+const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardProps) {
   const [imageError, setImageError] = useState(false)
   
   if (imageError) {
@@ -83,4 +83,6 @@ export default function RecipeGridCard({ recipe }: RecipeGridCardProps) {
       </Link>
     </div>
   )
-}
+})
+
+export default RecipeGridCard

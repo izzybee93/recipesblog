@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Recipe } from '@/types/recipe'
 import RecipeGridCard from './RecipeGridCard'
 
@@ -5,7 +6,7 @@ interface RecipeGridProps {
   recipes: Recipe[]
 }
 
-export default function RecipeGrid({ recipes }: RecipeGridProps) {
+const RecipeGrid = memo(function RecipeGrid({ recipes }: RecipeGridProps) {
   return (
     <div className="recipes flex flex-wrap gap-2 max-w-6xl mx-auto">
       {recipes.map((recipe) => (
@@ -13,4 +14,6 @@ export default function RecipeGrid({ recipes }: RecipeGridProps) {
       ))}
     </div>
   )
-}
+})
+
+export default RecipeGrid

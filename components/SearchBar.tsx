@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 interface SearchBarProps {
   onSearch: (query: string) => void
@@ -9,17 +9,57 @@ interface SearchBarProps {
 
 export default function SearchBar({ onSearch, placeholder = "Search recipes..." }: SearchBarProps) {
   const [query, setQuery] = useState('')
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const lastValueRef = useRef('')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setQuery(value)
-    onSearch(value)
+    
+    // Clear any existing timer
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+    
+    // If clearing from a non-empty state, do it immediately
+    if (value === '' && lastValueRef.current !== '') {
+      onSearch('')
+      lastValueRef.current = ''
+      return
+    }
+    
+    lastValueRef.current = value
+    
+    // Only debounce non-empty values
+    if (value !== '') {
+      timerRef.current = setTimeout(() => {
+        onSearch(value)
+      }, 300)
+    }
   }
 
   const clearSearch = () => {
+    // Clear any pending search
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+    
+    // Immediately clear everything
     setQuery('')
+    lastValueRef.current = ''
     onSearch('')
   }
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+    }
+  }, [])
 
   return (
     <div className="search-bar mb-8">

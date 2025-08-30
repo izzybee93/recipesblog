@@ -1,3 +1,4 @@
+import { memo, useState, useEffect } from 'react'
 import { Recipe } from '@/types/recipe'
 import RecipeGrid from './RecipeGrid'
 import CategoryIndex from './CategoryIndex'
@@ -6,8 +7,25 @@ interface RecipesByCategoryProps {
   recipesByCategory: Record<string, Recipe[]>
 }
 
-export default function RecipesByCategory({ recipesByCategory }: RecipesByCategoryProps) {
+const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }: RecipesByCategoryProps) {
   const categories = Object.keys(recipesByCategory).sort()
+  const [visibleCategories, setVisibleCategories] = useState(2) // Start with only 2 categories
+  
+  // Load more categories after initial render
+  useEffect(() => {
+    // Use requestIdleCallback if available, otherwise setTimeout
+    const loadMore = () => {
+      setVisibleCategories(categories.length)
+    }
+    
+    if ('requestIdleCallback' in window) {
+      const id = (window as any).requestIdleCallback(loadMore)
+      return () => (window as any).cancelIdleCallback(id)
+    } else {
+      const timer = setTimeout(loadMore, 100)
+      return () => clearTimeout(timer)
+    }
+  }, [categories.length])
 
   // Category display names mapping
   const categoryDisplayNames: Record<string, string> = {
@@ -27,7 +45,7 @@ export default function RecipesByCategory({ recipesByCategory }: RecipesByCatego
 
       <div className="lg:flex-1 lg:min-w-0">
         <div className="space-y-16">
-          {categories.map(category => (
+          {categories.slice(0, visibleCategories).map(category => (
             <section
               key={category}
               id={`category-${category}`}
@@ -50,4 +68,6 @@ export default function RecipesByCategory({ recipesByCategory }: RecipesByCatego
       </div>
     </div>
   )
-}
+})
+
+export default RecipesByCategory

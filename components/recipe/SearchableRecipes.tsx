@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback, useTransition } from 'react'
 import { Recipe } from '@/types/recipe'
 import SearchBar from '@/components/SearchBar'
 import RecipesByCategory from './RecipesByCategory'
@@ -12,8 +12,9 @@ interface SearchableRecipesProps {
 
 export default function SearchableRecipes({ recipesByCategory }: SearchableRecipesProps) {
   const [searchQuery, setSearchQuery] = useState('')
+  const [isPending, startTransition] = useTransition()
 
-  // Get all recipes in a flat array for searching
+  // Get all recipes in a flat array for searching - memoized independently
   const allRecipes = useMemo(() => {
     const recipes: Recipe[] = []
     Object.values(recipesByCategory).forEach(categoryRecipes => {
@@ -27,50 +28,47 @@ export default function SearchableRecipes({ recipesByCategory }: SearchableRecip
     return recipes.sort((a, b) => a.title.localeCompare(b.title))
   }, [recipesByCategory])
 
+  // Check if we should show search results
+  const shouldSearch = searchQuery.trim().length >= 2
+
   // Filter recipes based on search query
   const filteredRecipes = useMemo(() => {
-    if (!searchQuery.trim()) {
-      return null // Return null to show categorized view
+    if (!shouldSearch) {
+      return null
     }
 
-    const query = searchQuery.toLowerCase()
+    const query = searchQuery.trim().toLowerCase()
     return allRecipes.filter(recipe => {
-      return (
-        recipe.title.toLowerCase().includes(query) ||
-        recipe.categories.some(cat => cat.toLowerCase().includes(query)) ||
-        recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(query)) ||
-        recipe.directions.some(direction => direction.toLowerCase().includes(query))
-      )
+      // Search title first (most common search)
+      if (recipe.title.toLowerCase().includes(query)) return true
+      
+      // Then check categories
+      if (recipe.categories.some(cat => cat.toLowerCase().includes(query))) return true
+      
+      // Only search ingredients/directions if needed (more expensive)
+      if (recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(query))) return true
+      if (recipe.directions.some(direction => direction.toLowerCase().includes(query))) return true
+      
+      return false
     })
-  }, [allRecipes, searchQuery])
+  }, [allRecipes, searchQuery, shouldSearch])
 
-  // Filter categories based on search query
-  const filteredRecipesByCategory = useMemo(() => {
-    if (!searchQuery.trim()) {
-      return recipesByCategory
-    }
-
-    const filtered: Record<string, Recipe[]> = {}
-    Object.entries(recipesByCategory).forEach(([category, recipes]) => {
-      const matchingRecipes = recipes.filter(recipe => {
-        const query = searchQuery.toLowerCase()
-        return (
-          recipe.title.toLowerCase().includes(query) ||
-          recipe.categories.some(cat => cat.toLowerCase().includes(query)) ||
-          recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(query)) ||
-          recipe.directions.some(direction => direction.toLowerCase().includes(query))
-        )
+  // Memoize the search handler with transition for non-blocking updates
+  const handleSearch = useCallback((query: string) => {
+    // For clearing (empty query), update immediately
+    if (query === '') {
+      setSearchQuery('')
+    } else {
+      // For typing, use transition to keep UI responsive
+      startTransition(() => {
+        setSearchQuery(query)
       })
-      if (matchingRecipes.length > 0) {
-        filtered[category] = matchingRecipes
-      }
-    })
-    return filtered
-  }, [recipesByCategory, searchQuery])
+    }
+  }, [])
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query)
-  }
+  // Determine what to render - only show search UI for 2+ characters
+  const showingSearch = searchQuery.trim().length >= 2
+  const showingResults = shouldSearch && filteredRecipes !== null
 
   return (
     <div>
@@ -79,7 +77,7 @@ export default function SearchableRecipes({ recipesByCategory }: SearchableRecip
         placeholder="Search recipes..."
       />
 
-      {searchQuery.trim() ? (
+      {showingSearch ? (
         <div>
           <div className="mb-6 text-center">
             <h2 
@@ -96,7 +94,7 @@ export default function SearchableRecipes({ recipesByCategory }: SearchableRecip
             </p>
           </div>
 
-          {filteredRecipes && filteredRecipes.length > 0 ? (
+          {showingResults && filteredRecipes.length > 0 ? (
             <RecipeGrid recipes={filteredRecipes} />
           ) : (
             <div className="text-center py-12">
