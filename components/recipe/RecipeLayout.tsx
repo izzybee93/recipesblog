@@ -8,6 +8,7 @@ import { Recipe } from '@/types/recipe'
 import { useState } from 'react'
 import RecipePlaceholder from './RecipePlaceholder'
 import RecipeFooter from './RecipeFooter'
+import RecipeMode from './RecipeMode'
 
 interface RecipeLayoutProps {
   recipe: Recipe
@@ -246,7 +247,10 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
         </div>
 
         <div className="directions">
-          <h2 className="text-2xl font-semibold" style={{ marginBottom: '16px' }}>Directions</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-semibold" style={{ marginBottom: '16px' }}>Directions</h2>
+            <RecipeMode />
+          </div>
           <ol className="space-y-4">
             {recipe.directions.map((direction, index) => (
               <li key={index} className="flex gap-2">
