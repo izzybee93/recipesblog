@@ -127,7 +127,7 @@ export default function RecipeMode() {
       <button
         onClick={toggleRecipeMode}
         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-          isRecipeMode ? '' : 'bg-gray-300'
+          isRecipeMode ? '' : 'bg-gray-300 dark:bg-gray-600'
         }`}
         style={{
           backgroundColor: isRecipeMode ? 'rgb(140, 190, 175)' : undefined
@@ -137,14 +137,14 @@ export default function RecipeMode() {
         role="switch"
       >
         <span
-          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+          className={`inline-block h-4 w-4 transform rounded-full bg-white dark:bg-gray-200 transition-transform ${
             isRecipeMode ? 'translate-x-6' : 'translate-x-1'
           }`}
         />
       </button>
       
       <div className="flex items-center gap-2">
-        <span className="text-sm font-medium text-gray-700">
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
           Recipe mode
         </span>
       </div>
@@ -155,7 +155,7 @@ export default function RecipeMode() {
       
       <div className="group relative">
         <svg
-          className="w-4 h-4 text-gray-400 hover:text-gray-600 cursor-help"
+          className="w-4 h-4 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 cursor-help"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

@@ -6,7 +6,7 @@ export default function Header() {
     <header className="text-center pt-8 pb-4">
       <div className="flex justify-center items-center flex-wrap gap-4 mb-4" style={{ fontFamily: 'SimplySweetSerif, serif' }}>
         <h1 
-          className="font-normal text-gray-800"
+          className="font-normal text-gray-800 dark:text-white"
           style={{ fontSize: '5rem' }}
         >
           Baker
@@ -23,7 +23,7 @@ export default function Header() {
         </Link>
         
         <h1 
-          className="font-normal text-gray-800"
+          className="font-normal text-gray-800 dark:text-white"
           style={{ fontSize: '5rem' }}
         >
           Beanie

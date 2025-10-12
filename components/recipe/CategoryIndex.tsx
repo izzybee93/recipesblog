@@ -30,27 +30,16 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
   return (
     <div className="category-index lg:sticky lg:top-8 lg:self-start">
       {/* Mobile/Tablet Layout (top) */}
-      <div className="lg:hidden mb-12 p-6 bg-gray-50 rounded-lg">
+      <div className="lg:hidden mb-12 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {categories.map(category => (
             <button
               key={category}
               onClick={() => scrollToCategory(category)}
-              className="category-link py-3 px-4 bg-white rounded-lg border border-gray-200 hover:border-accent hover:bg-gray-100 transition-all duration-200 text-center group"
-              style={{
-                borderColor: 'transparent',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'rgb(140, 190, 175)'
-                e.currentTarget.style.backgroundColor = '#f9fafb'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#e5e7eb'
-                e.currentTarget.style.backgroundColor = 'white'
-              }}
+              className="category-link py-3 px-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-[rgb(140,190,175)] hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200 text-center group"
             >
               <span
-                className="font-medium text-gray-700 group-hover:text-gray-900 transition-colors"
+                className="font-medium text-gray-700 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white transition-colors"
                 style={{ fontSize: '0.95rem' }}
               >
                 {categoryDisplayNames[category] || category}
@@ -61,27 +50,16 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
       </div>
 
       {/* Desktop Sidebar Layout (left) */}
-      <div className="hidden lg:block w-64 p-6 bg-gray-50 rounded-lg">
+      <div className="hidden lg:block w-64 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
         <nav className="space-y-2">
           {categories.map(category => (
             <button
               key={category}
               onClick={() => scrollToCategory(category)}
-              className="w-full text-left py-3 px-4 bg-white rounded-lg border border-gray-200 hover:border-accent hover:bg-gray-100 transition-all duration-200 group"
-              style={{
-                borderColor: 'transparent',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'rgb(140, 190, 175)'
-                e.currentTarget.style.backgroundColor = '#f9fafb'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#e5e7eb'
-                e.currentTarget.style.backgroundColor = 'white'
-              }}
+              className="w-full text-left py-3 px-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-[rgb(140,190,175)] hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200 group"
             >
               <span
-                className="font-medium text-gray-700 group-hover:text-gray-900 transition-colors"
+                className="font-medium text-gray-700 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white transition-colors"
                 style={{ fontSize: '0.95rem' }}
               >
                 {categoryDisplayNames[category] || category}

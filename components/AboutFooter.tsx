@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export default function AboutFooter() {
   return (
-    <section className="about-footer bg-gray-50 py-12 mt-16">
+    <section className="about-footer bg-gray-50 dark:bg-gray-800 py-12 mt-16 rounded-lg">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
           {/* Author Image */}
@@ -28,8 +28,8 @@ export default function AboutFooter() {
             >
               About Baker Beanie
             </h2>
-            <p className="text-gray-700 text-lg leading-relaxed max-w-2xl mx-auto" style={{ fontFamily: 'Raleway, sans-serif' }}>
-              Welcome to baker beanie! A blog full of tasty vegetarian and vegan recipes.
+            <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed max-w-2xl mx-auto" style={{ fontFamily: 'Raleway, sans-serif' }}>
+              Welcome to baker beanie! A blog full of tasty, mostly plant-based recipes.
             </p>
           </div>
 

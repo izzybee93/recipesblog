@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
+import ThemeProvider from "@/components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -40,14 +41,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        <div className="container mx-auto main-content">
-          <section className="content">{children}</section>
-        </div>
-        <Footer />
-        <BackToTop />
-        <Analytics />
-        <SpeedInsights />
+        <ThemeProvider>
+          <Header />
+          <div className="container mx-auto main-content">
+            <section className="content">{children}</section>
+          </div>
+          <Footer />
+          <BackToTop />
+          <Analytics />
+          <SpeedInsights />
+        </ThemeProvider>
       </body>
     </html>
   );
