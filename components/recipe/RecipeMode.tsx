@@ -6,8 +6,10 @@ export default function RecipeMode() {
   const [isRecipeMode, setIsRecipeMode] = useState(false)
   const [isSupported, setIsSupported] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showTooltip, setShowTooltip] = useState(false)
   const wakeLockRef = useRef<WakeLockSentinel | null>(null)
   const videoRef = useRef<HTMLVideoElement | null>(null)
+  const tooltipRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     // Check if Screen Wake Lock API is supported
@@ -115,6 +117,25 @@ export default function RecipeMode() {
     }
   }
 
+  // Handle click outside to close tooltip
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
+        setShowTooltip(false)
+      }
+    }
+
+    if (showTooltip) {
+      document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener('touchstart', handleClickOutside as any)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside as any)
+    }
+  }, [showTooltip])
+
   // Clean up on unmount
   useEffect(() => {
     return () => {
@@ -132,7 +153,7 @@ export default function RecipeMode() {
         style={{
           backgroundColor: isRecipeMode ? 'rgb(140, 190, 175)' : undefined
         }}
-        aria-label="Toggle Recipe Mode"
+        aria-label="Toggle Cooking Mode"
         aria-checked={isRecipeMode}
         role="switch"
       >
@@ -145,7 +166,7 @@ export default function RecipeMode() {
       
       <div className="flex items-center gap-2">
         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-          Recipe mode
+          Cooking mode
         </span>
       </div>
       
@@ -153,21 +174,32 @@ export default function RecipeMode() {
         <span className="text-xs text-red-600">{error}</span>
       )}
       
-      <div className="group relative">
-        <svg
-          className="w-4 h-4 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 cursor-help"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      <div className="group relative" ref={tooltipRef}>
+        <button
+          onClick={() => setShowTooltip(!showTooltip)}
+          className="w-4 h-4 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 cursor-help focus:outline-none"
+          aria-label="Information about cooking mode"
+          type="button"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        <div className="absolute bottom-full right-0 mb-2 hidden group-hover:block whitespace-nowrap p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </button>
+        <div
+          className={`absolute bottom-full right-0 mb-2 whitespace-nowrap p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10 transition-opacity ${
+            showTooltip ? 'block' : 'hidden group-hover:block'
+          }`}
+        >
           Prevents device sleep
         </div>
       </div>
