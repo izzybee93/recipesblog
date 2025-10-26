@@ -25,7 +25,7 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
   
   if (imageError) {
     return (
-      <div className="recipe flex-shrink-0 basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-1.25rem)] max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-1.25rem)] aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group">
+      <div className="recipe flex-shrink-0 basis-full sm:basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-1.25rem)] max-w-full sm:max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-1.25rem)] aspect-[5/2] sm:aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group">
         <Link
           href={recipeUrl}
           className="block w-full h-full relative"
@@ -53,7 +53,7 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
   }
 
   return (
-    <div className="recipe flex-shrink-0 basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-1.25rem)] max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-1.25rem)] aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group bg-gray-200 dark:bg-gray-700">
+    <div className="recipe flex-shrink-0 basis-full sm:basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-1.25rem)] max-w-full sm:max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-1.25rem)] aspect-[5/2] sm:aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group bg-gray-200 dark:bg-gray-700">
       <Link
         href={recipeUrl}
         className="block w-full h-full relative"
