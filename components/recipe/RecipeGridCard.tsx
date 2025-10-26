@@ -12,17 +12,22 @@ interface RecipeGridCardProps {
 
 const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardProps) {
   const [imageError, setImageError] = useState(false)
-  
+
   const handleClick = () => {
     // Mark that we're navigating from the home page
     sessionStorage.setItem('navigationHistory', 'from-home')
+    // Save current scroll position for when we return
+    sessionStorage.setItem('scroll-position-/', window.scrollY.toString())
   }
+
+  // Memoize recipe slug to prevent recalculation
+  const recipeUrl = `/recipes/${recipe.slug}`
   
   if (imageError) {
     return (
       <div className="recipe flex-shrink-0 basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-1.25rem)] max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-1.25rem)] aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group">
-        <Link 
-          href={`/recipes/${recipe.slug}`}
+        <Link
+          href={recipeUrl}
           className="block w-full h-full relative"
           onClick={handleClick}
         >
@@ -48,18 +53,22 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
   }
 
   return (
-    <div className="recipe flex-shrink-0 basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-1.25rem)] max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-1.25rem)] aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group">
-      <Link 
-        href={`/recipes/${recipe.slug}`}
-        className="block w-full h-full relative transition-all duration-200 ease-in-out"
+    <div className="recipe flex-shrink-0 basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-1.25rem)] max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-1.25rem)] aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group bg-gray-200 dark:bg-gray-700">
+      <Link
+        href={recipeUrl}
+        className="block w-full h-full relative"
         onClick={handleClick}
       >
         <Image
           src={recipe.featured_image}
           alt={recipe.title}
           fill
-          className="object-cover"
+          className="object-cover transition-opacity duration-300"
           onError={() => setImageError(true)}
+          loading="lazy"
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          placeholder="blur"
+          blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQ3NSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQ3NSIgZmlsbD0iI2VlZSIvPjwvc3ZnPg=="
         />
         <div 
           className="absolute inset-0 transition-all duration-200 ease-in-out"

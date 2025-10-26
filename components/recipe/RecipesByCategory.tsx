@@ -1,4 +1,4 @@
-import { memo, useState, useEffect } from 'react'
+import { memo, useState, useEffect, startTransition } from 'react'
 import { Recipe } from '@/types/recipe'
 import RecipeGrid from './RecipeGrid'
 import CategoryIndex from './CategoryIndex'
@@ -9,23 +9,26 @@ interface RecipesByCategoryProps {
 
 const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }: RecipesByCategoryProps) {
   const categories = Object.keys(recipesByCategory).sort()
-  const [visibleCategories, setVisibleCategories] = useState(2) // Start with only 2 categories
-  
-  // Load more categories after initial render
+
+  // Always start with 3 categories for immediate render
+  const [visibleCategories, setVisibleCategories] = useState(3)
+
+  // Progressive loading of remaining categories
   useEffect(() => {
-    // Use requestIdleCallback if available, otherwise setTimeout
-    const loadMore = () => {
-      setVisibleCategories(categories.length)
+    if (visibleCategories >= categories.length) return
+
+    // Load remaining categories aggressively in background
+    const loadRemainingCategories = () => {
+      startTransition(() => {
+        setVisibleCategories(categories.length)
+      })
     }
-    
-    if ('requestIdleCallback' in window) {
-      const id = (window as any).requestIdleCallback(loadMore)
-      return () => (window as any).cancelIdleCallback(id)
-    } else {
-      const timer = setTimeout(loadMore, 100)
-      return () => clearTimeout(timer)
-    }
-  }, [categories.length])
+
+    // Start loading immediately but as a background task
+    const timer = setTimeout(loadRemainingCategories, 0)
+
+    return () => clearTimeout(timer)
+  }, [categories.length, visibleCategories])
 
   // Category display names mapping
   const categoryDisplayNames: Record<string, string> = {
