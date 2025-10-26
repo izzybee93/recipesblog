@@ -20,7 +20,7 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
   
   if (imageError) {
     return (
-      <div className="recipe flex-1 min-w-[300px] h-[200px] relative m-1 rounded-lg overflow-hidden group">
+      <div className="recipe flex-shrink-0 basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-1.25rem)] max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-1.25rem)] aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group">
         <Link 
           href={`/recipes/${recipe.slug}`}
           className="block w-full h-full relative"
@@ -48,7 +48,7 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
   }
 
   return (
-    <div className="recipe flex-1 min-w-[300px] h-[200px] relative m-1 rounded-lg overflow-hidden group">
+    <div className="recipe flex-shrink-0 basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-1.25rem)] max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-1.25rem)] aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group">
       <Link 
         href={`/recipes/${recipe.slug}`}
         className="block w-full h-full relative transition-all duration-200 ease-in-out"
