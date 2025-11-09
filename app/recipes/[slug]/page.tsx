@@ -73,7 +73,7 @@ export async function generateMetadata({ params }: RecipePageProps) {
 export default async function RecipePage({ params }: RecipePageProps) {
   const { slug } = await params
   const recipe = getRecipeBySlug(slug)
-  
+
   if (!recipe) {
     notFound()
   }

@@ -61,7 +61,10 @@ function renderIngredientWithLinks(ingredient: string): React.ReactNode {
       'sesame, ginger and lime stir fry sauce',
       'sesame salad dressing',
       'meringue drops',
-      'miso salad dressing'
+      'miso salad dressing',
+      'basil pesto',
+      'zingy lemon dressing',
+      'candied orange peel'
     ]
 
     let recipeName = fullText
