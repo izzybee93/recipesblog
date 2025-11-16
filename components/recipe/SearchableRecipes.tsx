@@ -10,6 +10,11 @@ interface SearchableRecipesProps {
   recipesByCategory: Record<string, Recipe[]>
 }
 
+// Helper function to remove diacritics from a string
+function removeDiacritics(str: string): string {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
+
 export default function SearchableRecipes({ recipesByCategory }: SearchableRecipesProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [isPending, startTransition] = useTransition()
@@ -37,18 +42,18 @@ export default function SearchableRecipes({ recipesByCategory }: SearchableRecip
       return null
     }
 
-    const query = searchQuery.trim().toLowerCase()
+    const query = removeDiacritics(searchQuery.trim().toLowerCase())
     return allRecipes.filter(recipe => {
       // Search title first (most common search)
-      if (recipe.title.toLowerCase().includes(query)) return true
-      
+      if (removeDiacritics(recipe.title.toLowerCase()).includes(query)) return true
+
       // Then check categories
-      if (recipe.categories.some(cat => cat.toLowerCase().includes(query))) return true
-      
+      if (recipe.categories.some(cat => removeDiacritics(cat.toLowerCase()).includes(query))) return true
+
       // Only search ingredients/directions if needed (more expensive)
-      if (recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(query))) return true
-      if (recipe.directions.some(direction => direction.toLowerCase().includes(query))) return true
-      
+      if (recipe.ingredients.some(ingredient => removeDiacritics(ingredient.toLowerCase()).includes(query))) return true
+      if (recipe.directions.some(direction => removeDiacritics(direction.toLowerCase()).includes(query))) return true
+
       return false
     })
   }, [allRecipes, searchQuery, shouldSearch])
