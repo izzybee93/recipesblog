@@ -39,7 +39,7 @@ if [ ! -z "$RECIPES" ]; then
   echo "✅ Recipe fractions converted successfully!"
 fi
 
-# Process recipe images - strip metadata
+# Process recipe images - strip metadata and resize if needed
 echo "🖼️ Processing recipe images..."
 
 IMAGES=$(git diff --cached --name-only --diff-filter=ACM | grep "^public/images/recipes/.*\.\(jpg\|jpeg\|png\)$")
@@ -47,10 +47,36 @@ IMAGES=$(git diff --cached --name-only --diff-filter=ACM | grep "^public/images/
 if [ ! -z "$IMAGES" ]; then
   for IMAGE in $IMAGES; do
     echo "Processing: $IMAGE"
-    
+
     # Strip metadata using exiftool (same as your chop command)
     exiftool "-gps*=" "$IMAGE" -overwrite_original 2>/dev/null
-    
+
+    # Check size and resize if needed
+    SIZE=$(stat -f%z "$IMAGE" 2>/dev/null || stat -c%s "$IMAGE" 2>/dev/null)
+    if [ "$SIZE" -gt 1048576 ]; then
+      ORIGINAL_SIZE=$(ls -lh "$IMAGE" | awk '{print $5}')
+      echo "⚠️  Image is $ORIGINAL_SIZE, resizing to be under 1MB..."
+
+      # Check if ImageMagick is installed
+      if ! command -v magick &> /dev/null; then
+        echo "❌ Error: ImageMagick (magick command) is not installed."
+        echo "   Please install ImageMagick: brew install imagemagick"
+        exit 1
+      fi
+
+      # Keep resizing by 50% until under 1MB
+      while true; do
+        SIZE=$(stat -f%z "$IMAGE" 2>/dev/null || stat -c%s "$IMAGE" 2>/dev/null)
+        if [ "$SIZE" -le 1048576 ]; then
+          break
+        fi
+        magick "$IMAGE" -resize 50% "$IMAGE"
+      done
+
+      NEW_SIZE=$(ls -lh "$IMAGE" | awk '{print $5}')
+      echo "   ✅ Resized to: $NEW_SIZE"
+    fi
+
     # Re-add the processed file to git
     git add "$IMAGE"
   done
