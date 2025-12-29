@@ -12,7 +12,9 @@
     "upload-recipe-images": "node scripts/upload-images-to-blob.js",
     "upload-recipe-images:force": "node scripts/upload-images-to-blob.js --force",
     "upload-recipe-images:delete": "node scripts/upload-images-to-blob.js --delete",
-    "verify-blob-images": "node scripts/verify-blob-images.js"
+    "verify-blob-images": "node scripts/verify-blob-images.js",
+    "enhance-images": "node scripts/enhance-recipe-images.js",
+    "enhance-images:reset": "rm -f enhancement-progress.json && node scripts/enhance-recipe-images.js"
   },
   "dependencies": {
     "@types/mdx": "^2.0.13",
@@ -23,6 +25,7 @@
     "gray-matter": "^4.0.3",
     "next": "15.4.8",
     "next-mdx-remote": "^5.0.0",
+    "openai": "^6.15.0",
     "plaiceholder": "^3.0.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",

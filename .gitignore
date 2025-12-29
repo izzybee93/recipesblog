@@ -48,3 +48,7 @@ public/images/recipes/*.webp
 
 # blob image mapping
 blob-image-mapping.json
+
+# enhanced recipe images (AI-generated)
+public/images/recipes-enhanced/
+enhancement-progress.json
