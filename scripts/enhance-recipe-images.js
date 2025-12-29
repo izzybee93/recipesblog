@@ -17,6 +17,9 @@
  *   - openai package installed
  */
 
+// Load environment variables from .env.local
+require('dotenv').config({ path: '.env.local' });
+
 const OpenAI = require('openai');
 const fs = require('fs');
 const path = require('path');
