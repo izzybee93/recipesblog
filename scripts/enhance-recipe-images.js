@@ -21,7 +21,7 @@ const OpenAI = require('openai');
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
-const { getAllRecipes } = require('../lib/mdx');
+const matter = require('gray-matter');
 
 // Configuration
 const CONFIG = {
@@ -35,6 +35,43 @@ const CONFIG = {
 
 // Initialize OpenAI client
 let openai;
+
+/**
+ * Load all recipes from content/recipes directory
+ */
+function getAllRecipes(includeDrafts = true) {
+  const recipesDir = path.join(process.cwd(), 'content/recipes');
+
+  if (!fs.existsSync(recipesDir)) {
+    return [];
+  }
+
+  const files = fs.readdirSync(recipesDir).filter(file => file.endsWith('.mdx'));
+
+  const recipes = files
+    .map(file => {
+      const slug = file.replace(/\.mdx$/, '');
+      const fullPath = path.join(recipesDir, file);
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
+      const { data } = matter(fileContents);
+
+      return {
+        slug,
+        title: data.title || slug,
+        featured_image: data.featured_image,
+        ingredients: Array.isArray(data.ingredients)
+          ? data.ingredients
+          : (data.ingredients?.split('\n').filter(Boolean) || []),
+        draft: data.draft || false
+      };
+    })
+    .filter(recipe => {
+      if (!includeDrafts && recipe.draft) return false;
+      return true;
+    });
+
+  return recipes;
+}
 
 /**
  * Analyze image with GPT-4 Vision
@@ -204,6 +241,7 @@ async function processRecipe(recipe, index, total) {
 
   let attempts = 0;
   let totalCost = 0;
+  let customInstructions = ''; // Preserve across loop iterations
 
   try {
     // Check if original image exists
@@ -223,9 +261,6 @@ async function processRecipe(recipe, index, total) {
     // Step 2: Generation and approval loop (allows retries)
     while (true) {
       attempts++;
-
-      // Get custom instructions if this is a retry-custom
-      let customInstructions = '';
 
       // Step 3: Generate with DALL-E 3
       console.log(`🎨 Generating enhanced image (attempt ${attempts})...`);
@@ -260,30 +295,20 @@ async function processRecipe(recipe, index, total) {
           return { status: 'rejected', cost: totalCost, attempts };
 
         case 'retry':
-          console.log('🔄 Retrying with same prompt...\n');
+          customInstructions = ''; // Clear any custom instructions
+          console.log('🔄 Retrying with original prompt...\n');
           continue; // Loop back to generate again
 
         case 'retry-custom':
-          customInstructions = await getCustomInstructions();
-          if (!customInstructions) {
-            console.log('Cancelled. Showing menu again...\n');
-            continue; // Show approval menu again without regenerating
+          const newInstructions = await getCustomInstructions();
+          if (!newInstructions) {
+            console.log('Cancelled. Retrying with current settings...\n');
+          } else {
+            customInstructions = newInstructions;
+            console.log(`\n📝 Custom instructions: "${customInstructions}"\n`);
+            console.log('🔄 Regenerating with custom instructions...\n');
           }
-          console.log(`\n📝 Custom instructions: "${customInstructions}"\n`);
-          console.log('🔄 Regenerating with custom instructions...\n');
-
-          // Generate with custom instructions
-          const customBuffer = await generateWithDALLE(analysis, recipe, customInstructions);
-          totalCost += 0.08;
-          attempts++;
-
-          fs.writeFileSync(previewPath, customBuffer);
-          console.log(`📁 New preview saved\n`);
-          console.log('🖼️  Compare images:');
-          console.log(`   Original: ${originalPath}`);
-          console.log(`   Enhanced: ${previewPath}\n`);
-          // Loop back to show approval menu
-          continue;
+          continue; // Loop back to generate with (possibly updated) instructions
 
         case 'skip':
           console.log('⏭️  Skipped (no changes made)\n');
