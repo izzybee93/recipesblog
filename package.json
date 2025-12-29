@@ -8,11 +8,14 @@
     "start": "next start",
     "lint": "next lint",
     "new-draft": "node scripts/new-draft.js",
-    "list-drafts": "node scripts/list-drafts.js"
+    "list-drafts": "node scripts/list-drafts.js",
+    "upload-recipe-images": "node scripts/upload-images-to-blob.js",
+    "verify-blob-images": "node scripts/verify-blob-images.js"
   },
   "dependencies": {
     "@types/mdx": "^2.0.13",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/blob": "^2.0.0",
     "@vercel/speed-insights": "^1.2.0",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",

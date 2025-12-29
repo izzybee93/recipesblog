@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { Recipe, RecipeFrontmatter } from '@/types/recipe'
+import { transformImagePath } from './blob-image'
 
 const recipesDirectory = path.join(process.cwd(), 'content/recipes')
 
@@ -28,8 +29,11 @@ export function getRecipeBySlug(slug: string): { meta: Recipe; content: string }
   const meta: Recipe = {
     ...frontmatter,
     slug: realSlug,
-    ingredients: Array.isArray(frontmatter.ingredients) 
-      ? frontmatter.ingredients 
+    featured_image: frontmatter.featured_image
+      ? transformImagePath(frontmatter.featured_image)
+      : frontmatter.featured_image,
+    ingredients: Array.isArray(frontmatter.ingredients)
+      ? frontmatter.ingredients
       : frontmatter.ingredients?.split('\n').filter(Boolean) || [],
     directions: Array.isArray(frontmatter.directions)
       ? frontmatter.directions

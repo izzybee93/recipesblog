@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# recipe images (stored in Vercel Blob)
+public/images/recipes/*.jpeg
+public/images/recipes/*.jpg
+public/images/recipes/*.png
+public/images/recipes/*.webp
+
+# blob image mapping
+blob-image-mapping.json

@@ -1,0 +1,4 @@
+# This file keeps the recipes directory in git
+# Recipe images are stored in Vercel Blob Storage and git-ignored
+# Add new recipe images to this directory locally, then upload with:
+# npm run upload-recipe-images
