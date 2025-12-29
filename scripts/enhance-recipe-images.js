@@ -28,9 +28,11 @@ const CONFIG = {
   openaiModel: 'gpt-4o',               // GPT-4 with vision
   dalleModel: 'dall-e-3',              // DALL-E 3 for generation
   imageSize: '1792x1024',              // Landscape format (all images)
-  dalleQuality: 'hd',                  // HD quality
+  dalleQuality: 'standard',            // Standard quality (use 'hd' for higher quality +$0.04/image)
   maxCostLimit: 50,                    // Budget limit ($)
-  estimatedCostPerImage: 0.09,         // $0.01 vision + $0.08 DALL-E HD
+  estimatedCostPerImage: 0.09,         // $0.01 vision + $0.08 DALL-E standard
+  maxRetriesPerImage: 5,               // Limit retries to prevent runaway costs
+  testMode: true,                      // Set to true to process only first 2 images
 };
 
 // Initialize OpenAI client
@@ -260,15 +262,23 @@ async function processRecipe(recipe, index, total) {
 
     // Step 2: Generation and approval loop (allows retries)
     while (true) {
+      // Check retry limit
+      if (attempts >= CONFIG.maxRetriesPerImage) {
+        console.log(`⚠️  Maximum retries (${CONFIG.maxRetriesPerImage}) reached for this image`);
+        console.log('   Moving to next image...\n');
+        return { status: 'skipped', cost: totalCost, attempts };
+      }
+
       attempts++;
 
       // Step 3: Generate with DALL-E 3
-      console.log(`🎨 Generating enhanced image (attempt ${attempts})...`);
+      console.log(`🎨 Generating enhanced image (attempt ${attempts}/${CONFIG.maxRetriesPerImage})...`);
       console.log(`   Size: ${CONFIG.imageSize} (landscape)`);
 
       const enhancedBuffer = await generateWithDALLE(analysis, recipe, customInstructions);
       console.log('   ✅ Generated successfully\n');
-      totalCost += 0.08; // DALL-E cost
+      const dalleCost = CONFIG.dalleQuality === 'hd' ? 0.12 : 0.08;
+      totalCost += dalleCost;
 
       // Step 4: Save preview
       fs.writeFileSync(previewPath, enhancedBuffer);
@@ -379,7 +389,13 @@ async function main() {
   // Load all recipes with images
   const recipes = getAllRecipes(true); // Include drafts
   const recipesWithImages = recipes.filter(r => r.featured_image);
-  const unprocessed = recipesWithImages.filter(r => !progress.processed.includes(r.slug));
+  let unprocessed = recipesWithImages.filter(r => !progress.processed.includes(r.slug));
+
+  // Test mode: only process first 2 images
+  if (CONFIG.testMode && unprocessed.length > 2) {
+    console.log('⚠️  TEST MODE: Processing only first 2 images\n');
+    unprocessed = unprocessed.slice(0, 2);
+  }
 
   console.log(`Total recipes with images: ${recipesWithImages.length}`);
   console.log(`Already processed: ${progress.processed.length}`);
@@ -392,8 +408,11 @@ async function main() {
   }
 
   // Cost estimate
-  const estimatedCost = unprocessed.length * CONFIG.estimatedCostPerImage;
-  console.log(`💰 Estimated cost for remaining: $${estimatedCost.toFixed(2)}`);
+  const dalleCost = CONFIG.dalleQuality === 'hd' ? 0.12 : 0.08;
+  const costPerImage = 0.01 + dalleCost; // Vision + DALL-E
+  const estimatedCost = unprocessed.length * costPerImage;
+  console.log(`💰 Estimated cost for remaining: $${estimatedCost.toFixed(2)} (${unprocessed.length} images × $${costPerImage.toFixed(2)})`);
+  console.log(`💰 Quality: ${CONFIG.dalleQuality.toUpperCase()} ($${dalleCost.toFixed(2)}/image)`);
   console.log(`💰 Spent so far: $${progress.totalCost.toFixed(2)}`);
   console.log(`💰 Total estimated: $${(progress.totalCost + estimatedCost).toFixed(2)}`);
   console.log(`💰 Cost limit: $${CONFIG.maxCostLimit.toFixed(2)}\n`);
