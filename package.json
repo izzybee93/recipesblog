@@ -10,6 +10,8 @@
     "new-draft": "node scripts/new-draft.js",
     "list-drafts": "node scripts/list-drafts.js",
     "upload-recipe-images": "node scripts/upload-images-to-blob.js",
+    "upload-recipe-images:force": "node scripts/upload-images-to-blob.js --force",
+    "upload-recipe-images:delete": "node scripts/upload-images-to-blob.js --delete",
     "verify-blob-images": "node scripts/verify-blob-images.js"
   },
   "dependencies": {

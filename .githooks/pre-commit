@@ -83,4 +83,44 @@ if [ ! -z "$IMAGES" ]; then
   echo "✅ Recipe images processed successfully!"
 fi
 
+# Upload recipe images to Vercel Blob Storage
+echo ""
+echo "☁️  Uploading recipe images to Blob Storage..."
+
+# Check if there are any recipe images to upload
+if [ -d "public/images/recipes" ]; then
+  IMAGE_COUNT=$(find public/images/recipes -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" -o -name "*.webp" \) 2>/dev/null | wc -l | tr -d ' ')
+
+  if [ "$IMAGE_COUNT" -gt 0 ]; then
+    # Load BLOB_READ_WRITE_TOKEN from .env.local (secure - not hardcoded!)
+    if [ -f ".env.local" ]; then
+      export $(grep "^BLOB_READ_WRITE_TOKEN=" .env.local | xargs)
+    fi
+
+    # Check if token is available
+    if [ -z "$BLOB_READ_WRITE_TOKEN" ]; then
+      echo "⚠️  Warning: BLOB_READ_WRITE_TOKEN not found in .env.local"
+      echo "   Recipe images will not be uploaded to Blob Storage"
+      echo "   Run manually: npm run upload-recipe-images"
+      echo ""
+    else
+      # Run upload script
+      echo "   Found $IMAGE_COUNT local recipe images"
+      npm run upload-recipe-images --silent
+
+      if [ $? -eq 0 ]; then
+        echo "✅ Recipe images uploaded to Blob Storage"
+      else
+        echo "⚠️  Warning: Some images may not have uploaded"
+        echo "   Check output above for details"
+      fi
+    fi
+  else
+    echo "   No recipe images found to upload"
+  fi
+else
+  echo "   Recipe images directory not found"
+fi
+
+echo ""
 exit 0

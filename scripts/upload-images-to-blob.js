@@ -1,24 +1,40 @@
 #!/usr/bin/env node
 
 /**
- * Upload Recipe Images to Vercel Blob Storage
+ * Upload Recipe Images to Vercel Blob Storage (Smart Version)
  *
- * This script uploads all recipe images from public/images/recipes/
- * to Vercel Blob Storage, preserving the filename structure.
+ * This script intelligently uploads only NEW or MODIFIED recipe images
+ * using file hash comparison to detect actual changes.
+ *
+ * Features:
+ * - Only uploads new/changed images (based on MD5 hash)
+ * - Detects deleted images (optionally remove from Blob)
+ * - Tracks upload history in blob-image-mapping.json
+ * - Fast: skips unchanged images
  *
  * Usage:
  *   BLOB_READ_WRITE_TOKEN=your_token node scripts/upload-images-to-blob.js
+ *
+ * Options:
+ *   --force    Upload all images regardless of changes
+ *   --delete   Delete blobs for images that were removed locally
  *
  * Environment Variables:
  *   BLOB_READ_WRITE_TOKEN - Vercel Blob read/write token (required)
  */
 
-const { put, list } = require('@vercel/blob');
+const { put, del } = require('@vercel/blob');
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
 const RECIPES_DIR = path.join(__dirname, '../public/images/recipes');
 const MAPPING_FILE = path.join(__dirname, '../blob-image-mapping.json');
+
+// Parse command line args
+const args = process.argv.slice(2);
+const FORCE_UPLOAD = args.includes('--force');
+const DELETE_REMOVED = args.includes('--delete');
 
 // Check for Blob token
 if (!process.env.BLOB_READ_WRITE_TOKEN) {
@@ -31,8 +47,38 @@ if (!process.env.BLOB_READ_WRITE_TOKEN) {
   process.exit(1);
 }
 
+/**
+ * Calculate MD5 hash of a file
+ */
+function getFileHash(filePath) {
+  const fileBuffer = fs.readFileSync(filePath);
+  return crypto.createHash('md5').update(fileBuffer).digest('hex');
+}
+
+/**
+ * Load existing mapping file
+ */
+function loadMapping() {
+  if (!fs.existsSync(MAPPING_FILE)) {
+    return {};
+  }
+  try {
+    return JSON.parse(fs.readFileSync(MAPPING_FILE, 'utf8'));
+  } catch (error) {
+    console.warn('⚠️  Warning: Could not parse mapping file, starting fresh');
+    return {};
+  }
+}
+
+/**
+ * Save mapping file
+ */
+function saveMapping(mapping) {
+  fs.writeFileSync(MAPPING_FILE, JSON.stringify(mapping, null, 2));
+}
+
 async function uploadImages() {
-  console.log('🖼️  Starting recipe image upload to Vercel Blob...\n');
+  console.log('🖼️  Smart recipe image upload to Vercel Blob...\n');
 
   // Check if recipes directory exists
   if (!fs.existsSync(RECIPES_DIR)) {
@@ -42,7 +88,7 @@ async function uploadImages() {
 
   // Get all image files
   const files = fs.readdirSync(RECIPES_DIR).filter(file =>
-    /\.(jpg|jpeg|png|webp)$/i.test(file)
+    /\.(jpg|jpeg|png|webp)$/i.test(file) && file !== '.gitkeep'
   );
 
   if (files.length === 0) {
@@ -50,59 +96,147 @@ async function uploadImages() {
     process.exit(0);
   }
 
-  console.log(`Found ${files.length} images to upload\n`);
+  // Load existing mapping
+  const mapping = loadMapping();
+  const previousFiles = new Set(Object.keys(mapping));
 
-  const mapping = {};
-  const errors = [];
-  let uploaded = 0;
+  // Categorize files
+  const newFiles = [];
+  const modifiedFiles = [];
+  const unchangedFiles = [];
+  const currentFiles = new Set();
 
-  for (let i = 0; i < files.length; i++) {
-    const filename = files[i];
+  console.log('🔍 Analyzing local images...\n');
+
+  for (const filename of files) {
+    currentFiles.add(filename);
     const filePath = path.join(RECIPES_DIR, filename);
-    const blobPath = `recipes/${filename}`;
+    const currentHash = getFileHash(filePath);
+    const stats = fs.statSync(filePath);
 
-    try {
-      // Read file
-      const fileBuffer = fs.readFileSync(filePath);
-      const stats = fs.statSync(filePath);
-      const fileSizeKB = (stats.size / 1024).toFixed(2);
-
-      // Upload to Blob
-      console.log(`[${i + 1}/${files.length}] Uploading ${filename} (${fileSizeKB} KB)...`);
-
-      const blob = await put(blobPath, fileBuffer, {
-        access: 'public',
-        token: process.env.BLOB_READ_WRITE_TOKEN,
-      });
-
-      // Save mapping
-      mapping[filename] = {
-        url: blob.url,
-        uploadedAt: new Date().toISOString(),
-        size: stats.size,
-        path: blobPath
-      };
-
-      uploaded++;
-      console.log(`   ✅ ${blob.url}`);
-
-    } catch (error) {
-      errors.push({ filename, error: error.message });
-      console.error(`   ❌ Failed: ${error.message}`);
+    if (!mapping[filename]) {
+      // New file
+      newFiles.push({ filename, hash: currentHash, size: stats.size });
+    } else if (!mapping[filename].hash) {
+      // Migration: mapping exists but no hash (from old upload script)
+      // Update mapping with hash, but don't re-upload
+      mapping[filename].hash = currentHash;
+      unchangedFiles.push(filename);
+      console.log(`   ℹ️  Adding hash to existing entry: ${filename}`);
+    } else if (mapping[filename].hash !== currentHash || FORCE_UPLOAD) {
+      // Modified file
+      modifiedFiles.push({ filename, hash: currentHash, size: stats.size });
+    } else {
+      // Unchanged file
+      unchangedFiles.push(filename);
     }
   }
 
-  // Save mapping file
-  fs.writeFileSync(MAPPING_FILE, JSON.stringify(mapping, null, 2));
+  // Detect deleted files
+  const deletedFiles = Array.from(previousFiles).filter(f => !currentFiles.has(f));
 
   // Summary
+  console.log('📊 Analysis Results:');
+  console.log(`   New images:       ${newFiles.length}`);
+  console.log(`   Modified images:  ${modifiedFiles.length}`);
+  console.log(`   Unchanged images: ${unchangedFiles.length}`);
+  console.log(`   Deleted images:   ${deletedFiles.length}`);
+  console.log('');
+
+  const toUpload = [...newFiles, ...modifiedFiles];
+
+  if (toUpload.length === 0 && deletedFiles.length === 0) {
+    console.log('✅ All images are up to date! Nothing to do.');
+    process.exit(0);
+  }
+
+  // Upload new/modified images
+  const errors = [];
+  let uploaded = 0;
+
+  if (toUpload.length > 0) {
+    console.log(`⬆️  Uploading ${toUpload.length} image(s)...\n`);
+
+    for (let i = 0; i < toUpload.length; i++) {
+      const { filename, hash, size } = toUpload[i];
+      const filePath = path.join(RECIPES_DIR, filename);
+      const blobPath = `recipes/${filename}`;
+      const fileSizeKB = (size / 1024).toFixed(2);
+      const status = newFiles.some(f => f.filename === filename) ? 'NEW' : 'MODIFIED';
+
+      try {
+        console.log(`[${i + 1}/${toUpload.length}] ${status}: ${filename} (${fileSizeKB} KB)`);
+
+        const fileBuffer = fs.readFileSync(filePath);
+        const blob = await put(blobPath, fileBuffer, {
+          access: 'public',
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+          addRandomSuffix: false,  // Keep exact filename
+          allowOverwrite: true,     // Allow overwriting existing blobs
+        });
+
+        // Update mapping
+        mapping[filename] = {
+          url: blob.url,
+          hash: hash,
+          uploadedAt: new Date().toISOString(),
+          size: size,
+          path: blobPath
+        };
+
+        uploaded++;
+        console.log(`   ✅ ${blob.url}`);
+
+      } catch (error) {
+        errors.push({ filename, error: error.message });
+        console.error(`   ❌ Failed: ${error.message}`);
+      }
+    }
+  }
+
+  // Handle deleted images
+  let deleted = 0;
+  if (deletedFiles.length > 0) {
+    console.log(`\n🗑️  Found ${deletedFiles.length} deleted image(s)`);
+
+    if (DELETE_REMOVED) {
+      console.log('   Removing from Blob Storage...\n');
+
+      for (const filename of deletedFiles) {
+        try {
+          const blobUrl = mapping[filename].url;
+          await del(blobUrl, {
+            token: process.env.BLOB_READ_WRITE_TOKEN,
+          });
+
+          delete mapping[filename];
+          deleted++;
+          console.log(`   ✅ Deleted: ${filename}`);
+        } catch (error) {
+          console.error(`   ❌ Failed to delete ${filename}: ${error.message}`);
+        }
+      }
+    } else {
+      console.log('   Keeping in Blob Storage (use --delete flag to remove)');
+      deletedFiles.forEach(f => console.log(`   - ${f}`));
+    }
+  }
+
+  // Save updated mapping
+  saveMapping(mapping);
+
+  // Final summary
   console.log('\n' + '='.repeat(60));
   console.log('📊 Upload Summary');
   console.log('='.repeat(60));
-  console.log(`✅ Successfully uploaded: ${uploaded}/${files.length} images`);
+  console.log(`✅ Uploaded:   ${uploaded}/${toUpload.length} images`);
+  console.log(`⏭️  Skipped:    ${unchangedFiles.length} unchanged images`);
+  if (deleted > 0) {
+    console.log(`🗑️  Deleted:    ${deleted} images from Blob`);
+  }
 
   if (errors.length > 0) {
-    console.log(`❌ Failed: ${errors.length} images\n`);
+    console.log(`❌ Failed:     ${errors.length} images\n`);
     errors.forEach(({ filename, error }) => {
       console.log(`   - ${filename}: ${error}`);
     });
@@ -112,10 +246,7 @@ async function uploadImages() {
   console.log('\n🎉 Upload complete!');
 
   if (uploaded > 0) {
-    console.log('\nNext steps:');
-    console.log('1. Set NEXT_PUBLIC_BLOB_URL in your Vercel project settings');
-    console.log('2. Deploy your site to use Blob images');
-    console.log('3. Run verify-blob-images.js to check all uploads');
+    console.log('\nℹ️  Deploy your site to see updated images in production');
   }
 
   process.exit(errors.length > 0 ? 1 : 0);
