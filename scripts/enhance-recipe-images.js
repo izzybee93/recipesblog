@@ -125,12 +125,23 @@ CRITICAL: The result should look inviting and professional, but still clearly ho
     n: 1
   });
 
-  // Download edited image
-  const imageUrl = response.data[0].url;
-  const imageResponse = await fetch(imageUrl);
-  const imageBuffer = await imageResponse.arrayBuffer();
+  // Handle response - API returns base64 data, not URL
+  const imageData = response.data?.[0];
+  if (!imageData) {
+    throw new Error('No image data in response');
+  }
 
-  return Buffer.from(imageBuffer);
+  // Convert base64 to buffer
+  if (imageData.b64_json) {
+    return Buffer.from(imageData.b64_json, 'base64');
+  } else if (imageData.url) {
+    // Fallback to URL if provided
+    const imageResponse = await fetch(imageData.url);
+    const imageBuffer = await imageResponse.arrayBuffer();
+    return Buffer.from(imageBuffer);
+  } else {
+    throw new Error('No b64_json or url in response data');
+  }
 }
 
 /**
