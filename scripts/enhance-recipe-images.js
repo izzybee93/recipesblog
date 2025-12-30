@@ -35,7 +35,7 @@ const CONFIG = {
   maxCostLimit: 50,                    // Maximum budget limit ($)
   estimatedCostPerImage: 0.05,         // Cost per image (medium quality editing)
   maxRetriesPerImage: 5,               // Max retries per image to prevent runaway costs
-  testMode: true,                      // Test mode: process only first 2 images
+  testMode: true,                      // Test mode: process only first 10 images
 };
 
 // Initialize OpenAI client
@@ -90,8 +90,8 @@ Ingredients: ${recipe.ingredients.join(', ')}
 EDITING INSTRUCTIONS:
 1. Correct white balance and improve lighting to make the food look appetizing
 2. Enhance the background - remove clutter and make it clean and professional
-3. Keep the actual food EXACTLY as it appears (preserve its homemade appearance)
-4. Add subtle touches like a light sprinkle of relevant ingredients around the edges
+3. Keep the actual food EXACTLY as it appears (preserve its homemade appearance without any additional ingredients on the plate or serving dish).
+4. Add subtle touches like a light sprinkle or slice of relevant ingredients around the edges with random placement
 5. Make it look like professional food photography while maintaining authenticity
 
 CRITICAL: The result should look inviting and professional, but still clearly homemade. Make MINIMAL edits to the food itself - only light polish and enhancement. The food must remain authentic and recognizably from the original photo.`;
@@ -261,7 +261,7 @@ async function processRecipe(recipe, index, total) {
       console.log('   ✅ Edited successfully\n');
       // gpt-image-1.5 pricing for 1536x1024: low=$0.013, medium=$0.05, high=$0.20
       const imageCost = CONFIG.imageQuality === 'low' ? 0.013 :
-                        CONFIG.imageQuality === 'medium' ? 0.05 : 0.20;
+        CONFIG.imageQuality === 'medium' ? 0.05 : 0.20;
       totalCost += imageCost;
 
       // Step 4: Save preview
@@ -375,10 +375,10 @@ async function main() {
   const recipesWithImages = recipes.filter(r => r.featured_image);
   let unprocessed = recipesWithImages.filter(r => !progress.processed.includes(r.slug));
 
-  // Test mode: only process first 2 images
-  if (CONFIG.testMode && unprocessed.length > 2) {
-    console.log('⚠️  TEST MODE: Processing only first 2 images\n');
-    unprocessed = unprocessed.slice(0, 2);
+  // Test mode: only process first 10 images
+  if (CONFIG.testMode && unprocessed.length > 10) {
+    console.log('⚠️  TEST MODE: Processing only first 10 images\n');
+    unprocessed = unprocessed.slice(0, 10);
   }
 
   console.log(`Total recipes with images: ${recipesWithImages.length}`);
@@ -393,7 +393,7 @@ async function main() {
 
   // Cost estimate (gpt-image-1.5 editing: low=$0.013, medium=$0.05, high=$0.20)
   const costPerImage = CONFIG.imageQuality === 'low' ? 0.013 :
-                       CONFIG.imageQuality === 'medium' ? 0.05 : 0.20;
+    CONFIG.imageQuality === 'medium' ? 0.05 : 0.20;
   const estimatedCost = unprocessed.length * costPerImage;
   console.log(`💰 Estimated cost for remaining: $${estimatedCost.toFixed(2)} (${unprocessed.length} images × $${costPerImage.toFixed(3)})`);
   console.log(`💰 Model: ${CONFIG.model}, Quality: ${CONFIG.imageQuality} ($${costPerImage.toFixed(3)}/image)`);
