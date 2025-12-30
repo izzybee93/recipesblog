@@ -3,11 +3,11 @@
 /**
  * AI-Enhanced Recipe Images Script
  *
- * Uses OpenAI's GPT-4 Vision + DALL-E 3 to enhance recipe food photography
- * - Analyzes images with GPT-4 Vision
- * - Generates enhanced versions with DALL-E 3 (1792x1024 landscape)
+ * Uses OpenAI's gpt-image-1.5 to edit and enhance recipe food photography
+ * - Edits existing images directly with gpt-image-1.5 (preserves food appearance)
  * - Interactive approval workflow with custom retry instructions
  * - Progress tracking and resumable sessions
+ * - Faster and cheaper than generation (no vision analysis needed)
  *
  * Usage:
  *   npm run enhance-images
@@ -15,6 +15,7 @@
  * Requirements:
  *   - OPENAI_API_KEY in .env.local
  *   - openai package installed
+ *   - Verified OpenAI organization (for gpt-image-1.5 access)
  */
 
 // Load environment variables from .env.local
@@ -28,14 +29,13 @@ const matter = require('gray-matter');
 
 // Configuration
 const CONFIG = {
-  openaiModel: 'gpt-4o',               // GPT-4 with vision
-  dalleModel: 'dall-e-3',              // DALL-E 3 for generation
-  imageSize: '1792x1024',              // Landscape format (all images)
-  dalleQuality: 'standard',            // Standard quality (use 'hd' for higher quality +$0.04/image)
-  maxCostLimit: 50,                    // Budget limit ($)
-  estimatedCostPerImage: 0.09,         // $0.01 vision + $0.08 DALL-E standard
-  maxRetriesPerImage: 5,               // Limit retries to prevent runaway costs
-  testMode: true,                      // Set to true to process only first 2 images
+  model: 'gpt-image-1.5',              // Image editing model
+  imageSize: '1536x1024',              // Image size (1024x1024, 1536x1024, 1024x1536)
+  imageQuality: 'medium',              // Quality tier: low ($0.013), medium ($0.05), high ($0.20)
+  maxCostLimit: 50,                    // Maximum budget limit ($)
+  estimatedCostPerImage: 0.05,         // Cost per image (medium quality editing)
+  maxRetriesPerImage: 5,               // Max retries per image to prevent runaway costs
+  testMode: true,                      // Test mode: process only first 2 images
 };
 
 // Initialize OpenAI client
@@ -79,78 +79,53 @@ function getAllRecipes(includeDrafts = true) {
 }
 
 /**
- * Analyze image with GPT-4 Vision
+ * Edit and enhance image with gpt-image-1.5
  */
-async function analyzeWithVision(imagePath, recipe) {
-  const imageBuffer = fs.readFileSync(imagePath);
-  const base64Image = imageBuffer.toString('base64');
-
-  const prompt = `Analyze this food photo for the recipe: ${recipe.title}
-
-Ingredients: ${recipe.ingredients.join(', ')}
-
-Provide a detailed description of:
-1. The dish and how it's plated
-2. Current background elements
-3. Current lighting and white balance
-4. Composition and styling
-
-IMPORTANT: The actual food/dish must be preserved EXACTLY as shown in the enhanced version. Only the background, lighting, white balance, and small decorative touches (like ingredient sprinkles) should be modified. The homemade appearance of the food itself must remain unchanged.`;
-
-  const response = await openai.chat.completions.create({
-    model: CONFIG.openaiModel,
-    messages: [{
-      role: "user",
-      content: [
-        { type: "text", text: prompt },
-        {
-          type: "image_url",
-          image_url: {
-            url: `data:image/jpeg;base64,${base64Image}`,
-            detail: "high"
-          }
-        }
-      ]
-    }],
-    max_tokens: 500
-  });
-
-  return response.choices[0].message.content;
-}
-
-/**
- * Generate enhanced image with DALL-E 3
- */
-async function generateWithDALLE(analysisResult, recipe, customInstructions = '') {
-  let enhancementPrompt = `Here is a recipe from my recipe blog, a photo of the recipe that I made and the list of ingredients for added context.
+async function editEnhancedImage(originalImagePath, recipe, customInstructions = '') {
+  let enhancementPrompt = `Edit this ${recipe.title} photo to enhance it for a professional recipe blog.
 
 Recipe: ${recipe.title}
 Ingredients: ${recipe.ingredients.join(', ')}
 
-Provide a version of the image with the same size dimensions that corrects the white balance. Secondly, improve the background of the dish/plate/meal/food that removes any specific objects that are already there, and makes the image look like a professional food photographer took it.
+EDITING INSTRUCTIONS:
+1. Correct white balance and improve lighting to make the food look appetizing
+2. Enhance the background - remove clutter and make it clean and professional
+3. Keep the actual food EXACTLY as it appears (preserve its homemade appearance)
+4. Add subtle touches like a light sprinkle of relevant ingredients around the edges
+5. Make it look like professional food photography while maintaining authenticity
 
-Do not change the actual food that is in the image, so that it still looks homemade, but add small touches such as a sprinkle of a few ingredients around the edges, or a few items related to the recipe.
-
-The food should look more inviting to eat than the original image, and appear as though it is homemade with excellent photography and lighting.
-
-Image analysis from GPT-4:
-${analysisResult}`;
+CRITICAL: The result should look inviting and professional, but still clearly homemade. Make MINIMAL edits to the food itself - only light polish and enhancement. The food must remain authentic and recognizably from the original photo.`;
 
   // Add custom instructions if provided (for retry with custom instructions)
   if (customInstructions) {
-    enhancementPrompt += `\n\nADDITIONAL INSTRUCTIONS FOR THIS ATTEMPT:\n${customInstructions}`;
+    enhancementPrompt += `\n\nADDITIONAL INSTRUCTIONS:\n${customInstructions}`;
   }
 
-  const response = await openai.images.generate({
-    model: CONFIG.dalleModel,
+  // Determine MIME type from file extension
+  const ext = path.extname(originalImagePath).toLowerCase();
+  const mimeTypes = {
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.png': 'image/png',
+    '.webp': 'image/webp'
+  };
+  const mimeType = mimeTypes[ext] || 'image/jpeg';
+
+  // Read file and create a proper File object with MIME type
+  const fileBuffer = fs.readFileSync(originalImagePath);
+  const fileName = path.basename(originalImagePath);
+  const file = new File([fileBuffer], fileName, { type: mimeType });
+
+  const response = await openai.images.edit({
+    model: CONFIG.model,
+    image: file,
     prompt: enhancementPrompt,
-    n: 1,
     size: CONFIG.imageSize,
-    quality: CONFIG.dalleQuality,
-    response_format: 'url'
+    quality: CONFIG.imageQuality,
+    n: 1
   });
 
-  // Download generated image
+  // Download edited image
   const imageUrl = response.data[0].url;
   const imageResponse = await fetch(imageUrl);
   const imageBuffer = await imageResponse.arrayBuffer();
@@ -196,7 +171,7 @@ async function getUserApproval() {
     console.log('\nWhat would you like to do?');
     console.log('  1. ✅ Approve (save to approved/)');
     console.log('  2. ❌ Reject (save to rejected/, move to next)');
-    console.log('  3. 🔄 Retry (regenerate with same prompt)');
+    console.log('  3. 🔄 Retry (re-edit with same prompt)');
     console.log('  4. ✏️  Retry with custom instructions (add specific guidance)');
     console.log('  5. ⏭️  Skip (keep original, move to next)');
     console.log('');
@@ -256,14 +231,7 @@ async function processRecipe(recipe, index, total) {
       return { status: 'skipped', cost: 0, attempts: 0 };
     }
 
-    // Step 1: Analyze with GPT-4 Vision (do once, reuse for retries)
-    console.log('🔍 Analyzing image with GPT-4 Vision...');
-    const analysis = await analyzeWithVision(originalPath, recipe);
-    console.log('   ✅ Analysis complete\n');
-    console.log(`   ${analysis.substring(0, 200)}...\n`);
-    totalCost += 0.01; // Vision cost
-
-    // Step 2: Generation and approval loop (allows retries)
+    // Editing and approval loop (allows retries)
     while (true) {
       // Check retry limit
       if (attempts >= CONFIG.maxRetriesPerImage) {
@@ -274,14 +242,16 @@ async function processRecipe(recipe, index, total) {
 
       attempts++;
 
-      // Step 3: Generate with DALL-E 3
-      console.log(`🎨 Generating enhanced image (attempt ${attempts}/${CONFIG.maxRetriesPerImage})...`);
+      // Step 1: Edit image with gpt-image-1.5
+      console.log(`🎨 Editing image with gpt-image-1.5 (attempt ${attempts}/${CONFIG.maxRetriesPerImage})...`);
       console.log(`   Size: ${CONFIG.imageSize} (landscape)`);
 
-      const enhancedBuffer = await generateWithDALLE(analysis, recipe, customInstructions);
-      console.log('   ✅ Generated successfully\n');
-      const dalleCost = CONFIG.dalleQuality === 'hd' ? 0.12 : 0.08;
-      totalCost += dalleCost;
+      const enhancedBuffer = await editEnhancedImage(originalPath, recipe, customInstructions);
+      console.log('   ✅ Edited successfully\n');
+      // gpt-image-1.5 pricing for 1536x1024: low=$0.013, medium=$0.05, high=$0.20
+      const imageCost = CONFIG.imageQuality === 'low' ? 0.013 :
+                        CONFIG.imageQuality === 'medium' ? 0.05 : 0.20;
+      totalCost += imageCost;
 
       // Step 4: Save preview
       fs.writeFileSync(previewPath, enhancedBuffer);
@@ -310,7 +280,7 @@ async function processRecipe(recipe, index, total) {
         case 'retry':
           customInstructions = ''; // Clear any custom instructions
           console.log('🔄 Retrying with original prompt...\n');
-          continue; // Loop back to generate again
+          continue; // Loop back to edit again
 
         case 'retry-custom':
           const newInstructions = await getCustomInstructions();
@@ -319,9 +289,9 @@ async function processRecipe(recipe, index, total) {
           } else {
             customInstructions = newInstructions;
             console.log(`\n📝 Custom instructions: "${customInstructions}"\n`);
-            console.log('🔄 Regenerating with custom instructions...\n');
+            console.log('🔄 Re-editing with custom instructions...\n');
           }
-          continue; // Loop back to generate with (possibly updated) instructions
+          continue; // Loop back to edit with (possibly updated) instructions
 
         case 'skip':
           console.log('⏭️  Skipped (no changes made)\n');
@@ -410,12 +380,12 @@ async function main() {
     return;
   }
 
-  // Cost estimate
-  const dalleCost = CONFIG.dalleQuality === 'hd' ? 0.12 : 0.08;
-  const costPerImage = 0.01 + dalleCost; // Vision + DALL-E
+  // Cost estimate (gpt-image-1.5 editing: low=$0.013, medium=$0.05, high=$0.20)
+  const costPerImage = CONFIG.imageQuality === 'low' ? 0.013 :
+                       CONFIG.imageQuality === 'medium' ? 0.05 : 0.20;
   const estimatedCost = unprocessed.length * costPerImage;
-  console.log(`💰 Estimated cost for remaining: $${estimatedCost.toFixed(2)} (${unprocessed.length} images × $${costPerImage.toFixed(2)})`);
-  console.log(`💰 Quality: ${CONFIG.dalleQuality.toUpperCase()} ($${dalleCost.toFixed(2)}/image)`);
+  console.log(`💰 Estimated cost for remaining: $${estimatedCost.toFixed(2)} (${unprocessed.length} images × $${costPerImage.toFixed(3)})`);
+  console.log(`💰 Model: ${CONFIG.model}, Quality: ${CONFIG.imageQuality} ($${costPerImage.toFixed(3)}/image)`);
   console.log(`💰 Spent so far: $${progress.totalCost.toFixed(2)}`);
   console.log(`💰 Total estimated: $${(progress.totalCost + estimatedCost).toFixed(2)}`);
   console.log(`💰 Cost limit: $${CONFIG.maxCostLimit.toFixed(2)}\n`);
