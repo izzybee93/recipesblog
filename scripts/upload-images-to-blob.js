@@ -8,7 +8,7 @@
  *
  * Features:
  * - Only uploads new/changed images (based on MD5 hash)
- * - Detects deleted images (optionally remove from Blob)
+ * - Automatically deletes blobs for images that were removed locally
  * - Tracks upload history in blob-image-mapping.json
  * - Fast: skips unchanged images
  *
@@ -16,8 +16,8 @@
  *   BLOB_READ_WRITE_TOKEN=your_token node scripts/upload-images-to-blob.js
  *
  * Options:
- *   --force    Upload all images regardless of changes
- *   --delete   Delete blobs for images that were removed locally
+ *   --force       Upload all images regardless of changes
+ *   --no-delete   Skip deletion of removed images (keep old blobs)
  *
  * Environment Variables:
  *   BLOB_READ_WRITE_TOKEN - Vercel Blob read/write token (required)
@@ -34,7 +34,7 @@ const MAPPING_FILE = path.join(__dirname, '../blob-image-mapping.json');
 // Parse command line args
 const args = process.argv.slice(2);
 const FORCE_UPLOAD = args.includes('--force');
-const DELETE_REMOVED = args.includes('--delete');
+const DELETE_REMOVED = !args.includes('--no-delete'); // Delete by default, unless --no-delete is specified
 
 // Check for Blob token
 if (!process.env.BLOB_READ_WRITE_TOKEN) {
@@ -119,10 +119,19 @@ async function uploadImages() {
       newFiles.push({ filename, hash: currentHash, size: stats.size });
     } else if (!mapping[filename].hash) {
       // Migration: mapping exists but no hash (from old upload script)
-      // Update mapping with hash, but don't re-upload
-      mapping[filename].hash = currentHash;
-      unchangedFiles.push(filename);
-      console.log(`   ℹ️  Adding hash to existing entry: ${filename}`);
+      // Check if file size changed - if so, re-upload
+      const sizeChanged = mapping[filename].size && mapping[filename].size !== stats.size;
+
+      if (sizeChanged) {
+        // File was modified since last upload
+        modifiedFiles.push({ filename, hash: currentHash, size: stats.size });
+        console.log(`   ℹ️  Size changed (migration): ${filename} - will re-upload`);
+      } else {
+        // Size matches or no size tracked - assume unchanged, add hash
+        mapping[filename].hash = currentHash;
+        unchangedFiles.push(filename);
+        console.log(`   ℹ️  Adding hash to existing entry: ${filename}`);
+      }
     } else if (mapping[filename].hash !== currentHash || FORCE_UPLOAD) {
       // Modified file
       modifiedFiles.push({ filename, hash: currentHash, size: stats.size });
@@ -217,7 +226,7 @@ async function uploadImages() {
         }
       }
     } else {
-      console.log('   Keeping in Blob Storage (use --delete flag to remove)');
+      console.log('   Keeping in Blob Storage (--no-delete flag specified)');
       deletedFiles.forEach(f => console.log(`   - ${f}`));
     }
   }

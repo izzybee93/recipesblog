@@ -90,11 +90,11 @@ Ingredients: ${recipe.ingredients.join(', ')}
 EDITING INSTRUCTIONS:
 1. Correct white balance and improve lighting to make the food look appetizing
 2. Enhance the background - remove clutter and make it clean and professional
-3. Keep the actual food EXACTLY as it appears (preserve its homemade appearance without any additional ingredients on the plate or serving dish).
-4. Add subtle touches like a light sprinkle or slice of relevant ingredients around the edges with random placement
+3. Keep the actual food EXACTLY as it appears (preserve its homemade appearance without any additional ingredients on the plate or serving dish)
+4. Add subtle touches like a light sprinkle or slice of relevant ingredients around the edges with random placement (but do not make it too busy to distract from the food)
 5. Make it look like professional food photography while maintaining authenticity
 
-CRITICAL: The result should look inviting and professional, but still clearly homemade. Make MINIMAL edits to the food itself - only light polish and enhancement. The food must remain authentic and recognizably from the original photo.`;
+CRITICAL: The result should look inviting and professional, but still clearly homemade. Make MINIMAL edits to the food itself - only light polish and enhancement. The food must remain authentic and recognizable from the original photo.`;
 
   // Add custom instructions if provided (for retry with custom instructions)
   if (customInstructions) {
@@ -184,10 +184,11 @@ async function getUserApproval() {
     console.log('  2. ❌ Reject (save to rejected/, move to next)');
     console.log('  3. 🔄 Retry (re-edit with same prompt)');
     console.log('  4. ✏️  Retry with custom instructions (add specific guidance)');
-    console.log('  5. ⏭️  Skip (keep original, move to next)');
+    console.log('  5. 🚫 Retry without sprinkles (remove garnish/decoration)');
+    console.log('  6. ⏭️  Skip (keep original, move to next)');
     console.log('');
 
-    rl.question('Your choice [1-5]: ', (answer) => {
+    rl.question('Your choice [1-6]: ', (answer) => {
       rl.close();
       const choice = answer.trim();
 
@@ -196,7 +197,8 @@ async function getUserApproval() {
         case '2': resolve('reject'); break;
         case '3': resolve('retry'); break;
         case '4': resolve('retry-custom'); break;
-        case '5': resolve('skip'); break;
+        case '5': resolve('retry-no-sprinkles'); break;
+        case '6': resolve('skip'); break;
         default:
           console.log('Invalid choice, please try again.\n');
           resolve(getUserApproval());
@@ -303,6 +305,12 @@ async function processRecipe(recipe, index, total) {
             console.log('🔄 Re-editing with custom instructions...\n');
           }
           continue; // Loop back to edit with (possibly updated) instructions
+
+        case 'retry-no-sprinkles':
+          customInstructions = 'Do NOT add any sprinkles, garnishes, or decorative ingredients around the edges';
+          console.log('\n🚫 Removing sprinkles/garnish...\n');
+          console.log('🔄 Re-editing without decoration...\n');
+          continue; // Loop back to edit with no-sprinkles instruction
 
         case 'skip':
           console.log('⏭️  Skipped (no changes made)\n');
