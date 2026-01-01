@@ -307,7 +307,7 @@ async function processRecipe(recipe, index, total) {
           continue; // Loop back to edit with (possibly updated) instructions
 
         case 'retry-no-sprinkles':
-          customInstructions = 'Do NOT add any sprinkles, garnishes, or decorative ingredients around the edges';
+          customInstructions = 'Remove all sprinkles, ingredients, and garnishes around the edge';
           console.log('\n🚫 Removing sprinkles/garnish...\n');
           console.log('🔄 Re-editing without decoration...\n');
           continue; // Loop back to edit with no-sprinkles instruction
