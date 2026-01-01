@@ -10,7 +10,14 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-    formats: ['image/avif', 'image/webp'],
+    // Use only webp to halve transformations (avif is slower to encode anyway)
+    formats: ['image/webp'],
+    // Cache optimized images for 31 days
+    minimumCacheTTL: 2678400,
+    // Limit device sizes for a recipe blog (don't need 4K)
+    deviceSizes: [640, 750, 1080, 1200, 1920],
+    // Limit image sizes for thumbnails
+    imageSizes: [64, 128, 256, 384],
   },
 };
 
