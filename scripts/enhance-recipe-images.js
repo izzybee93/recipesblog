@@ -35,7 +35,7 @@ const CONFIG = {
   maxCostLimit: 50,                    // Maximum budget limit ($)
   estimatedCostPerImage: 0.05,         // Cost per image (medium quality editing)
   maxRetriesPerImage: 5,               // Max retries per image to prevent runaway costs
-  testMode: true,                      // Test mode: process only first 10 images
+  testMode: false,                     // Test mode: process only first 10 images
 };
 
 // Initialize OpenAI client
@@ -215,7 +215,12 @@ async function processRecipe(recipe, index, total) {
   console.log(`📸 Processing: ${recipe.title} [${index + 1}/${total}]`);
   console.log(`${'='.repeat(70)}\n`);
 
-  const originalPath = path.join(process.cwd(), 'public', recipe.featured_image);
+  // Read from originals folder (moved during migration)
+  const originalPath = path.join(
+    process.cwd(),
+    'public/images/recipes/originals',
+    path.basename(recipe.featured_image)
+  );
   const previewPath = path.join(
     process.cwd(),
     'public/images/recipes-enhanced/previews',
@@ -229,6 +234,11 @@ async function processRecipe(recipe, index, total) {
   const rejectedPath = path.join(
     process.cwd(),
     'public/images/recipes-enhanced/rejected',
+    `${recipe.slug}.jpeg`
+  );
+  const productionPath = path.join(
+    process.cwd(),
+    'public/images/recipes',
     `${recipe.slug}.jpeg`
   );
 
@@ -281,8 +291,9 @@ async function processRecipe(recipe, index, total) {
       // Step 7: Handle decision
       switch (decision) {
         case 'approve':
-          fs.copyFileSync(previewPath, approvedPath);
-          console.log('✅ Approved and saved!\n');
+          fs.copyFileSync(previewPath, approvedPath);      // Archive copy
+          fs.copyFileSync(previewPath, productionPath);    // Production copy
+          console.log('✅ Approved and saved to production!\n');
           return { status: 'approved', cost: totalCost, attempts };
 
         case 'reject':
