@@ -156,12 +156,17 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white" style={{ marginBottom: '24px', fontFamily: 'Raleway, sans-serif' }}>{recipe.title}</h1>
         <div className="flex flex-wrap justify-center gap-2 mb-4">
           {recipe.categories.map((category) => (
-            <span
+            <button
               key={category}
-              className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-3 py-1 rounded text-sm capitalize"
+              onClick={() => {
+                sessionStorage.removeItem('scroll-position-/')
+                sessionStorage.setItem('scroll-to-category', category.toLowerCase())
+                window.location.href = '/'
+              }}
+              className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-3 py-1 rounded text-sm font-medium capitalize hover:bg-[rgb(140,190,175)] hover:text-white transition-colors cursor-pointer border-none"
             >
               {category}
-            </span>
+            </button>
           ))}
         </div>
       </header>

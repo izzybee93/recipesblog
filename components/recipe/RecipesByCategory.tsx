@@ -30,6 +30,33 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
     return () => clearTimeout(timer)
   }, [categories.length, visibleCategories])
 
+  // Handle scroll to category from recipe page
+  useEffect(() => {
+    const targetCategory = sessionStorage.getItem('scroll-to-category')
+    if (!targetCategory) return
+
+    // Don't interfere with back button scroll restoration
+    const hasBackScrollPosition = sessionStorage.getItem('scroll-position-/')
+    if (hasBackScrollPosition) {
+      sessionStorage.removeItem('scroll-to-category')
+      return
+    }
+
+    const scrollToTarget = () => {
+      const element = document.getElementById(`category-${targetCategory}`)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        sessionStorage.removeItem('scroll-to-category')
+      } else {
+        // Element not ready yet, retry
+        setTimeout(scrollToTarget, 100)
+      }
+    }
+
+    // Wait for content to load
+    setTimeout(scrollToTarget, 150)
+  }, [visibleCategories])
+
   // Category display names mapping
   const categoryDisplayNames: Record<string, string> = {
     'breakfast': 'Breakfast',
