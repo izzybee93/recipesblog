@@ -45,6 +45,7 @@ public/images/recipes/*.jpeg
 public/images/recipes/*.jpg
 public/images/recipes/*.png
 public/images/recipes/*.webp
+public/images/recipes/originals/
 
 # blob image mapping
 blob-image-mapping.json
