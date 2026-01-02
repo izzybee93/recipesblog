@@ -26,6 +26,7 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 const matter = require('gray-matter');
+const { execSync } = require('child_process');
 
 // Configuration
 const CONFIG = {
@@ -252,6 +253,14 @@ async function processRecipe(recipe, index, total) {
       console.log(`⚠️  Original image not found: ${originalPath}`);
       console.log('   Skipping...\n');
       return { status: 'skipped', cost: 0, attempts: 0 };
+    }
+
+    // Strip GPS metadata from original image
+    try {
+      execSync(`exiftool "-gps*=" "${originalPath}" -overwrite_original`, { stdio: 'pipe' });
+      console.log('🔒 Stripped GPS metadata from original');
+    } catch (e) {
+      // exiftool might not be installed or no GPS data - that's okay
     }
 
     // Editing and approval loop (allows retries)
