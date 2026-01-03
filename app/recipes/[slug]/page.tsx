@@ -29,6 +29,10 @@ export async function generateMetadata({ params }: RecipePageProps) {
 
   const recipeDescription = recipe.meta.excerpt || `Delicious ${recipe.meta.categories.join(', ')} recipe for ${recipe.meta.title}. ${recipe.meta.servings}.`
   const recipeUrl = `https://bakerbeanie.me/recipes/${slug}`
+  // Use blob URL directly if it's a full URL, otherwise prepend domain
+  const imageUrl = recipe.meta.featured_image.startsWith('http')
+    ? recipe.meta.featured_image
+    : `https://bakerbeanie.me${recipe.meta.featured_image}`
 
   return {
     title: `${recipe.meta.title} | Baker Beanie`,
@@ -39,7 +43,7 @@ export async function generateMetadata({ params }: RecipePageProps) {
       url: recipeUrl,
       siteName: 'Baker Beanie',
       images: [{
-        url: `https://bakerbeanie.me${recipe.meta.featured_image}`,
+        url: imageUrl,
         width: 1200,
         height: 630,
         alt: `${recipe.meta.title} - Baker Beanie Recipe`,
@@ -55,7 +59,7 @@ export async function generateMetadata({ params }: RecipePageProps) {
       card: 'summary_large_image',
       title: recipe.meta.title,
       description: recipeDescription,
-      images: [`https://bakerbeanie.me${recipe.meta.featured_image}`],
+      images: [imageUrl],
       creator: '@bakerbeanie',
     },
     keywords: [
