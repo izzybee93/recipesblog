@@ -44,6 +44,27 @@ function recipeNameToSlug(recipeName: string): string {
     .trim()
 }
 
+// Helper function to strip measurements from ingredient text to get the recipe name
+function extractRecipeName(ingredientText: string): { ingredientPart: string; recipeName: string } {
+  // Pattern to match common measurements at the start of ingredient text
+  // Matches: "2 tbsp", "1/2 cup", "100g", "2-3 tsp", "1 heaped tbsp", etc.
+  const measurementPattern = /^(\d+[\d\/\-–]*\s*(?:heaped|level|large|small|medium)?\s*(?:tbsp|tsp|tablespoons?|teaspoons?|cups?|g|kg|ml|l|oz|lb|pounds?|bunch|bunches|cloves?|slices?|pieces?|sprigs?|handfuls?|pinch(?:es)?|dash(?:es)?|drops?|sheets?|sticks?|rashers?|strips?|wedges?|portions?|servings?|pots?|tins?|cans?|jars?|packets?|bags?|boxes?|bottles?|tubes?|heads?|stalks?|leaves|florets?|ears?)?\s*(?:of\s+)?)/i
+
+  const match = ingredientText.match(measurementPattern)
+
+  if (match) {
+    return {
+      ingredientPart: match[1].trim(),
+      recipeName: ingredientText.slice(match[1].length).trim()
+    }
+  }
+
+  return {
+    ingredientPart: '',
+    recipeName: ingredientText
+  }
+}
+
 // Helper function to render ingredient with recipe links
 function renderIngredientWithLinks(ingredient: string): React.ReactNode {
   const seeRecipePattern = /^(.+?)\s*\(see recipe\)$/i
@@ -51,40 +72,12 @@ function renderIngredientWithLinks(ingredient: string): React.ReactNode {
 
   if (match) {
     const fullText = match[1].trim()
-
-    // Extract just the recipe name from ingredient text like "6 tbsp strawberry jam filling"
-    // Look for known recipe names at the end of the ingredient text
-    const knownRecipeNames = [
-      'strawberry jam filling',
-      'whipped cream filling',
-      'bechamel sauce',
-      'sesame, ginger and lime stir fry sauce',
-      'sesame salad dressing',
-      'meringue drops',
-      'miso salad dressing',
-      'basil pesto',
-      'zingy lemon dressing',
-      'candied orange peel'
-    ]
-
-    let recipeName = fullText
-    let ingredientPart = ''
-
-    // Find the recipe name in the text
-    for (const knownName of knownRecipeNames) {
-      if (fullText.toLowerCase().includes(knownName.toLowerCase())) {
-        const index = fullText.toLowerCase().indexOf(knownName.toLowerCase())
-        ingredientPart = fullText.substring(0, index).trim()
-        recipeName = knownName
-        break
-      }
-    }
-
+    const { ingredientPart, recipeName } = extractRecipeName(fullText)
     const slug = recipeNameToSlug(recipeName)
 
     return (
       <React.Fragment>
-        {ingredientPart} {recipeName} (
+        {ingredientPart && `${ingredientPart} `}{recipeName} (
         <Link
           href={`/recipes/${slug}`}
           className="hover:underline"
