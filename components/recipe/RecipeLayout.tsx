@@ -102,20 +102,29 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
   const router = useRouter()
   const [useFallback, setUseFallback] = useState(false)
   const [imageError, setImageError] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
 
   // Use backup URL if primary fails
   const imageUrl = useFallback
     ? getBackupImageUrl(recipe.featured_image)
     : recipe.featured_image
 
+  // Show placeholder while fallback is loading
+  const showPlaceholder = useFallback && !imageLoaded && !imageError
+
   const handleImageError = () => {
     if (!useFallback) {
       // Try backup URL first
       setUseFallback(true)
+      setImageLoaded(false)
     } else {
       // Backup also failed, show placeholder
       setImageError(true)
     }
+  }
+
+  const handleImageLoad = () => {
+    setImageLoaded(true)
   }
 
   const handleBack = () => {
@@ -181,7 +190,7 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
         </div>
       </header>
 
-      <div className="image mb-8">
+      <div className="image mb-8 relative">
         {imageError ? (
           <RecipePlaceholder
             title={recipe.title}
@@ -189,17 +198,28 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
             style={{ height: '400px' }}
           />
         ) : (
-          <Image
-            src={imageUrl}
-            alt={recipe.title}
-            width={1200}
-            height={800}
-            className="w-full h-auto rounded-lg"
-            priority
-            placeholder={blurDataURL ? 'blur' : 'empty'}
-            blurDataURL={blurDataURL}
-            onError={handleImageError}
-          />
+          <>
+            {/* Show placeholder while fallback is loading */}
+            {showPlaceholder && (
+              <RecipePlaceholder
+                title={recipe.title}
+                className="w-full rounded-lg absolute inset-0 z-10"
+                style={{ height: '400px' }}
+              />
+            )}
+            <Image
+              src={imageUrl}
+              alt={recipe.title}
+              width={1200}
+              height={800}
+              className={`w-full h-auto rounded-lg transition-opacity duration-300 ${showPlaceholder ? 'opacity-0' : 'opacity-100'}`}
+              priority
+              placeholder={blurDataURL ? 'blur' : 'empty'}
+              blurDataURL={blurDataURL}
+              onError={handleImageError}
+              onLoad={handleImageLoad}
+            />
+          </>
         )}
       </div>
 

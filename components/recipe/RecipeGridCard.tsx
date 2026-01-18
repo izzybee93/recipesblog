@@ -14,20 +14,29 @@ interface RecipeGridCardProps {
 const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardProps) {
   const [useFallback, setUseFallback] = useState(false)
   const [imageError, setImageError] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
 
   // Use backup URL if primary fails
   const imageUrl = useFallback
     ? getBackupImageUrl(recipe.featured_image)
     : recipe.featured_image
 
+  // Show placeholder while fallback is loading
+  const showPlaceholder = useFallback && !imageLoaded && !imageError
+
   const handleImageError = () => {
     if (!useFallback) {
       // Try backup URL first
       setUseFallback(true)
+      setImageLoaded(false)
     } else {
       // Backup also failed, show placeholder
       setImageError(true)
     }
+  }
+
+  const handleImageLoad = () => {
+    setImageLoaded(true)
   }
 
   const handleClick = () => {
@@ -76,12 +85,20 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
         className="block w-full h-full relative"
         onClick={handleClick}
       >
+        {/* Show placeholder while fallback is loading */}
+        {showPlaceholder && (
+          <RecipePlaceholder
+            title={recipe.title}
+            className="absolute inset-0 w-full h-full rounded-lg z-10"
+          />
+        )}
         <Image
           src={imageUrl}
           alt={recipe.title}
           fill
-          className="object-cover transition-opacity duration-300"
+          className={`object-cover transition-opacity duration-300 ${showPlaceholder ? 'opacity-0' : 'opacity-100'}`}
           onError={handleImageError}
+          onLoad={handleImageLoad}
           loading="lazy"
           sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
           placeholder="blur"
