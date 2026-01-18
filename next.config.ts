@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: '*.github.io',
+        port: '',
+        pathname: '/**',
+      },
     ],
     // Use only webp to halve transformations (avif is slower to encode anyway)
     formats: ['image/webp'],
