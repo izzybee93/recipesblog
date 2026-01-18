@@ -9,6 +9,7 @@ import { useState } from 'react'
 import RecipePlaceholder from './RecipePlaceholder'
 import RecipeFooter from './RecipeFooter'
 import RecipeMode from './RecipeMode'
+import { getBackupImageUrl } from '@/lib/blob-image'
 
 interface RecipeLayoutProps {
   recipe: Recipe
@@ -99,7 +100,23 @@ function renderIngredientWithLinks(ingredient: string): React.ReactNode {
 
 export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLayoutProps) {
   const router = useRouter()
+  const [useFallback, setUseFallback] = useState(false)
   const [imageError, setImageError] = useState(false)
+
+  // Use backup URL if primary fails
+  const imageUrl = useFallback
+    ? getBackupImageUrl(recipe.featured_image)
+    : recipe.featured_image
+
+  const handleImageError = () => {
+    if (!useFallback) {
+      // Try backup URL first
+      setUseFallback(true)
+    } else {
+      // Backup also failed, show placeholder
+      setImageError(true)
+    }
+  }
 
   const handleBack = () => {
     // Check if we have a navigation history in sessionStorage
@@ -173,7 +190,7 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
           />
         ) : (
           <Image
-            src={recipe.featured_image}
+            src={imageUrl}
             alt={recipe.title}
             width={1200}
             height={800}
@@ -181,7 +198,7 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
             priority
             placeholder={blurDataURL ? 'blur' : 'empty'}
             blurDataURL={blurDataURL}
-            onError={() => setImageError(true)}
+            onError={handleImageError}
           />
         )}
       </div>

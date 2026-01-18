@@ -5,13 +5,30 @@ import Link from 'next/link'
 import { Recipe } from '@/types/recipe'
 import { useState, memo } from 'react'
 import RecipePlaceholder from './RecipePlaceholder'
+import { getBackupImageUrl } from '@/lib/blob-image'
 
 interface RecipeGridCardProps {
   recipe: Recipe
 }
 
 const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardProps) {
+  const [useFallback, setUseFallback] = useState(false)
   const [imageError, setImageError] = useState(false)
+
+  // Use backup URL if primary fails
+  const imageUrl = useFallback
+    ? getBackupImageUrl(recipe.featured_image)
+    : recipe.featured_image
+
+  const handleImageError = () => {
+    if (!useFallback) {
+      // Try backup URL first
+      setUseFallback(true)
+    } else {
+      // Backup also failed, show placeholder
+      setImageError(true)
+    }
+  }
 
   const handleClick = () => {
     // Mark that we're navigating from the home page
@@ -60,11 +77,11 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
         onClick={handleClick}
       >
         <Image
-          src={recipe.featured_image}
+          src={imageUrl}
           alt={recipe.title}
           fill
           className="object-cover transition-opacity duration-300"
-          onError={() => setImageError(true)}
+          onError={handleImageError}
           loading="lazy"
           sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
           placeholder="blur"

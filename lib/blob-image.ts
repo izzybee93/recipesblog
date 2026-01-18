@@ -3,9 +3,11 @@
  *
  * Manages recipe image URLs, serving from Vercel Blob Storage in production
  * and falling back to local files in development.
+ * Includes backup URL support for GitHub Pages fallback.
  */
 
 const BLOB_BASE_URL = process.env.NEXT_PUBLIC_BLOB_URL || '';
+const BACKUP_URL = process.env.NEXT_PUBLIC_BACKUP_IMAGE_URL || '';
 const USE_BLOB = process.env.NODE_ENV === 'production' || process.env.USE_BLOB === 'true';
 
 /**
@@ -53,4 +55,20 @@ export function transformImagePath(imagePath: string): string {
     return getRecipeImageUrl(imagePath);
   }
   return imagePath;
+}
+
+/**
+ * Get backup URL for fallback (GitHub Pages)
+ *
+ * @param imagePath - Path like "/images/recipes/acai-bowl.jpeg"
+ * @returns GitHub Pages URL for the image, or original path if backup not configured
+ */
+export function getBackupImageUrl(imagePath: string): string {
+  const filename = imagePath.split('/').pop();
+
+  if (!filename || !BACKUP_URL) {
+    return imagePath;
+  }
+
+  return `${BACKUP_URL}/${filename}`;
 }
