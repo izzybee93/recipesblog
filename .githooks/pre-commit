@@ -122,5 +122,9 @@ else
   echo "   Recipe images directory not found"
 fi
 
+# Sync images to GitHub Pages backup repository
+echo "🔄 Syncing to backup image repository..."
+./scripts/sync-backup-images.sh
+
 echo ""
 exit 0

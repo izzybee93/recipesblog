@@ -14,7 +14,8 @@
     "upload-recipe-images:delete": "node scripts/upload-images-to-blob.js --delete",
     "verify-blob-images": "node scripts/verify-blob-images.js",
     "enhance-images": "node scripts/enhance-recipe-images.js",
-    "enhance-images:reset": "rm -f enhancement-progress.json && node scripts/enhance-recipe-images.js"
+    "enhance-images:reset": "rm -f enhancement-progress.json && node scripts/enhance-recipe-images.js",
+    "sync-backup-images": "./scripts/sync-backup-images.sh"
   },
   "dependencies": {
     "@types/mdx": "^2.0.13",
