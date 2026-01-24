@@ -91,11 +91,11 @@ Ingredients: ${recipe.ingredients.join(', ')}
 EDITING INSTRUCTIONS:
 1. Correct white balance and improve lighting to make the food look appetizing
 2. Enhance the background - remove clutter and make it clean and professional
-3. Keep the actual food EXACTLY as it appears (preserve its homemade appearance without any additional ingredients on the plate or serving dish)
-4. Add subtle touches like a light sprinkle or slice of relevant ingredients around the edges with random placement (but do not make it too busy to distract from the food)
+3. Keep the actual food EXACTLY as it appears (preserve its homemade appearance WITHOUT any additional ingredients on the plate or serving dish)
+4. Add subtle touches like a light sprinkle or slice of relevant ingredients AROUND THE EDGES with random placement (but do not make it too busy to distract from the food)
 5. Make it look like professional food photography while maintaining authenticity
 
-CRITICAL: The result should look inviting and professional, but still clearly homemade. Make MINIMAL edits to the food itself - only light polish and enhancement. The food must remain authentic and recognizable from the original photo.`;
+CRITICAL: The result should look inviting and professional, but still clearly homemade. Make EXTREMELY MINIMAL edits to the food itself - only light polish and enhancement. The food must remain authentic and very recognizable from the original photo.`;
 
   // Add custom instructions if provided (for retry with custom instructions)
   if (customInstructions) {
