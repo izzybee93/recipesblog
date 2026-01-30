@@ -47,7 +47,7 @@ This guide explains how to add new recipes to your Baker Beanie Next.js blog, in
      ingredients_markdown: |
        * 2 cups all-purpose flour
        * 1 tsp baking soda
-       * 1 tsp salt
+       * 1 tsp sea salt
        * 1 cup butter, softened
        * 3/4 cup brown sugar
        * 1/2 cup white sugar
