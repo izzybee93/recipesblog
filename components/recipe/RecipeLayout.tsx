@@ -178,9 +178,10 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
             <button
               key={category}
               onClick={() => {
-                sessionStorage.removeItem('scroll-position-/')
-                sessionStorage.setItem('scroll-to-category', category.toLowerCase())
-                window.location.href = '/'
+                const categorySlug = category.toLowerCase()
+                // Store current recipe as the back destination for the category page
+                sessionStorage.setItem(`navigationHistory-/category/${categorySlug}`, window.location.pathname)
+                window.location.href = `/category/${categorySlug}`
               }}
               className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-3 py-1 rounded text-sm font-medium capitalize hover:bg-[rgb(140,190,175)] hover:text-white transition-colors cursor-pointer border-none"
             >
