@@ -56,7 +56,16 @@ export default function CategoryPageClient({ recipes, category }: CategoryPageCl
   }, [])
 
   const handleBack = () => {
-    router.push('/')
+    // Get stored navigation history for THIS page
+    const currentPath = `/category/${category}`
+    const navHistory = sessionStorage.getItem(`navigationHistory-${currentPath}`)
+
+    // If we have a valid stored path, use it; otherwise go to homepage
+    if (navHistory && navHistory.startsWith('/')) {
+      window.location.href = navHistory
+    } else {
+      window.location.href = '/'
+    }
   }
 
   const displayRecipes = shouldSearch ? filteredRecipes : recipes

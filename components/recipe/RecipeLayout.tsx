@@ -84,8 +84,8 @@ function renderIngredientWithLinks(ingredient: string): React.ReactNode {
           className="hover:underline"
           style={{ color: 'rgb(140, 190, 175)' }}
           onClick={() => {
-            // Mark that we're navigating from another recipe
-            sessionStorage.setItem('navigationHistory', 'from-recipe')
+            // Store the current recipe path as the back destination for the linked recipe
+            sessionStorage.setItem(`navigationHistory-/recipes/${slug}`, window.location.pathname)
           }}
         >
           see recipe
@@ -128,9 +128,16 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
   }
 
   const handleBack = () => {
-    // Get the stored navigation path, or default to homepage
-    const navHistory = sessionStorage.getItem('navigationHistory') || '/'
-    router.push(navHistory)
+    // Get stored navigation history for THIS page
+    const currentPath = window.location.pathname
+    const navHistory = sessionStorage.getItem(`navigationHistory-${currentPath}`)
+
+    // If we have a valid stored path, use it; otherwise go to homepage
+    if (navHistory && navHistory.startsWith('/')) {
+      window.location.href = navHistory
+    } else {
+      window.location.href = '/'
+    }
   }
 
   return (

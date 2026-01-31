@@ -40,9 +40,10 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
   }
 
   const handleClick = () => {
-    // Store the current path for back navigation
+    // Store the current path as the back destination for THIS recipe
     const currentPath = window.location.pathname
-    sessionStorage.setItem('navigationHistory', currentPath)
+    const destinationPath = `/recipes/${recipe.slug}`
+    sessionStorage.setItem(`navigationHistory-${destinationPath}`, currentPath)
     // Save current scroll position for when we return
     sessionStorage.setItem(`scroll-position-${currentPath}`, window.scrollY.toString())
   }

@@ -32,32 +32,41 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
     return () => clearTimeout(timer)
   }, [categories.length, visibleCategories])
 
-  // Handle scroll to category from recipe page
+  // Restore scroll position when returning to homepage
   useEffect(() => {
-    const targetCategory = sessionStorage.getItem('scroll-to-category')
-    if (!targetCategory) return
-
-    // Don't interfere with back button scroll restoration
-    const hasBackScrollPosition = sessionStorage.getItem('scroll-position-/')
-    if (hasBackScrollPosition) {
-      sessionStorage.removeItem('scroll-to-category')
+    const savedPosition = sessionStorage.getItem('scroll-position-/')
+    if (savedPosition) {
+      // Wait for content to render before scrolling
+      setTimeout(() => {
+        window.scrollTo(0, parseInt(savedPosition))
+        sessionStorage.removeItem('scroll-position-/')
+      }, 100)
       return
     }
 
-    const scrollToTarget = () => {
-      const element = document.getElementById(`category-${targetCategory}`)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        sessionStorage.removeItem('scroll-to-category')
-      } else {
-        // Element not ready yet, retry
-        setTimeout(scrollToTarget, 100)
+    // Handle scroll to category from recipe page
+    const targetCategory = sessionStorage.getItem('scroll-to-category')
+    if (targetCategory) {
+      const scrollToTarget = () => {
+        const element = document.getElementById(`category-${targetCategory}`)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          sessionStorage.removeItem('scroll-to-category')
+        } else {
+          // Element not ready yet, retry
+          setTimeout(scrollToTarget, 100)
+        }
       }
+      // Wait for content to load
+      setTimeout(scrollToTarget, 150)
     }
-
-    // Wait for content to load
-    setTimeout(scrollToTarget, 150)
   }, [visibleCategories])
+
+  // Save scroll position and navigation history when clicking "View all"
+  const handleViewAllClick = (category: string) => {
+    sessionStorage.setItem('scroll-position-/', window.scrollY.toString())
+    sessionStorage.setItem(`navigationHistory-/category/${category}`, '/')
+  }
 
   // Maximum recipes to show per category on homepage
   const RECIPES_PER_CATEGORY = 6
@@ -95,6 +104,7 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
                       href={`/category/${category}`}
                       className="font-medium hover:underline"
                       style={{ color: 'rgb(140, 190, 175)' }}
+                      onClick={() => handleViewAllClick(category)}
                     >
                       View all
                     </Link>
