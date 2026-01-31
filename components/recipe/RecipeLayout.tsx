@@ -134,8 +134,11 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
 
     // If we have a valid stored path, use it; otherwise go to homepage
     if (navHistory && navHistory.startsWith('/')) {
+      // Set flag to restore scroll position on the destination page
+      sessionStorage.setItem(`restoreScroll-${navHistory}`, 'true')
       window.location.href = navHistory
     } else {
+      sessionStorage.setItem('restoreScroll-/', 'true')
       window.location.href = '/'
     }
   }

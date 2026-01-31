@@ -17,13 +17,22 @@ export default function CategoryPageClient({ recipes, category }: CategoryPageCl
   const [searchQuery, setSearchQuery] = useState('')
   const [, startTransition] = useTransition()
 
-  // Scroll restoration on mount
+  // Scroll restoration on mount - only when navigating back
   useEffect(() => {
     const path = `/category/${category}`
-    const savedPosition = sessionStorage.getItem(`scroll-position-${path}`)
-    if (savedPosition) {
-      window.scrollTo(0, parseInt(savedPosition))
-      sessionStorage.removeItem(`scroll-position-${path}`)
+    const shouldRestore = sessionStorage.getItem(`restoreScroll-${path}`)
+
+    if (shouldRestore) {
+      // Navigating back - restore scroll position if available
+      const savedPosition = sessionStorage.getItem(`scroll-position-${path}`)
+      if (savedPosition) {
+        window.scrollTo(0, parseInt(savedPosition))
+        sessionStorage.removeItem(`scroll-position-${path}`)
+      }
+      sessionStorage.removeItem(`restoreScroll-${path}`)
+    } else {
+      // Navigating forward - start at top
+      window.scrollTo(0, 0)
     }
   }, [category])
 
@@ -62,8 +71,11 @@ export default function CategoryPageClient({ recipes, category }: CategoryPageCl
 
     // If we have a valid stored path, use it; otherwise go to homepage
     if (navHistory && navHistory.startsWith('/')) {
+      // Set flag to restore scroll position on the destination page
+      sessionStorage.setItem(`restoreScroll-${navHistory}`, 'true')
       window.location.href = navHistory
     } else {
+      sessionStorage.setItem('restoreScroll-/', 'true')
       window.location.href = '/'
     }
   }

@@ -32,33 +32,20 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
     return () => clearTimeout(timer)
   }, [categories.length, visibleCategories])
 
-  // Restore scroll position when returning to homepage
+  // Restore scroll position when returning to homepage - only on back navigation
   useEffect(() => {
-    const savedPosition = sessionStorage.getItem('scroll-position-/')
-    if (savedPosition) {
-      // Wait for content to render before scrolling
-      setTimeout(() => {
-        window.scrollTo(0, parseInt(savedPosition))
-        sessionStorage.removeItem('scroll-position-/')
-      }, 100)
-      return
-    }
+    const shouldRestore = sessionStorage.getItem('restoreScroll-/')
 
-    // Handle scroll to category from recipe page
-    const targetCategory = sessionStorage.getItem('scroll-to-category')
-    if (targetCategory) {
-      const scrollToTarget = () => {
-        const element = document.getElementById(`category-${targetCategory}`)
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-          sessionStorage.removeItem('scroll-to-category')
-        } else {
-          // Element not ready yet, retry
-          setTimeout(scrollToTarget, 100)
-        }
+    if (shouldRestore) {
+      const savedPosition = sessionStorage.getItem('scroll-position-/')
+      if (savedPosition) {
+        // Wait for content to render before scrolling
+        setTimeout(() => {
+          window.scrollTo(0, parseInt(savedPosition))
+          sessionStorage.removeItem('scroll-position-/')
+        }, 100)
       }
-      // Wait for content to load
-      setTimeout(scrollToTarget, 150)
+      sessionStorage.removeItem('restoreScroll-/')
     }
   }, [visibleCategories])
 
