@@ -1,22 +1,12 @@
 'use client'
 
+import { capitalize } from '@/lib/search'
+
 interface CategoryIndexProps {
   categories: string[]
 }
 
 export default function CategoryIndex({ categories }: CategoryIndexProps) {
-  // Category display names mapping
-  const categoryDisplayNames: Record<string, string> = {
-    'breakfast': 'Breakfast',
-    'mains': 'Mains',
-    'treats': 'Treats',
-    'salad': 'Salads',
-    'snacks': 'Snacks',
-    'sauces': 'Sauces',
-    'grains': 'Grains',
-    'bread': 'Bread'
-  }
-
   const scrollToCategory = (category: string) => {
     const element = document.getElementById(`category-${category}`)
     if (element) {
@@ -42,7 +32,7 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
                 className="font-medium text-gray-700 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white transition-colors"
                 style={{ fontSize: '0.95rem' }}
               >
-                {categoryDisplayNames[category] || category}
+                {capitalize(category)}
               </span>
             </button>
           ))}
@@ -62,7 +52,7 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
                 className="font-medium text-gray-700 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white transition-colors"
                 style={{ fontSize: '0.95rem' }}
               >
-                {categoryDisplayNames[category] || category}
+                {capitalize(category)}
               </span>
             </button>
           ))}

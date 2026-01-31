@@ -62,9 +62,11 @@ export function getAllRecipes(includeDrafts = false): Recipe[] {
 
 export function getRecipesByCategory(category: string, includeDrafts = false): Recipe[] {
   const allRecipes = getAllRecipes(includeDrafts)
-  return allRecipes.filter(recipe => 
-    recipe.categories.map(c => c.toLowerCase()).includes(category.toLowerCase())
-  )
+  return allRecipes
+    .filter(recipe =>
+      recipe.categories.map(c => c.toLowerCase()).includes(category.toLowerCase())
+    )
+    .sort((a, b) => a.title.localeCompare(b.title))
 }
 
 export function getAllCategories(): string[] {

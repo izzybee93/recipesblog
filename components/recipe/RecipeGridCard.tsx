@@ -40,10 +40,11 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
   }
 
   const handleClick = () => {
-    // Mark that we're navigating from the home page
-    sessionStorage.setItem('navigationHistory', 'from-home')
+    // Store the current path for back navigation
+    const currentPath = window.location.pathname
+    sessionStorage.setItem('navigationHistory', currentPath)
     // Save current scroll position for when we return
-    sessionStorage.setItem('scroll-position-/', window.scrollY.toString())
+    sessionStorage.setItem(`scroll-position-${currentPath}`, window.scrollY.toString())
   }
 
   // Memoize recipe slug to prevent recalculation
@@ -51,7 +52,7 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
   
   if (imageError) {
     return (
-      <div className="recipe flex-shrink-0 basis-full sm:basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-1.25rem)] max-w-full sm:max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-1.25rem)] aspect-[5/2] sm:aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group">
+      <div className="recipe flex-shrink-0 basis-full sm:basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-0.67rem)] max-w-full sm:max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-0.67rem)] aspect-[5/2] sm:aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group">
         <Link
           href={recipeUrl}
           className="block w-full h-full relative"
@@ -79,7 +80,7 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
   }
 
   return (
-    <div className="recipe flex-shrink-0 basis-full sm:basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-1.25rem)] max-w-full sm:max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-1.25rem)] aspect-[5/2] sm:aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group bg-gray-200 dark:bg-gray-700">
+    <div className="recipe flex-shrink-0 basis-full sm:basis-[calc(50%-0.5rem)] md:basis-[calc(33.333%-0.67rem)] max-w-full sm:max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-0.67rem)] aspect-[5/2] sm:aspect-[2/1] md:aspect-[3/2] relative rounded-lg overflow-hidden group bg-gray-200 dark:bg-gray-700">
       <Link
         href={recipeUrl}
         className="block w-full h-full relative"

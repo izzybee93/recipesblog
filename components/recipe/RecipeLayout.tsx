@@ -128,16 +128,9 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
   }
 
   const handleBack = () => {
-    // Check if we have a navigation history in sessionStorage
-    const navigationHistory = sessionStorage.getItem('navigationHistory')
-
-    // If we came from the home page or another recipe, use browser back
-    if (navigationHistory === 'from-home' || navigationHistory === 'from-recipe') {
-      router.back()
-    } else {
-      // For all other cases (direct link, new tab, refresh), go to home
-      router.push('/')
-    }
+    // Get the stored navigation path, or default to homepage
+    const navHistory = sessionStorage.getItem('navigationHistory') || '/'
+    router.push(navHistory)
   }
 
   return (

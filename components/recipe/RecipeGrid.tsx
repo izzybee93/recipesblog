@@ -8,7 +8,7 @@ interface RecipeGridProps {
 
 const RecipeGrid = memo(function RecipeGrid({ recipes }: RecipeGridProps) {
   return (
-    <div className="recipes flex flex-wrap gap-4 max-w-6xl mx-auto" style={{ contain: 'layout' }}>
+    <div className="recipes flex flex-wrap gap-4" style={{ contain: 'layout' }}>
       {recipes.map((recipe) => (
         <RecipeGridCard key={recipe.slug} recipe={recipe} />
       ))}

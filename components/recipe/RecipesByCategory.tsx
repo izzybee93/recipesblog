@@ -1,7 +1,9 @@
 import { memo, useState, useEffect, startTransition } from 'react'
+import Link from 'next/link'
 import { Recipe } from '@/types/recipe'
 import RecipeGrid from './RecipeGrid'
 import CategoryIndex from './CategoryIndex'
+import { capitalize } from '@/lib/search'
 
 interface RecipesByCategoryProps {
   recipesByCategory: Record<string, Recipe[]>
@@ -57,17 +59,8 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
     setTimeout(scrollToTarget, 150)
   }, [visibleCategories])
 
-  // Category display names mapping
-  const categoryDisplayNames: Record<string, string> = {
-    'breakfast': 'Breakfast',
-    'mains': 'Mains',
-    'treats': 'Treats',
-    'salad': 'Salads',
-    'snacks': 'Snacks',
-    'sauces': 'Sauces',
-    'grains': 'Grains',
-    'bread': 'Bread'
-  }
+  // Maximum recipes to show per category on homepage
+  const RECIPES_PER_CATEGORY = 6
 
   return (
     <div className="lg:flex lg:gap-8 lg:items-start">
@@ -75,25 +68,42 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
 
       <div className="lg:flex-1 lg:min-w-0">
         <div className="space-y-16">
-          {categories.slice(0, visibleCategories).map(category => (
-            <section
-              key={category}
-              id={`category-${category}`}
-              className="category-section scroll-mt-8"
-            >
-              <h2
-                className="font-bold text-left mb-8 capitalize"
-                style={{
-                  fontFamily: 'SimplySweetSerif, serif',
-                  color: 'rgb(140, 190, 175)',
-                  fontSize: '4rem'
-                }}
+          {categories.slice(0, visibleCategories).map(category => {
+            const categoryRecipes = recipesByCategory[category]
+            const displayedRecipes = categoryRecipes.slice(0, RECIPES_PER_CATEGORY)
+            const hasMore = categoryRecipes.length > RECIPES_PER_CATEGORY
+
+            return (
+              <section
+                key={category}
+                id={`category-${category}`}
+                className="category-section scroll-mt-8 max-w-6xl mx-auto"
               >
-                {categoryDisplayNames[category] || category}
-              </h2>
-              <RecipeGrid recipes={recipesByCategory[category]} />
-            </section>
-          ))}
+                <div className="flex items-baseline justify-between mb-8">
+                  <h2
+                    className="font-bold text-left"
+                    style={{
+                      fontFamily: 'SimplySweetSerif, serif',
+                      color: 'rgb(140, 190, 175)',
+                      fontSize: '4rem'
+                    }}
+                  >
+                    {capitalize(category)}
+                  </h2>
+                  {hasMore && (
+                    <Link
+                      href={`/category/${category}`}
+                      className="font-medium hover:underline"
+                      style={{ color: 'rgb(140, 190, 175)' }}
+                    >
+                      View all
+                    </Link>
+                  )}
+                </div>
+                <RecipeGrid recipes={displayedRecipes} />
+              </section>
+            )
+          })}
         </div>
       </div>
     </div>

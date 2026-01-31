@@ -5,14 +5,10 @@ import { Recipe } from '@/types/recipe'
 import SearchBar from '@/components/SearchBar'
 import RecipesByCategory from './RecipesByCategory'
 import RecipeGrid from './RecipeGrid'
+import { removeDiacritics } from '@/lib/search'
 
 interface SearchableRecipesProps {
   recipesByCategory: Record<string, Recipe[]>
-}
-
-// Helper function to remove diacritics from a string
-function removeDiacritics(str: string): string {
-  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 
 export default function SearchableRecipes({ recipesByCategory }: SearchableRecipesProps) {
