@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { capitalize } from '@/lib/search'
 
 interface CategoryIndexProps {
@@ -7,6 +8,19 @@ interface CategoryIndexProps {
 }
 
 export default function CategoryIndex({ categories }: CategoryIndexProps) {
+  const sidebarRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY === 0 && sidebarRef.current) {
+        sidebarRef.current.scrollTop = 0
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   const scrollToCategory = (category: string) => {
     const element = document.getElementById(`category-${category}`)
     if (element) {
@@ -40,7 +54,10 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
       </div>
 
       {/* Desktop Sidebar Layout (left) */}
-      <div className="hidden lg:block w-64 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+      <div
+        ref={sidebarRef}
+        className="hidden lg:block w-64 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto"
+      >
         <nav className="space-y-2">
           {categories.map(category => (
             <button
