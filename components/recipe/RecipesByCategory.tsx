@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Recipe } from '@/types/recipe'
 import RecipeGrid from './RecipeGrid'
 import CategoryIndex from './CategoryIndex'
-import { capitalize } from '@/lib/search'
+import { capitalize, shuffleByDate } from '@/lib/search'
 
 interface RecipesByCategoryProps {
   recipesByCategory: Record<string, Recipe[]>
@@ -66,7 +66,8 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
         <div className="space-y-16">
           {categories.slice(0, visibleCategories).map(category => {
             const categoryRecipes = recipesByCategory[category]
-            const displayedRecipes = categoryRecipes.slice(0, RECIPES_PER_CATEGORY)
+            const shuffledRecipes = shuffleByDate(categoryRecipes)
+            const displayedRecipes = shuffledRecipes.slice(0, RECIPES_PER_CATEGORY)
             const hasMore = categoryRecipes.length > RECIPES_PER_CATEGORY
 
             return (
