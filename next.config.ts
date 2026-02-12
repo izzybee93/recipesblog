@@ -20,10 +20,10 @@ const nextConfig: NextConfig = {
     formats: ['image/webp'],
     // Cache optimized images for 31 days
     minimumCacheTTL: 2678400,
-    // Limit device sizes for a recipe blog (don't need 4K)
-    deviceSizes: [640, 750, 1080, 1200, 1920],
-    // Limit image sizes for thumbnails
-    imageSizes: [64, 128, 256, 384],
+    // Only sizes actually used: grid cards (640/750/1080) and recipe detail (1200)
+    deviceSizes: [640, 750, 1080, 1200],
+    // Grid cards use 256/384; no thumbnails need 64/128
+    imageSizes: [256, 384],
   },
 };
 

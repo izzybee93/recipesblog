@@ -29,10 +29,12 @@ export async function generateMetadata({ params }: RecipePageProps) {
 
   const recipeDescription = recipe.meta.excerpt || `Delicious ${recipe.meta.categories.join(', ')} recipe for ${recipe.meta.title}. ${recipe.meta.servings}.`
   const recipeUrl = `https://bakerbeanie.me/recipes/${slug}`
-  // Use blob URL directly if it's a full URL, otherwise prepend domain
-  const imageUrl = recipe.meta.featured_image.startsWith('http')
+  // Route OG image through Next.js Image Optimizer so crawlers get a cached,
+  // optimized ~150KB image instead of hitting Blob for the ~2.6MB original.
+  const rawImageUrl = recipe.meta.featured_image.startsWith('http')
     ? recipe.meta.featured_image
     : `https://bakerbeanie.me${recipe.meta.featured_image}`
+  const imageUrl = `https://bakerbeanie.me/_next/image?url=${encodeURIComponent(rawImageUrl)}&w=1200&q=75`
 
   return {
     title: `${recipe.meta.title} | Baker Beanie`,

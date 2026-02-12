@@ -15,7 +15,9 @@
     "verify-blob-images": "node scripts/verify-blob-images.js",
     "enhance-images": "node scripts/enhance-recipe-images.js",
     "enhance-images:reset": "rm -f enhancement-progress.json && node scripts/enhance-recipe-images.js",
-    "sync-backup-images": "./scripts/sync-backup-images.sh"
+    "sync-backup-images": "./scripts/sync-backup-images.sh",
+    "generate-blur": "node scripts/generate-blur-data.js",
+    "generate-blur:force": "node scripts/generate-blur-data.js --force"
   },
   "dependencies": {
     "@types/mdx": "^2.0.13",
