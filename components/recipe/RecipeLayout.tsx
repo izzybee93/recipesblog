@@ -109,16 +109,17 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
     ? getBackupImageUrl(recipe.featured_image)
     : recipe.featured_image
 
-  // Show placeholder while fallback is loading
-  const showPlaceholder = useFallback && !imageLoaded && !imageError
+  // Show green placeholder while fallback is loading — but only if we don't
+  // already have a blur preview (the blur looks better than a solid gradient).
+  const showPlaceholder = !blurDataURL && useFallback && !imageLoaded && !imageError
 
   const handleImageError = () => {
     if (!useFallback) {
       // Try backup URL first
       setUseFallback(true)
       setImageLoaded(false)
-    } else {
-      // Backup also failed, show placeholder
+    } else if (!blurDataURL) {
+      // Backup also failed — show green placeholder only if there's no blur
       setImageError(true)
     }
   }
