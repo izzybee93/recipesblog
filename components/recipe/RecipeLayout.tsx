@@ -112,6 +112,8 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
   // Show green placeholder while fallback is loading — but only if we don't
   // already have a blur preview (the blur looks better than a solid gradient).
   const showPlaceholder = !blurDataURL && useFallback && !imageLoaded && !imageError
+  // Hide the Image element while loading fallback so alt text doesn't show over the blur
+  const hideImage = useFallback && !imageLoaded && !imageError
 
   const handleImageError = () => {
     if (!useFallback) {
@@ -195,7 +197,14 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
         </div>
       </header>
 
-      <div className="image mb-8 relative">
+      <div
+        className="image mb-8 relative rounded-lg overflow-hidden"
+        style={blurDataURL ? {
+          backgroundImage: `url(${blurDataURL})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        } : undefined}
+      >
         {imageError ? (
           <RecipePlaceholder
             title={recipe.title}
@@ -204,7 +213,7 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
           />
         ) : (
           <>
-            {/* Show placeholder while fallback is loading */}
+            {/* Show green placeholder only when no blur is available */}
             {showPlaceholder && (
               <RecipePlaceholder
                 title={recipe.title}
@@ -217,7 +226,7 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
               alt={recipe.title}
               width={1200}
               height={800}
-              className={`w-full h-auto rounded-lg transition-opacity duration-300 ${showPlaceholder ? 'opacity-0' : 'opacity-100'}`}
+              className={`w-full h-auto rounded-lg transition-opacity duration-300 ${showPlaceholder || hideImage ? 'opacity-0' : 'opacity-100'}`}
               priority
               placeholder={blurDataURL ? 'blur' : 'empty'}
               blurDataURL={blurDataURL}
