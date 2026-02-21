@@ -260,7 +260,13 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
           </div>
 
           <ul className="space-y-2">
-            {recipe.ingredients.map((ingredient, index) => {
+            {recipe.ingredients.map((rawIngredient, index) => {
+              // Coerce to string in case YAML parsed an object (e.g. trailing colon)
+              const ingredient = typeof rawIngredient === 'string'
+                ? rawIngredient
+                : typeof rawIngredient === 'object' && rawIngredient !== null
+                  ? Object.keys(rawIngredient)[0] || ''
+                  : String(rawIngredient)
               // Check if this is a section header using markdown-style syntax (## Header)
               const sectionMatch = ingredient.match(/^##\s+(.+)$/)
 
