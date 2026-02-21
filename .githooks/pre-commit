@@ -37,6 +37,48 @@ if [ ! -z "$RECIPES" ]; then
     git add "$RECIPE"
   done
   echo "✅ Recipe fractions converted successfully!"
+
+  # Alphabetize categories in recipe frontmatter
+  for RECIPE in $RECIPES; do
+    # Handle YAML list format (categories:\n  - a\n  - b)
+    CATS=$(sed -n '/^categories:$/,/^[^ ]/{ /^  - /p; }' "$RECIPE")
+    if [ ! -z "$CATS" ]; then
+      CAT_COUNT=$(echo "$CATS" | wc -l | tr -d ' ')
+      if [ "$CAT_COUNT" -ge 2 ]; then
+        SORTED=$(echo "$CATS" | sort)
+        if [ "$CATS" != "$SORTED" ]; then
+          echo "Alphabetizing categories in: $RECIPE"
+          SORTED_LINES=$(echo "$SORTED" | tr '\n' '|' | sed 's/|$//')
+          awk -v sorted="$SORTED_LINES" '
+            /^categories:$/ { print; in_cats=1; next }
+            in_cats && /^  - / { next }
+            in_cats {
+              n = split(sorted, arr, "|")
+              for (i=1; i<=n; i++) print arr[i]
+              in_cats=0
+            }
+            { print }
+          ' "$RECIPE" > "${RECIPE}.tmp" && mv "${RECIPE}.tmp" "$RECIPE"
+          git add "$RECIPE"
+        fi
+      fi
+      continue
+    fi
+
+    # Handle inline array format (categories: ["a", "b"])
+    INLINE=$(grep '^categories: \[' "$RECIPE")
+    if [ ! -z "$INLINE" ]; then
+      # Extract category names, sort, and rebuild
+      SORTED_LINE=$(echo "$INLINE" | sed 's/categories: \[//;s/\]//' | tr ',' '\n' | sed 's/^ *//;s/ *$//;s/"//g' | sort | awk '{printf "\"%s\", ", $0}' | sed 's/, $//')
+      NEW_LINE="categories: [$SORTED_LINE]"
+      if [ "$INLINE" != "$NEW_LINE" ]; then
+        echo "Alphabetizing categories in: $RECIPE"
+        sed -i '' "s|^categories: \[.*\]$|$NEW_LINE|" "$RECIPE"
+        git add "$RECIPE"
+      fi
+    fi
+  done
+  echo "✅ Recipe categories alphabetized!"
 fi
 
 # Process recipe images - strip metadata and resize if needed

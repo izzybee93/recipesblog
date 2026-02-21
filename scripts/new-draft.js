@@ -32,11 +32,12 @@ async function createRecipe() {
     .replace(/^-|-$/g, '');
   
   // Optional: Get categories (press Enter to skip)
-  const categoriesInput = await question('Categories (optional, press Enter to skip): ');
+  const categoriesInput = await question('Categories (e.g. "mains, salad" — optional, press Enter to skip): ');
   const categories = categoriesInput
-    .split(',')
-    .map(cat => cat.trim())
-    .filter(Boolean);
+    .split(/[\s,]+/)
+    .map(cat => cat.trim().toLowerCase())
+    .filter(Boolean)
+    .sort();
   
   // Optional: Get servings (press Enter to skip)
   const servings = await question('Servings (optional, press Enter to skip): ');
@@ -48,7 +49,7 @@ async function createRecipe() {
   const mdxContent = `---
 title: "${recipeName}"
 date: "${today}"
-categories: [${categories.map(cat => `"${cat}"`).join(', ')}]
+${categories.length ? `categories:\n${categories.map(cat => `  - ${cat}`).join('\n')}` : 'categories: []'}
 featured_image: "/images/recipes/${slug}.jpeg"${servings ? `
 servings: "${servings}"` : ''}
 ingredients:
