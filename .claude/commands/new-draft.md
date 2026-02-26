@@ -17,7 +17,7 @@ From the input, identify:
 - **Ingredients** (list of ingredients)
 - **Directions** (list of steps)
 - **Categories** (required) — validate against the canonical list below. If not provided, **ask the user** before creating the file.
-- **Servings** (required, e.g. "serves 4", "makes 12") — if not provided, **ask the user** before creating the file.
+- **Servings** (required, e.g. "serves 4", "makes 12") — always lowercase. If not provided, **ask the user** before creating the file.
 
 **Category validation:**
 
