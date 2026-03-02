@@ -125,7 +125,7 @@ draft: true
 
 ### 4. Write the File
 
-Write the file to `content/recipes/<slug>.mdx`.
+Write the file to `content/recipes/<slug>.mdx` (relative to the repo root — NOT under `bakerbeanie-nextjs/`).
 
 If a file with that slug already exists, STOP and ask the user before overwriting.
 
