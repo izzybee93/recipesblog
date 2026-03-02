@@ -5,7 +5,7 @@
 # Process recipe MDX files - replace fractions with Unicode characters
 echo "📝 Processing recipe files..."
 
-RECIPES=$(git diff --cached --name-only --diff-filter=ACM | grep "^content/recipes/.*\.mdx$")
+RECIPES=$(git diff --cached --name-only --diff-filter=ACM | grep "content/recipes/.*\.mdx$")
 
 if [ ! -z "$RECIPES" ]; then
   for RECIPE in $RECIPES; do
