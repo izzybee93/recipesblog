@@ -92,7 +92,7 @@ EDITING INSTRUCTIONS:
 1. Correct white balance and improve lighting to make the food look appetizing
 2. Enhance the background - remove clutter and make it clean and professional
 3. Keep the actual food EXACTLY as it appears (preserve its homemade appearance WITHOUT any additional ingredients on the plate or serving dish)
-4. Add subtle touches like a light sprinkle or slice of relevant ingredients AROUND THE EDGES with random placement, or whole vegetable or fruit in the background. Do not make it too busy to distract from the food.
+4. Add subtle touches like a light sprinkle or slice of relevant ingredients AROUND THE EDGES with random placement, or a vegetable or fruit, or herb in the background. DO NOT MAKE IT TOO BUSY. KEEP IT VERY MINIMAL.
 5. Make it look like professional food photography while maintaining authenticity
 
 CRITICAL: The result should look inviting and professional, but still clearly homemade. Make EXTREMELY MINIMAL edits to the food itself - only light polish and enhancement. The food must remain authentic and very recognizable from the original photo.`;
@@ -327,7 +327,7 @@ async function processRecipe(recipe, index, total) {
           continue; // Loop back to edit with (possibly updated) instructions
 
         case 'retry-no-sprinkles':
-          customInstructions = 'Remove all sprinkles, ingredients, and garnishes around the edge';
+          customInstructions = 'DO NOT add any sprinkles, ingredients, garnishes, vegetables or fruits around the edge. Make the background clean and minimal';
           console.log('\n🚫 Removing sprinkles/garnish...\n');
           console.log('🔄 Re-editing without decoration...\n');
           continue; // Loop back to edit with no-sprinkles instruction
