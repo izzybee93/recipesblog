@@ -5,10 +5,11 @@ import { useState, useEffect, useRef } from 'react'
 interface SearchBarProps {
   onSearch: (query: string) => void
   placeholder?: string
+  initialQuery?: string
 }
 
-export default function SearchBar({ onSearch, placeholder = "Search recipes..." }: SearchBarProps) {
-  const [query, setQuery] = useState('')
+export default function SearchBar({ onSearch, placeholder = "Search recipes...", initialQuery = '' }: SearchBarProps) {
+  const [query, setQuery] = useState(initialQuery)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const lastValueRef = useRef('')
 

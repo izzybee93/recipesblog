@@ -14,8 +14,21 @@ interface CategoryPageClientProps {
 
 export default function CategoryPageClient({ recipes, category }: CategoryPageClientProps) {
   const router = useRouter()
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState(() => {
+    if (typeof window === 'undefined') return ''
+    return sessionStorage.getItem(`search-query-/category/${category}`) || ''
+  })
   const [, startTransition] = useTransition()
+
+  // Save search query to sessionStorage whenever it changes
+  useEffect(() => {
+    const path = `/category/${category}`
+    if (searchQuery) {
+      sessionStorage.setItem(`search-query-${path}`, searchQuery)
+    } else {
+      sessionStorage.removeItem(`search-query-${path}`)
+    }
+  }, [searchQuery, category])
 
   // Scroll restoration on mount - only when navigating back
   useEffect(() => {
@@ -129,6 +142,7 @@ export default function CategoryPageClient({ recipes, category }: CategoryPageCl
       <SearchBar
         placeholder={`Search ${categoryName.toLowerCase()} recipes...`}
         onSearch={handleSearch}
+        initialQuery={searchQuery}
       />
 
       {/* Search results count (only when searching) */}

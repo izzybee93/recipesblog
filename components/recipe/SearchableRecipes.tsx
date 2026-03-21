@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useCallback, useTransition } from 'react'
+import { useState, useMemo, useCallback, useTransition, useEffect } from 'react'
 import { Recipe } from '@/types/recipe'
 import SearchBar from '@/components/SearchBar'
 import RecipesByCategory from './RecipesByCategory'
@@ -12,8 +12,21 @@ interface SearchableRecipesProps {
 }
 
 export default function SearchableRecipes({ recipesByCategory }: SearchableRecipesProps) {
-  const [searchQuery, setSearchQuery] = useState('')
+  // Restore search query if navigating back from a recipe
+  const [searchQuery, setSearchQuery] = useState(() => {
+    if (typeof window === 'undefined') return ''
+    return sessionStorage.getItem('search-query-/') || ''
+  })
   const [isPending, startTransition] = useTransition()
+
+  // Save search query to sessionStorage whenever it changes
+  useEffect(() => {
+    if (searchQuery) {
+      sessionStorage.setItem('search-query-/', searchQuery)
+    } else {
+      sessionStorage.removeItem('search-query-/')
+    }
+  }, [searchQuery])
 
   // Get all recipes in a flat array for searching - memoized independently
   const allRecipes = useMemo(() => {
@@ -73,9 +86,10 @@ export default function SearchableRecipes({ recipesByCategory }: SearchableRecip
 
   return (
     <div>
-      <SearchBar 
+      <SearchBar
         onSearch={handleSearch}
         placeholder="Search recipes..."
+        initialQuery={searchQuery}
       />
 
       {showingSearch ? (
