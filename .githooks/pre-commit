@@ -123,6 +123,19 @@ if [ ! -z "$IMAGES" ]; then
     git add "$IMAGE"
   done
   echo "✅ Recipe images processed successfully!"
+
+  # Regenerate blur placeholders for new/changed images
+  echo ""
+  echo "🔮 Generating blur placeholders..."
+  npm run generate-blur --silent
+
+  if [ $? -eq 0 ]; then
+    git add blur-data.json
+    echo "✅ Blur data updated"
+  else
+    echo "⚠️  Warning: Blur data generation failed"
+    echo "   Run manually: npm run generate-blur"
+  fi
 fi
 
 # Upload recipe images to Vercel Blob Storage
