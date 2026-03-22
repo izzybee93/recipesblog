@@ -1,18 +1,25 @@
+'use client'
+
 import Image from "next/image"
-import Link from "next/link"
 
 export default function Header() {
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    sessionStorage.removeItem('search-query-/')
+    window.location.href = '/'
+  }
+
   return (
     <header className="text-center pt-8 pb-4">
       <div className="flex justify-center items-center flex-wrap gap-4 mb-4" style={{ fontFamily: 'SimplySweetSerif, serif' }}>
-        <h1 
+        <h1
           className="font-normal text-gray-800 dark:text-white"
           style={{ fontSize: '5rem' }}
         >
           Baker
         </h1>
-        
-        <Link href="/" className="block">
+
+        <a href="/" onClick={handleLogoClick} className="block">
           <Image
             src="/bee.png"
             alt="Baker Beanie Logo"
@@ -20,9 +27,9 @@ export default function Header() {
             height={180}
             className="hover:scale-105 transition-transform"
           />
-        </Link>
-        
-        <h1 
+        </a>
+
+        <h1
           className="font-normal text-gray-800 dark:text-white"
           style={{ fontSize: '5rem' }}
         >
