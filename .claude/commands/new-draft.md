@@ -61,11 +61,11 @@ If ingredients or directions are missing, create the file with placeholder empty
 - If multiple sentences were written together in one paragraph, keep them as a single direction bullet
 - Example: "Add seeds to a pot and bring to the boil. Simmer for 5 minutes." → one bullet, not two
 
-**Fix common typos** in ingredient and direction text (e.g. cinamon → cinnamon, bannana → banana, teaspon → teaspoon, tablesppon → tablespoon, flour → flour, sugra → sugar, etc.)
+**Fix common typos** in ingredient and direction text (e.g. cinamon → cinnamon, bannana → banana, teaspon → tsp, tablesppon → tablespoon, flour → flour, sugra → sugar, etc.)
 
 **Standardize units** to match existing recipes:
 - tablespoon/tablespoons/Tablespoon/tbsps → tbsp
-- teaspoon/teaspoons/Teaspoon/tsps → tsp
+- tsp/tsps/tsp/tsps → tsp
 - grams/gram → g (e.g. "200 grams" → "200g")
 - millilitres/milliliters/ml → ml (e.g. "100 millilitres" → "100ml")
 - litres/liters → litre(s) — keep as word

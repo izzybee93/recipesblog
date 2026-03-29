@@ -61,7 +61,7 @@ This guide explains how to add new recipes to your Baker Beanie Next.js blog, in
        4. Beat in eggs and vanilla.
        5. Gradually add flour mixture.
        6. Stir in chocolate chips.
-       7. Drop rounded tablespoons onto baking sheets.
+       7. Drop rounded tbsp onto baking sheets.
        8. Bake 9-11 minutes until golden brown.
        9. Cool on baking sheet for 2 minutes before transferring.
    ---
