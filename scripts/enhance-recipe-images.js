@@ -16,6 +16,28 @@
  *   - OPENAI_API_KEY in .env.local
  *   - openai package installed
  *   - Verified OpenAI organization (for gpt-image-1.5 access)
+ *
+ * ---------------------------------------------------------------------------
+ * IMAGE STORAGE LAYOUT
+ * ---------------------------------------------------------------------------
+ * When an image is approved, two copies are written:
+ *
+ *   1. public/images/recipes-enhanced/approved/<slug>.jpeg
+ *      → FULL-QUALITY MASTER (1536×1024, straight from gpt-image-1.5).
+ *        This is the archive. Never resized. Use this if you ever need to
+ *        re-process, re-crop, or regenerate production images at different
+ *        dimensions or quality settings. Not deployed to production.
+ *
+ *   2. public/images/recipes/<slug>.jpeg
+ *      → PRODUCTION COPY, re-encoded with sharp at quality 88 (mozjpeg).
+ *        Same 1536×1024 dimensions, typically ~500KB (vs ~3MB full quality).
+ *        This is what the site reads from, and what gets uploaded to Vercel
+ *        Blob + the GitHub image backup repo. Kept under 1MB to stay within
+ *        hosting limits.
+ *
+ * Originals (pre-enhancement photos) live in public/images/recipes/originals/
+ * and are never touched by this script except for EXIF GPS stripping.
+ * ---------------------------------------------------------------------------
  */
 
 // Load environment variables from .env.local
@@ -26,7 +48,55 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 const matter = require('gray-matter');
+const sharp = require('sharp');
 const { execSync } = require('child_process');
+
+// Production image encoding — see "IMAGE STORAGE LAYOUT" in the header
+const PRODUCTION_MAX_BYTES = 1024 * 1024;           // 1 MB target
+const PRODUCTION_QUALITY_STEPS = [88, 82, 75];      // q88 first, step down only if needed
+const PRODUCTION_FALLBACK_WIDTH = 1280;             // last-resort downscale
+
+/**
+ * Save an approved image to the production folder, re-encoded to stay under 1 MB.
+ *
+ * Strategy:
+ *   1. Try JPEG quality 88 with mozjpeg (visually indistinguishable from source).
+ *   2. If still over 1 MB, step quality down to 82, then 75.
+ *   3. If still over 1 MB at q75, resize to 1280 wide at q88 (last resort).
+ *
+ * Does NOT touch colorspace, does NOT strip metadata — colors stay identical.
+ * The full-quality master remains in public/images/recipes-enhanced/approved/.
+ */
+async function saveResizedToProduction(srcPath, destPath) {
+  const srcBytes = fs.statSync(srcPath).size;
+
+  for (const quality of PRODUCTION_QUALITY_STEPS) {
+    const buffer = await sharp(srcPath)
+      .jpeg({ quality, mozjpeg: true })
+      .toBuffer();
+    if (buffer.length <= PRODUCTION_MAX_BYTES || quality === PRODUCTION_QUALITY_STEPS[PRODUCTION_QUALITY_STEPS.length - 1]) {
+      if (buffer.length <= PRODUCTION_MAX_BYTES) {
+        fs.writeFileSync(destPath, buffer);
+        const kb = (buffer.length / 1024).toFixed(0);
+        const srcKb = (srcBytes / 1024).toFixed(0);
+        console.log(`📦 Production: ${srcKb}KB → ${kb}KB  (q${quality}, mozjpeg)`);
+        return;
+      }
+      // At lowest quality and still too big — fall through to width downscale
+      break;
+    }
+  }
+
+  // Fallback: downscale to 1280 wide at q88
+  const buffer = await sharp(srcPath)
+    .resize({ width: PRODUCTION_FALLBACK_WIDTH, withoutEnlargement: true })
+    .jpeg({ quality: 88, mozjpeg: true })
+    .toBuffer();
+  fs.writeFileSync(destPath, buffer);
+  const kb = (buffer.length / 1024).toFixed(0);
+  const srcKb = (srcBytes / 1024).toFixed(0);
+  console.log(`📦 Production: ${srcKb}KB → ${kb}KB  (resized to ${PRODUCTION_FALLBACK_WIDTH}w, q88)`);
+}
 
 // Configuration
 const CONFIG = {
@@ -300,8 +370,8 @@ async function processRecipe(recipe, index, total) {
       // Step 7: Handle decision
       switch (decision) {
         case 'approve':
-          fs.copyFileSync(previewPath, approvedPath);      // Archive copy
-          fs.copyFileSync(previewPath, productionPath);    // Production copy
+          fs.copyFileSync(previewPath, approvedPath);          // Archive: full quality master
+          await saveResizedToProduction(previewPath, productionPath); // Production: sharp q88, <1MB
           console.log('✅ Approved and saved to production!\n');
           return { status: 'approved', cost: totalCost, attempts };
 
