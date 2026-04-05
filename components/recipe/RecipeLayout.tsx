@@ -67,18 +67,21 @@ function extractRecipeName(ingredientText: string): { ingredientPart: string; re
 }
 
 // Helper function to render ingredient with recipe links
+// Matches "(see recipe)" and "(optional, see recipe)" (with or without comma/space variants)
 function renderIngredientWithLinks(ingredient: string): React.ReactNode {
-  const seeRecipePattern = /^(.+?)\s*\(see recipe\)$/i
+  const seeRecipePattern = /^(.+?)\s*\((optional,?\s*)?see recipe\)$/i
   const match = ingredient.match(seeRecipePattern)
 
   if (match) {
     const fullText = match[1].trim()
+    const isOptional = !!match[2]
     const { ingredientPart, recipeName } = extractRecipeName(fullText)
     const slug = recipeNameToSlug(recipeName)
 
     return (
       <React.Fragment>
         {ingredientPart && `${ingredientPart} `}{recipeName} (
+        {isOptional && 'optional, '}
         <Link
           href={`/recipes/${slug}`}
           className="hover:underline"
