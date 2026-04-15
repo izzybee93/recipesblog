@@ -31,6 +31,15 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     }
   }, [])
 
+  // Flag back/forward navigation so search state can be restored
+  useEffect(() => {
+    const handlePopState = () => {
+      sessionStorage.setItem('isBackNavigation', 'true')
+    }
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
   // Handle scroll restoration
   useEffect(() => {
     const scrollKey = `scroll-position-${pathname}`

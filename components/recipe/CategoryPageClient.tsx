@@ -14,9 +14,17 @@ interface CategoryPageClientProps {
 
 export default function CategoryPageClient({ recipes, category }: CategoryPageClientProps) {
   const router = useRouter()
+  // Only restore search query on back/forward navigation, not explicit clicks
   const [searchQuery, setSearchQuery] = useState(() => {
     if (typeof window === 'undefined') return ''
-    return sessionStorage.getItem(`search-query-/category/${category}`) || ''
+    const path = `/category/${category}`
+    const isBack = sessionStorage.getItem('isBackNavigation') || sessionStorage.getItem(`restoreScroll-${path}`)
+    sessionStorage.removeItem('isBackNavigation')
+    if (isBack) {
+      return sessionStorage.getItem(`search-query-${path}`) || ''
+    }
+    sessionStorage.removeItem(`search-query-${path}`)
+    return ''
   })
   const [, startTransition] = useTransition()
 

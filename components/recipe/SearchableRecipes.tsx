@@ -12,10 +12,16 @@ interface SearchableRecipesProps {
 }
 
 export default function SearchableRecipes({ recipesByCategory }: SearchableRecipesProps) {
-  // Restore search query if navigating back from a recipe
+  // Only restore search query on back/forward navigation, not explicit clicks
   const [searchQuery, setSearchQuery] = useState(() => {
     if (typeof window === 'undefined') return ''
-    return sessionStorage.getItem('search-query-/') || ''
+    const isBack = sessionStorage.getItem('isBackNavigation') || sessionStorage.getItem('restoreScroll-/')
+    sessionStorage.removeItem('isBackNavigation')
+    if (isBack) {
+      return sessionStorage.getItem('search-query-/') || ''
+    }
+    sessionStorage.removeItem('search-query-/')
+    return ''
   })
   const [isPending, startTransition] = useTransition()
 

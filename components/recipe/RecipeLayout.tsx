@@ -49,7 +49,7 @@ function recipeNameToSlug(recipeName: string): string {
 function extractRecipeName(ingredientText: string): { ingredientPart: string; recipeName: string } {
   // Pattern to match common measurements at the start of ingredient text
   // Matches: "2 tbsp", "1/2 cup", "100g", "2-3 tsp", "1 heaped tbsp", etc.
-  const measurementPattern = /^([\d½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞]+[\d\/\-–]*\s*(?:heaped|level|large|small|medium)?\s*(?:tbsp|tsp|tablespoons?|tsps?|cups?|g|kg|ml|l|oz|lb|pounds?|bunch|bunches|cloves?|slices?|pieces?|sprigs?|handfuls?|pinch(?:es)?|dash(?:es)?|drops?|sheets?|sticks?|rashers?|strips?|wedges?|portions?|servings?|pots?|tins?|cans?|jars?|packets?|bags?|boxes?|bottles?|tubes?|heads?|stalks?|leaves|florets?|ears?)?\s*(?:of\s+)?)/i
+  const measurementPattern = /^([\d½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞]+[\d\/\-–]*\s*(?:heaped|level|large|small|medium)?\s*(?:tbsp|tsp|tablespoons?|tsps?|cups?|g(?![a-z])|kg|ml|l(?![a-z])|oz|lb|pounds?|bunch|bunches|cloves?|slices?|pieces?|sprigs?|handfuls?|pinch(?:es)?|dash(?:es)?|drops?|sheets?|sticks?|rashers?|strips?|wedges?|portions?|servings?|pots?|tins?|cans?|jars?|packets?|bags?|boxes?|bottles?|tubes?|heads?|stalks?|leaves|florets?|ears?)?\s*(?:of\s+)?)/i
 
   const match = ingredientText.match(measurementPattern)
 
