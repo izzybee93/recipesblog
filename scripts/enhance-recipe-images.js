@@ -3,8 +3,8 @@
 /**
  * AI-Enhanced Recipe Images Script
  *
- * Uses OpenAI's gpt-image-1.5 to edit and enhance recipe food photography
- * - Edits existing images directly with gpt-image-1.5 (preserves food appearance)
+ * Uses OpenAI's gpt-image-2 to edit and enhance recipe food photography
+ * - Edits existing images directly with gpt-image-2 (preserves food appearance)
  * - Interactive approval workflow with custom retry instructions
  * - Progress tracking and resumable sessions
  * - Faster and cheaper than generation (no vision analysis needed)
@@ -15,7 +15,7 @@
  * Requirements:
  *   - OPENAI_API_KEY in .env.local
  *   - openai package installed
- *   - Verified OpenAI organization (for gpt-image-1.5 access)
+ *   - Verified OpenAI organization (for gpt-image-2 access)
  *
  * ---------------------------------------------------------------------------
  * IMAGE STORAGE LAYOUT
@@ -23,7 +23,7 @@
  * When an image is approved, two copies are written:
  *
  *   1. public/images/recipes-enhanced/approved/<slug>.jpeg
- *      → FULL-QUALITY MASTER (1536×1024, straight from gpt-image-1.5).
+ *      → FULL-QUALITY MASTER (1536×1024, straight from gpt-image-2).
  *        This is the archive. Never resized. Use this if you ever need to
  *        re-process, re-crop, or regenerate production images at different
  *        dimensions or quality settings. Not deployed to production.
@@ -100,7 +100,7 @@ async function saveResizedToProduction(srcPath, destPath) {
 
 // Configuration
 const CONFIG = {
-  model: 'gpt-image-1.5',              // Image editing model
+  model: 'gpt-image-2',                // Image editing model
   imageSize: '1536x1024',              // Image size (1024x1024, 1536x1024, 1024x1536)
   imageQuality: 'medium',              // Quality tier: low ($0.013), medium ($0.05), high ($0.20)
   maxCostLimit: 50,                    // Maximum budget limit ($)
@@ -150,7 +150,7 @@ function getAllRecipes(includeDrafts = true) {
 }
 
 /**
- * Edit and enhance image with gpt-image-1.5
+ * Edit and enhance image with gpt-image-2
  */
 async function editEnhancedImage(originalImagePath, recipe, customInstructions = '') {
   let enhancementPrompt = `Edit this ${recipe.title} photo to enhance it for a professional recipe blog.
@@ -344,8 +344,8 @@ async function processRecipe(recipe, index, total) {
 
       attempts++;
 
-      // Step 1: Edit image with gpt-image-1.5
-      console.log(`🎨 Editing image with gpt-image-1.5 (attempt ${attempts}/${CONFIG.maxRetriesPerImage})...`);
+      // Step 1: Edit image with gpt-image-2
+      console.log(`🎨 Editing image with gpt-image-2 (attempt ${attempts}/${CONFIG.maxRetriesPerImage})...`);
       console.log(`   Size: ${CONFIG.imageSize} (landscape)`);
 
       const enhancedBuffer = await editEnhancedImage(originalPath, recipe, customInstructions);
