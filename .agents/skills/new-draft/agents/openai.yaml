@@ -1,0 +1,4 @@
+interface:
+  display_name: "New Draft"
+  short_description: "Format messy recipe text into an MDX draft"
+  default_prompt: "Use $new-draft to turn this recipe text into a Baker Beanie MDX draft."
