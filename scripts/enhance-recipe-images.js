@@ -172,20 +172,17 @@ CRITICAL: The result should look inviting and professional, but still clearly ho
     enhancementPrompt += `\n\nADDITIONAL INSTRUCTIONS:\n${customInstructions}`;
   }
 
-  // Determine MIME type from file extension
-  const ext = path.extname(originalImagePath).toLowerCase();
-  const mimeTypes = {
-    '.jpg': 'image/jpeg',
-    '.jpeg': 'image/jpeg',
-    '.png': 'image/png',
-    '.webp': 'image/webp'
-  };
-  const mimeType = mimeTypes[ext] || 'image/jpeg';
-
-  // Read file and create a proper File object with MIME type
-  const fileBuffer = fs.readFileSync(originalImagePath);
-  const fileName = path.basename(originalImagePath);
-  const file = new File([fileBuffer], fileName, { type: mimeType });
+  // Downscale + re-encode before upload. OpenAI's edit endpoint rejects very
+  // large JPEGs (e.g. 10MP+ straight from an iPhone) with a generic
+  // "Invalid image file or mode" error. Output size is 1536×1024, so we lose
+  // nothing by capping input at 2048 on the long edge.
+  const fileBuffer = await sharp(originalImagePath)
+    .rotate()
+    .resize({ width: 2048, height: 2048, fit: 'inside', withoutEnlargement: true })
+    .jpeg({ quality: 92, mozjpeg: true })
+    .toBuffer();
+  const fileName = path.basename(originalImagePath, path.extname(originalImagePath)) + '.jpeg';
+  const file = new File([fileBuffer], fileName, { type: 'image/jpeg' });
 
   const response = await openai.images.edit({
     model: CONFIG.model,
