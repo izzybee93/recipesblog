@@ -3,9 +3,8 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { Recipe } from '@/types/recipe'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import RecipePlaceholder from './RecipePlaceholder'
 import RecipeFooter from './RecipeFooter'
 import RecipeMode from './RecipeMode'
@@ -13,8 +12,17 @@ import { getBackupImageUrl } from '@/lib/blob-image'
 
 interface RecipeLayoutProps {
   recipe: Recipe
+  knownRecipes?: Array<{
+    title: string
+    slug: string
+  }>
   blurDataURL?: string
   children: React.ReactNode
+}
+
+interface RecipeLinkMatcher {
+  titleToSlug: Map<string, string>
+  directionPattern: RegExp | null
 }
 
 // Helper function to convert recipe names to slugs
@@ -45,6 +53,66 @@ function recipeNameToSlug(recipeName: string): string {
     .trim()
 }
 
+function storeRecipeNavigationHistory(slug: string) {
+  // Store the current recipe path as the back destination for the linked recipe
+  sessionStorage.setItem(`navigationHistory-/recipes/${slug}`, window.location.pathname)
+}
+
+function renderRecipeLink(slug: string, linkText: string) {
+  return (
+    <Link
+      href={`/recipes/${slug}`}
+      className="hover:underline"
+      style={{ color: 'rgb(140, 190, 175)' }}
+      onClick={() => storeRecipeNavigationHistory(slug)}
+    >
+      {linkText}
+    </Link>
+  )
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function buildRecipeLinkMatcher(
+  knownRecipes: Array<{ title: string; slug: string }>
+): RecipeLinkMatcher {
+  const titleToSlug = new Map<string, string>()
+  const knownTitles = knownRecipes
+    .map((knownRecipe) => {
+      const trimmedTitle = knownRecipe.title.trim()
+
+      if (trimmedTitle) {
+        titleToSlug.set(trimmedTitle.toLowerCase(), knownRecipe.slug)
+      }
+
+      return trimmedTitle
+    })
+    .filter(Boolean)
+    .sort((left, right) => right.length - left.length)
+
+  if (knownTitles.length === 0) {
+    return {
+      titleToSlug,
+      directionPattern: null
+    }
+  }
+
+  return {
+    titleToSlug,
+    directionPattern: new RegExp(
+      `(${knownTitles.map((title) => escapeRegExp(title)).join('|')})(\\s*)\\((see recipe)\\)`,
+      'gi'
+    )
+  }
+}
+
+function resolveRecipeSlug(recipeName: string, titleToSlug: Map<string, string>): string {
+  const canonicalSlug = titleToSlug.get(recipeName.toLowerCase().trim())
+  return canonicalSlug ?? recipeNameToSlug(recipeName)
+}
+
 // Helper function to strip measurements from ingredient text to get the recipe name
 function extractRecipeName(ingredientText: string): { ingredientPart: string; recipeName: string } {
   // Pattern to match common measurements at the start of ingredient text
@@ -68,7 +136,7 @@ function extractRecipeName(ingredientText: string): { ingredientPart: string; re
 
 // Helper function to render ingredient with recipe links
 // Matches "(see recipe)" and "(optional, see recipe)" (with or without comma/space variants)
-function renderIngredientWithLinks(ingredient: string): React.ReactNode {
+function renderIngredientWithLinks(ingredient: string, titleToSlug: Map<string, string>): React.ReactNode {
   const seeRecipePattern = /^(.+?)\s*\((optional,?\s*)?see recipe\)$/i
   const match = ingredient.match(seeRecipePattern)
 
@@ -76,23 +144,12 @@ function renderIngredientWithLinks(ingredient: string): React.ReactNode {
     const fullText = match[1].trim()
     const isOptional = !!match[2]
     const { ingredientPart, recipeName } = extractRecipeName(fullText)
-    const slug = recipeNameToSlug(recipeName)
+    const slug = resolveRecipeSlug(recipeName, titleToSlug)
 
     return (
       <React.Fragment>
         {ingredientPart && `${ingredientPart} `}{recipeName} (
-        {isOptional && 'optional, '}
-        <Link
-          href={`/recipes/${slug}`}
-          className="hover:underline"
-          style={{ color: 'rgb(140, 190, 175)' }}
-          onClick={() => {
-            // Store the current recipe path as the back destination for the linked recipe
-            sessionStorage.setItem(`navigationHistory-/recipes/${slug}`, window.location.pathname)
-          }}
-        >
-          see recipe
-        </Link>
+        {isOptional && 'optional, '}{renderRecipeLink(slug, 'see recipe')}
         )
       </React.Fragment>
     )
@@ -101,11 +158,58 @@ function renderIngredientWithLinks(ingredient: string): React.ReactNode {
   return ingredient
 }
 
-export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLayoutProps) {
-  const router = useRouter()
+function renderDirectionWithLinks(
+  direction: string,
+  matcher: RecipeLinkMatcher
+): React.ReactNode {
+  if (!matcher.directionPattern) {
+    return direction
+  }
+  const directionPattern = new RegExp(matcher.directionPattern.source, matcher.directionPattern.flags)
+  const nodes: React.ReactNode[] = []
+  let cursor = 0
+  let match: RegExpExecArray | null
+
+  while ((match = directionPattern.exec(direction)) !== null) {
+    const markerStart = match.index
+    const matchedTitle = match[1]
+    const spacing = match[2]
+    const linkText = match[3]
+    const slug = matcher.titleToSlug.get(matchedTitle.toLowerCase())
+
+    if (!slug) {
+      continue
+    }
+
+    if (markerStart > cursor) {
+      nodes.push(direction.slice(cursor, markerStart))
+    }
+
+    nodes.push(matchedTitle)
+    nodes.push(spacing)
+    nodes.push('(')
+    nodes.push(renderRecipeLink(slug, linkText))
+    nodes.push(')')
+    cursor = markerStart + match[0].length
+  }
+
+  if (cursor === 0) {
+    return direction
+  }
+
+  const remainingText = direction.slice(cursor)
+  if (remainingText) {
+    nodes.push(remainingText)
+  }
+
+  return nodes.map((node, index) => <React.Fragment key={index}>{node}</React.Fragment>)
+}
+
+export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, children }: RecipeLayoutProps) {
   const [useFallback, setUseFallback] = useState(false)
   const [imageError, setImageError] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
+  const recipeLinkMatcher = useMemo(() => buildRecipeLinkMatcher(knownRecipes), [knownRecipes])
 
   // Use backup URL if primary fails
   const imageUrl = useFallback
@@ -287,7 +391,7 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
               return (
                 <li key={index} className="flex items-start">
                   <span className="mr-2" style={{ color: 'rgb(140, 190, 175)' }}>•</span>
-                  <span>{renderIngredientWithLinks(ingredient)}</span>
+                  <span>{renderIngredientWithLinks(ingredient, recipeLinkMatcher.titleToSlug)}</span>
                 </li>
               )
             })}
@@ -305,7 +409,7 @@ export default function RecipeLayout({ recipe, blurDataURL, children }: RecipeLa
                 <span className="font-bold flex-shrink-0" style={{ color: 'rgb(140, 190, 175)' }}>
                   {index + 1}.{' '}
                 </span>
-                <span>{direction}</span>
+                <span>{renderDirectionWithLinks(direction, recipeLinkMatcher)}</span>
               </li>
             ))}
           </ol>
