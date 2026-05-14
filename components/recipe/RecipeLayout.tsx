@@ -63,7 +63,7 @@ function renderRecipeLink(slug: string, linkText: string) {
     <Link
       href={`/recipes/${slug}`}
       className="hover:underline"
-      style={{ color: 'rgb(140, 190, 175)' }}
+      style={{ color: 'var(--accent)' }}
       onClick={() => storeRecipeNavigationHistory(slug)}
     >
       {linkText}
@@ -265,7 +265,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
       <div className="mb-6">
         <button
           onClick={handleBack}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-[rgb(140,190,175)] hover:text-white dark:hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-[var(--accent)] hover:text-white dark:hover:text-white transition-colors"
         >
           <svg
             className="w-4 h-4"
@@ -285,7 +285,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
       </div>
 
       <header className="text-center mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white" style={{ marginBottom: '24px', fontFamily: 'Raleway, sans-serif' }}>{recipe.title}</h1>
+        <h1 className="font-body text-4xl md:text-5xl font-bold text-gray-800 dark:text-white" style={{ marginBottom: '24px' }}>{recipe.title}</h1>
         <div className="flex flex-wrap justify-center gap-2 mb-4">
           {recipe.categories.map((category) => (
             <button
@@ -296,7 +296,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
                 sessionStorage.setItem(`navigationHistory-/category/${categorySlug}`, window.location.pathname)
                 window.location.href = `/category/${categorySlug}`
               }}
-              className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-3 py-1 rounded text-sm font-medium capitalize hover:bg-[rgb(140,190,175)] hover:text-white transition-colors cursor-pointer border-none"
+              className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-3 py-1 rounded text-sm font-medium capitalize hover:bg-[var(--accent)] hover:text-white transition-colors cursor-pointer border-none"
             >
               {category}
             </button>
@@ -357,7 +357,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
           <div className="recipe-overview mb-4 flex items-center gap-2">
             <svg
               className="w-4 h-4"
-              style={{ color: 'rgb(140, 190, 175)' }}
+              style={{ color: 'var(--accent)' }}
               fill="currentColor"
               viewBox="0 0 24 24"
             >
@@ -381,7 +381,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
                 const headerText = sectionMatch[1].trim()
                 return (
                   <li key={index} className="mt-4 mb-2">
-                    <h3 className="font-semibold text-lg" style={{ color: 'rgb(140, 190, 175)' }}>
+                    <h3 className="font-semibold text-lg" style={{ color: 'var(--accent)' }}>
                       {headerText}
                     </h3>
                   </li>
@@ -390,7 +390,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
 
               return (
                 <li key={index} className="flex items-start">
-                  <span className="mr-2" style={{ color: 'rgb(140, 190, 175)' }}>•</span>
+                  <span className="mr-2" style={{ color: 'var(--accent)' }}>•</span>
                   <span>{renderIngredientWithLinks(ingredient, recipeLinkMatcher.titleToSlug)}</span>
                 </li>
               )
@@ -406,7 +406,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
           <ol className="space-y-4">
             {recipe.directions.map((direction, index) => (
               <li key={index} className="flex gap-2">
-                <span className="font-bold flex-shrink-0" style={{ color: 'rgb(140, 190, 175)' }}>
+                <span className="font-bold flex-shrink-0" style={{ color: 'var(--accent)' }}>
                   {index + 1}.{' '}
                 </span>
                 <span>{renderDirectionWithLinks(direction, recipeLinkMatcher)}</span>

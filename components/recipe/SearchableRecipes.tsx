@@ -102,10 +102,9 @@ export default function SearchableRecipes({ recipesByCategory }: SearchableRecip
         <div>
           <div className="mb-6 text-center">
             <h2 
-              className="text-2xl font-bold"
+              className="font-display text-2xl font-bold"
               style={{ 
-                fontFamily: 'SimplySweetSerif, serif',
-                color: 'rgb(140, 190, 175)'
+                color: 'var(--accent)'
               }}
             >
               Search Results

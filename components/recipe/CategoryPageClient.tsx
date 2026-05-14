@@ -110,7 +110,7 @@ export default function CategoryPageClient({ recipes, category }: CategoryPageCl
       <div className="mb-6">
         <button
           onClick={handleBack}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-[rgb(140,190,175)] hover:text-white dark:hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-[var(--accent)] hover:text-white dark:hover:text-white transition-colors"
         >
           <svg
             className="w-4 h-4"
@@ -132,10 +132,9 @@ export default function CategoryPageClient({ recipes, category }: CategoryPageCl
       {/* Category header */}
       <header className="text-center mb-8">
         <h1
-          className="font-bold mb-4"
+          className="font-display font-bold mb-4"
           style={{
-            fontFamily: 'SimplySweetSerif, serif',
-            color: 'rgb(140, 190, 175)',
+            color: 'var(--accent)',
             fontSize: '4rem'
           }}
         >

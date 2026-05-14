@@ -20,15 +20,14 @@ export default function AboutFooter() {
           {/* About Content */}
           <div className="mb-8">
             <h2
-              className="text-3xl font-bold mb-6"
+              className="font-display text-3xl font-bold mb-6"
               style={{
-                fontFamily: 'SimplySweetSerif, serif',
-                color: 'rgb(140, 190, 175)'
+                color: 'var(--accent)'
               }}
             >
               About Baker Beanie
             </h2>
-            <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed max-w-2xl mx-auto" style={{ fontFamily: 'Raleway, sans-serif' }}>
+            <p className="font-body text-gray-700 dark:text-gray-300 text-lg leading-relaxed max-w-2xl mx-auto">
               Welcome to baker beanie! A blog full of tasty, mostly plant-based recipes.
             </p>
           </div>
@@ -44,10 +43,9 @@ export default function AboutFooter() {
               />
             </div>
             <p
-              className="text-lg font-medium"
+              className="font-display text-lg font-medium"
               style={{
-                color: 'rgb(140, 190, 175)',
-                fontFamily: 'SimplySweetSerif, serif'
+                color: 'var(--accent)'
               }}
             >
               ■ every day is treat day ■

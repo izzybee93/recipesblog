@@ -34,14 +34,14 @@ export default function BackToTop() {
       onClick={scrollToTop}
       className="fixed bottom-6 right-6 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-50"
       style={{ 
-        backgroundColor: 'rgb(140, 190, 175)',
+        backgroundColor: 'var(--accent)',
         color: 'white'
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor = 'rgb(120, 170, 155)'
+        e.currentTarget.style.backgroundColor = 'var(--accent-strong)'
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = 'rgb(140, 190, 175)'
+        e.currentTarget.style.backgroundColor = 'var(--accent)'
       }}
       aria-label="Back to top"
     >

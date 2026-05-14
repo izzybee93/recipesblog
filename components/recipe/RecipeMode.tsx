@@ -151,7 +151,7 @@ export default function RecipeMode() {
           isRecipeMode ? '' : 'bg-gray-300 dark:bg-gray-600'
         }`}
         style={{
-          backgroundColor: isRecipeMode ? 'rgb(140, 190, 175)' : undefined
+          backgroundColor: isRecipeMode ? 'var(--accent)' : undefined
         }}
         aria-label="Toggle Cooking Mode"
         aria-checked={isRecipeMode}

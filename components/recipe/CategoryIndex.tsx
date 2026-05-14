@@ -40,7 +40,7 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
             <button
               key={category}
               onClick={() => scrollToCategory(category)}
-              className="category-link py-3 px-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-[rgb(140,190,175)] hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200 text-center group"
+              className="category-link py-3 px-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-[var(--accent)] hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200 text-center group"
             >
               <span
                 className="font-medium text-gray-700 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white transition-colors"
@@ -63,7 +63,7 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
             <button
               key={category}
               onClick={() => scrollToCategory(category)}
-              className="w-full text-left py-3 px-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-[rgb(140,190,175)] hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200 group"
+              className="w-full text-left py-3 px-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-[var(--accent)] hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200 group"
             >
               <span
                 className="font-medium text-gray-700 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white transition-colors"

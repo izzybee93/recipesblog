@@ -86,16 +86,7 @@ export default function SearchBar({ onSearch, placeholder = "Search recipes...",
           value={query}
           onChange={handleInputChange}
           placeholder={placeholder}
-          className="block w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all"
-          style={{}}
-          onFocus={(e) => {
-            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(140, 190, 175, 0.2)'
-            e.currentTarget.style.borderColor = 'rgb(140, 190, 175)'
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.boxShadow = 'none'
-            e.currentTarget.style.borderColor = '#d1d5db'
-          }}
+          className="block w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color-mix(in_srgb,var(--accent)_20%,transparent)] focus:border-[var(--accent)] transition-all"
         />
         
         {query && (

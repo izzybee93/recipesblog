@@ -78,10 +78,9 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
               >
                 <div className="flex items-baseline justify-between mb-8">
                   <h2
-                    className="font-bold text-left"
+                    className="font-display font-bold text-left"
                     style={{
-                      fontFamily: 'SimplySweetSerif, serif',
-                      color: 'rgb(140, 190, 175)',
+                      color: 'var(--accent)',
                       fontSize: '4rem'
                     }}
                   >
@@ -91,7 +90,7 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
                     <Link
                       href={`/category/${category}`}
                       className="font-medium hover:underline"
-                      style={{ color: 'rgb(140, 190, 175)' }}
+                      style={{ color: 'var(--accent)' }}
                       onClick={() => handleViewAllClick(category)}
                     >
                       View all

@@ -11,7 +11,7 @@ export default function Header() {
 
   return (
     <header className="text-center pt-8 pb-4">
-      <div className="flex justify-center items-center flex-wrap gap-4 mb-4" style={{ fontFamily: 'SimplySweetSerif, serif' }}>
+      <div className="font-display flex justify-center items-center flex-wrap gap-4 mb-4">
         <h1
           className="font-normal text-gray-800 dark:text-white"
           style={{ fontSize: '5rem' }}

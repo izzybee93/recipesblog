@@ -12,10 +12,9 @@ export default function RecipeFooter() {
         />
       </div>
       <p
-        className="text-lg font-medium"
+        className="font-display text-lg font-medium"
         style={{
-          color: 'rgb(140, 190, 175)',
-          fontFamily: 'SimplySweetSerif, serif'
+          color: 'var(--accent)'
         }}
       >
         ■ every day is treat day ■

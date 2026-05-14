@@ -68,7 +68,7 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
             className="absolute bottom-1 w-full left-0 px-4 z-10 text-center"
             style={{ textShadow: '1px 1px 1px #000' }}
           >
-            <span className="block font-bold" style={{ color: '#fff', fontFamily: 'Raleway, sans-serif' }}>{recipe.title}</span>
+            <span className="block font-body font-bold" style={{ color: '#fff' }}>{recipe.title}</span>
             {recipe.draft && (
               <span className="inline-block bg-yellow-500 text-black px-2 py-1 text-xs font-semibold rounded mt-2">
                 DRAFT
@@ -121,7 +121,7 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
             className="absolute bottom-1 w-full left-0 px-4"
             style={{ textShadow: '1px 1px 1px #000' }}
           >
-            <span className="block" style={{ fontFamily: 'Raleway, sans-serif' }}>{recipe.title}</span>
+            <span className="block font-body">{recipe.title}</span>
             {recipe.draft && (
               <span className="inline-block bg-yellow-500 text-black px-2 py-1 text-xs font-semibold rounded mt-2">
                 DRAFT
