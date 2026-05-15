@@ -2,13 +2,13 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { Recipe } from '@/types/recipe'
+import { RecipeCard } from '@/types/recipe'
 import { useState, memo } from 'react'
 import RecipePlaceholder from './RecipePlaceholder'
 import { getBackupImageUrl } from '@/lib/blob-image'
 
 interface RecipeGridCardProps {
-  recipe: Recipe
+  recipe: RecipeCard
 }
 
 const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardProps) {

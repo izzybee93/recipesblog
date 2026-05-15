@@ -1,12 +1,12 @@
 import { memo, useState, useEffect, startTransition } from 'react'
 import Link from 'next/link'
-import { Recipe } from '@/types/recipe'
+import { RecipeCard } from '@/types/recipe'
 import RecipeGrid from './RecipeGrid'
 import CategoryIndex from './CategoryIndex'
 import { capitalize, shuffleByDate } from '@/lib/search'
 
 interface RecipesByCategoryProps {
-  recipesByCategory: Record<string, Recipe[]>
+  recipesByCategory: Record<string, RecipeCard[]>
 }
 
 const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }: RecipesByCategoryProps) {

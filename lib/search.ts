@@ -11,6 +11,13 @@ export function removeDiacritics(str: string): string {
 }
 
 /**
+ * Normalize text for consistent search matching.
+ */
+export function normalizeSearchText(str: string): string {
+  return removeDiacritics(str.toLowerCase()).replace(/\s+/g, ' ').trim()
+}
+
+/**
  * Capitalize the first letter of a string
  * e.g., "breakfast" becomes "Breakfast"
  */

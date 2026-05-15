@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { getAllCategories, getRecipesByCategory } from '@/lib/mdx'
+import { getAllCategories, getRecipeCardsByCategory, getRecipeSearchDocumentsByCategory, getRecipesByCategory } from '@/lib/mdx'
 import { capitalize } from '@/lib/search'
 import CategoryPageClient from '@/components/recipe/CategoryPageClient'
 
@@ -64,7 +64,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound()
   }
 
-  const recipes = getRecipesByCategory(slug)
+  const recipes = getRecipeCardsByCategory(slug)
+  const searchDocuments = getRecipeSearchDocumentsByCategory(slug)
 
-  return <CategoryPageClient recipes={recipes} category={slug} />
+  return <CategoryPageClient recipes={recipes} searchDocuments={searchDocuments} category={slug} />
 }

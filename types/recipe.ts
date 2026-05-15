@@ -14,6 +14,22 @@ export interface Recipe {
   total_time?: string
 }
 
+export interface RecipeCard {
+  title: string
+  slug: string
+  date: string
+  categories: string[]
+  featured_image: string
+  draft?: boolean
+}
+
+export interface RecipeSearchDocument {
+  slug: string
+  titleText: string
+  categoryText: string
+  bodyText: string
+}
+
 export interface RecipeFrontmatter {
   title: string
   date: string

@@ -2,17 +2,18 @@
 
 import { useState, useMemo, useCallback, useTransition, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Recipe } from '@/types/recipe'
+import { RecipeCard, RecipeSearchDocument } from '@/types/recipe'
 import SearchBar from '@/components/SearchBar'
 import RecipeGrid from './RecipeGrid'
-import { removeDiacritics, capitalize } from '@/lib/search'
+import { normalizeSearchText, capitalize } from '@/lib/search'
 
 interface CategoryPageClientProps {
-  recipes: Recipe[]
+  recipes: RecipeCard[]
+  searchDocuments: RecipeSearchDocument[]
   category: string
 }
 
-export default function CategoryPageClient({ recipes, category }: CategoryPageClientProps) {
+export default function CategoryPageClient({ recipes, searchDocuments, category }: CategoryPageClientProps) {
   const router = useRouter()
   // Only restore search query on back/forward navigation, not explicit clicks
   const [searchQuery, setSearchQuery] = useState(() => {
@@ -60,21 +61,24 @@ export default function CategoryPageClient({ recipes, category }: CategoryPageCl
   // Check if we should show search results (2+ characters)
   const shouldSearch = searchQuery.trim().length >= 2
 
+  const recipeMap = useMemo(() => {
+    return new Map(recipes.map((recipe) => [recipe.slug, recipe]))
+  }, [recipes])
+
   // Filter recipes based on search query
   const filteredRecipes = useMemo(() => {
     if (!shouldSearch) return recipes
 
-    const query = removeDiacritics(searchQuery.trim().toLowerCase())
-    return recipes.filter(recipe => {
-      // Search title first
-      if (removeDiacritics(recipe.title.toLowerCase()).includes(query)) return true
-      // Search ingredients
-      if (recipe.ingredients.some(i => removeDiacritics(i.toLowerCase()).includes(query))) return true
-      // Search directions
-      if (recipe.directions.some(d => removeDiacritics(d.toLowerCase()).includes(query))) return true
-      return false
-    })
-  }, [recipes, searchQuery, shouldSearch])
+    const query = normalizeSearchText(searchQuery)
+    return searchDocuments
+      .filter((document) => {
+        if (document.titleText.includes(query)) return true
+        if (document.categoryText.includes(query)) return true
+        return document.bodyText.includes(query)
+      })
+      .map((document) => recipeMap.get(document.slug))
+      .filter((recipe): recipe is RecipeCard => Boolean(recipe))
+  }, [recipeMap, recipes, searchDocuments, searchQuery, shouldSearch])
 
   // Memoize the search handler with transition for non-blocking updates
   const handleSearch = useCallback((query: string) => {

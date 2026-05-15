@@ -1,9 +1,9 @@
 import { memo } from 'react'
-import { Recipe } from '@/types/recipe'
+import { RecipeCard } from '@/types/recipe'
 import RecipeGridCard from './RecipeGridCard'
 
 interface RecipeGridProps {
-  recipes: Recipe[]
+  recipes: RecipeCard[]
 }
 
 const RecipeGrid = memo(function RecipeGrid({ recipes }: RecipeGridProps) {

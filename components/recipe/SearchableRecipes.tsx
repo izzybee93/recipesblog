@@ -1,17 +1,18 @@
 'use client'
 
 import { useState, useMemo, useCallback, useTransition, useEffect } from 'react'
-import { Recipe } from '@/types/recipe'
+import { RecipeCard, RecipeSearchDocument } from '@/types/recipe'
 import SearchBar from '@/components/SearchBar'
 import RecipesByCategory from './RecipesByCategory'
 import RecipeGrid from './RecipeGrid'
-import { removeDiacritics } from '@/lib/search'
+import { normalizeSearchText } from '@/lib/search'
 
 interface SearchableRecipesProps {
-  recipesByCategory: Record<string, Recipe[]>
+  recipesByCategory: Record<string, RecipeCard[]>
+  searchDocuments: RecipeSearchDocument[]
 }
 
-export default function SearchableRecipes({ recipesByCategory }: SearchableRecipesProps) {
+export default function SearchableRecipes({ recipesByCategory, searchDocuments }: SearchableRecipesProps) {
   // Only restore search query on back/forward navigation, not explicit clicks
   const [searchQuery, setSearchQuery] = useState(() => {
     if (typeof window === 'undefined') return ''
@@ -36,7 +37,7 @@ export default function SearchableRecipes({ recipesByCategory }: SearchableRecip
 
   // Get all recipes in a flat array for searching - memoized independently
   const allRecipes = useMemo(() => {
-    const recipes: Recipe[] = []
+    const recipes: RecipeCard[] = []
     Object.values(recipesByCategory).forEach(categoryRecipes => {
       categoryRecipes.forEach(recipe => {
         // Avoid duplicates (recipes that appear in multiple categories)
@@ -48,6 +49,10 @@ export default function SearchableRecipes({ recipesByCategory }: SearchableRecip
     return recipes.sort((a, b) => a.title.localeCompare(b.title))
   }, [recipesByCategory])
 
+  const recipeMap = useMemo(() => {
+    return new Map(allRecipes.map((recipe) => [recipe.slug, recipe]))
+  }, [allRecipes])
+
   // Check if we should show search results
   const shouldSearch = searchQuery.trim().length >= 2
 
@@ -57,21 +62,16 @@ export default function SearchableRecipes({ recipesByCategory }: SearchableRecip
       return null
     }
 
-    const query = removeDiacritics(searchQuery.trim().toLowerCase())
-    return allRecipes.filter(recipe => {
-      // Search title first (most common search)
-      if (removeDiacritics(recipe.title.toLowerCase()).includes(query)) return true
-
-      // Then check categories
-      if (recipe.categories.some(cat => removeDiacritics(cat.toLowerCase()).includes(query))) return true
-
-      // Only search ingredients/directions if needed (more expensive)
-      if (recipe.ingredients.some(ingredient => removeDiacritics(ingredient.toLowerCase()).includes(query))) return true
-      if (recipe.directions.some(direction => removeDiacritics(direction.toLowerCase()).includes(query))) return true
-
-      return false
-    })
-  }, [allRecipes, searchQuery, shouldSearch])
+    const query = normalizeSearchText(searchQuery)
+    return searchDocuments
+      .filter((document) => {
+        if (document.titleText.includes(query)) return true
+        if (document.categoryText.includes(query)) return true
+        return document.bodyText.includes(query)
+      })
+      .map((document) => recipeMap.get(document.slug))
+      .filter((recipe): recipe is RecipeCard => Boolean(recipe))
+  }, [recipeMap, searchDocuments, searchQuery, shouldSearch])
 
   // Memoize the search handler with transition for non-blocking updates
   const handleSearch = useCallback((query: string) => {
