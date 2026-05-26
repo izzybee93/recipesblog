@@ -1,12 +1,12 @@
 'use client'
 
 import Image from "next/image"
+import { navigateHomeFromLogo } from '@/lib/navigation-actions'
 
 export default function Header() {
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    sessionStorage.removeItem('search-query-/')
-    window.location.href = '/'
+    navigateHomeFromLogo()
   }
 
   return (

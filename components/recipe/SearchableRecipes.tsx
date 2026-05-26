@@ -6,6 +6,7 @@ import SearchBar from '@/components/SearchBar'
 import RecipesByCategory from './RecipesByCategory'
 import RecipeGrid from './RecipeGrid'
 import { matchRecipeSearchDocuments, normalizeSearchText } from '@/lib/search'
+import { getInitialSearchQuery, persistSearchQuery } from '@/lib/search-state'
 
 interface SearchableRecipesProps {
   recipesByCategory: Record<string, RecipeCard[]>
@@ -14,16 +15,7 @@ interface SearchableRecipesProps {
 
 export default function SearchableRecipes({ recipesByCategory, searchDocuments }: SearchableRecipesProps) {
   // Only restore search query on back/forward navigation, not explicit clicks
-  const [searchQuery, setSearchQuery] = useState(() => {
-    if (typeof window === 'undefined') return ''
-    const isBack = sessionStorage.getItem('isBackNavigation') || sessionStorage.getItem('restoreScroll-/')
-    sessionStorage.removeItem('isBackNavigation')
-    if (isBack) {
-      return sessionStorage.getItem('search-query-/') || ''
-    }
-    sessionStorage.removeItem('search-query-/')
-    return ''
-  })
+  const [searchQuery, setSearchQuery] = useState(() => getInitialSearchQuery('/'))
   const [, startTransition] = useTransition()
   const deferredSearchQuery = useDeferredValue(searchQuery)
   const queryCacheRef = useRef(new Map<string, string[]>())
@@ -32,11 +24,7 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
 
   // Save search query to sessionStorage whenever it changes
   useEffect(() => {
-    if (searchQuery) {
-      sessionStorage.setItem('search-query-/', searchQuery)
-    } else {
-      sessionStorage.removeItem('search-query-/')
-    }
+    persistSearchQuery('/', searchQuery)
   }, [searchQuery])
 
   // Get all recipes in a flat array for searching - memoized independently

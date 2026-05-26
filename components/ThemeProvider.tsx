@@ -2,6 +2,12 @@
 
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import { markBackNavigation } from '@/lib/navigation-state'
+import {
+  clearSavedScrollPosition,
+  getSavedScrollPosition,
+  saveScrollPosition as persistScrollPosition,
+} from '@/lib/scroll-state'
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -34,7 +40,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   // Flag back/forward navigation so search state can be restored
   useEffect(() => {
     const handlePopState = () => {
-      sessionStorage.setItem('isBackNavigation', 'true')
+      markBackNavigation()
     }
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
@@ -42,14 +48,12 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
 
   // Handle scroll restoration
   useEffect(() => {
-    const scrollKey = `scroll-position-${pathname}`
-
     // Restore scroll position after page load or navigation
     const restoreScrollPosition = () => {
-      const savedPosition = sessionStorage.getItem(scrollKey)
+      const savedPosition = getSavedScrollPosition(pathname)
 
-      if (savedPosition) {
-        const targetPosition = parseInt(savedPosition, 10)
+      if (savedPosition !== null) {
+        const targetPosition = savedPosition
 
         // Wait for content to fully load before scrolling
         const scrollToPosition = () => {
@@ -62,7 +66,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
               top: targetPosition,
               behavior: 'instant'
             })
-            sessionStorage.removeItem(scrollKey)
+            clearSavedScrollPosition(pathname)
           } else {
             // Content not ready, try again
             setTimeout(scrollToPosition, 100)
@@ -78,14 +82,14 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     restoreScrollPosition()
 
     // Save scroll position before unload (for page refresh)
-    const saveScrollPosition = () => {
-      sessionStorage.setItem(scrollKey, window.scrollY.toString())
+    const handleBeforeUnload = () => {
+      persistScrollPosition(pathname, window.scrollY)
     }
 
-    window.addEventListener('beforeunload', saveScrollPosition)
+    window.addEventListener('beforeunload', handleBeforeUnload)
 
     return () => {
-      window.removeEventListener('beforeunload', saveScrollPosition)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
     }
   }, [pathname])
 

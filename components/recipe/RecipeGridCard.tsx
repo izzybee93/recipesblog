@@ -6,6 +6,7 @@ import { RecipeCard } from '@/types/recipe'
 import { useState, memo } from 'react'
 import RecipePlaceholder from './RecipePlaceholder'
 import { getBackupImageUrl } from '@/lib/blob-image'
+import { storeRecipeEntryNavigation } from '@/lib/navigation-actions'
 
 interface RecipeGridCardProps {
   recipe: RecipeCard
@@ -40,12 +41,7 @@ const RecipeGridCard = memo(function RecipeGridCard({ recipe }: RecipeGridCardPr
   }
 
   const handleClick = () => {
-    // Store the current path as the back destination for THIS recipe
-    const currentPath = window.location.pathname
-    const destinationPath = `/recipes/${recipe.slug}`
-    sessionStorage.setItem(`navigationHistory-${destinationPath}`, currentPath)
-    // Save current scroll position for when we return
-    sessionStorage.setItem(`scroll-position-${currentPath}`, window.scrollY.toString())
+    storeRecipeEntryNavigation(recipe.slug, window.location.pathname, window.scrollY)
   }
 
   // Memoize recipe slug to prevent recalculation

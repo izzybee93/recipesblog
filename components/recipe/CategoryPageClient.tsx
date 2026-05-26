@@ -5,6 +5,13 @@ import { RecipeCard, RecipeSearchDocument } from '@/types/recipe'
 import SearchBar from '@/components/SearchBar'
 import RecipeGrid from './RecipeGrid'
 import { capitalize, matchRecipeSearchDocuments, normalizeSearchText } from '@/lib/search'
+import { getInitialSearchQuery, persistSearchQuery } from '@/lib/search-state'
+import { navigateToStoredBackDestination } from '@/lib/navigation-actions'
+import {
+  clearSavedScrollPosition,
+  consumeRestoreScroll,
+  getSavedScrollPosition,
+} from '@/lib/scroll-state'
 
 interface CategoryPageClientProps {
   recipes: RecipeCard[]
@@ -14,17 +21,7 @@ interface CategoryPageClientProps {
 
 export default function CategoryPageClient({ recipes, searchDocuments, category }: CategoryPageClientProps) {
   // Only restore search query on back/forward navigation, not explicit clicks
-  const [searchQuery, setSearchQuery] = useState(() => {
-    if (typeof window === 'undefined') return ''
-    const path = `/category/${category}`
-    const isBack = sessionStorage.getItem('isBackNavigation') || sessionStorage.getItem(`restoreScroll-${path}`)
-    sessionStorage.removeItem('isBackNavigation')
-    if (isBack) {
-      return sessionStorage.getItem(`search-query-${path}`) || ''
-    }
-    sessionStorage.removeItem(`search-query-${path}`)
-    return ''
-  })
+  const [searchQuery, setSearchQuery] = useState(() => getInitialSearchQuery(`/category/${category}`))
   const [, startTransition] = useTransition()
   const deferredSearchQuery = useDeferredValue(searchQuery)
   const queryCacheRef = useRef(new Map<string, string[]>())
@@ -34,26 +31,31 @@ export default function CategoryPageClient({ recipes, searchDocuments, category 
   // Save search query to sessionStorage whenever it changes
   useEffect(() => {
     const path = `/category/${category}`
-    if (searchQuery) {
-      sessionStorage.setItem(`search-query-${path}`, searchQuery)
-    } else {
-      sessionStorage.removeItem(`search-query-${path}`)
-    }
+    persistSearchQuery(path, searchQuery)
   }, [searchQuery, category])
 
   // Scroll restoration on mount - only when navigating back
   useEffect(() => {
     const path = `/category/${category}`
-    const shouldRestore = sessionStorage.getItem(`restoreScroll-${path}`)
+    const shouldRestore = consumeRestoreScroll(path)
 
     if (shouldRestore) {
       // Navigating back - restore scroll position if available
-      const savedPosition = sessionStorage.getItem(`scroll-position-${path}`)
-      if (savedPosition) {
-        window.scrollTo(0, parseInt(savedPosition))
-        sessionStorage.removeItem(`scroll-position-${path}`)
+      const savedPosition = getSavedScrollPosition(path)
+      if (savedPosition !== null) {
+        const restoreScrollPosition = () => {
+          const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+
+          if (maxScroll >= savedPosition * 0.9 || maxScroll === 0) {
+            window.scrollTo(0, savedPosition)
+            clearSavedScrollPosition(path)
+          } else {
+            setTimeout(restoreScrollPosition, 100)
+          }
+        }
+
+        setTimeout(restoreScrollPosition, 100)
       }
-      sessionStorage.removeItem(`restoreScroll-${path}`)
     } else {
       // Navigating forward - start at top
       window.scrollTo(0, 0)
@@ -122,19 +124,7 @@ export default function CategoryPageClient({ recipes, searchDocuments, category 
   }, [])
 
   const handleBack = () => {
-    // Get stored navigation history for THIS page
-    const currentPath = `/category/${category}`
-    const navHistory = sessionStorage.getItem(`navigationHistory-${currentPath}`)
-
-    // If we have a valid stored path, use it; otherwise go to homepage
-    if (navHistory && navHistory.startsWith('/')) {
-      // Set flag to restore scroll position on the destination page
-      sessionStorage.setItem(`restoreScroll-${navHistory}`, 'true')
-      window.location.href = navHistory
-    } else {
-      sessionStorage.setItem('restoreScroll-/', 'true')
-      window.location.href = '/'
-    }
+    navigateToStoredBackDestination(`/category/${category}`)
   }
 
   const displayRecipes = shouldSearch ? filteredRecipes : recipes

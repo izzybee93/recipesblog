@@ -9,6 +9,11 @@ import RecipePlaceholder from './RecipePlaceholder'
 import RecipeFooter from './RecipeFooter'
 import RecipeMode from './RecipeMode'
 import { getBackupImageUrl } from '@/lib/blob-image'
+import {
+  navigateToStoredBackDestination,
+  storeCategoryEntryNavigation,
+  storeRecipeLinkNavigation,
+} from '@/lib/navigation-actions'
 
 interface RecipeLayoutProps {
   recipe: Recipe
@@ -53,18 +58,13 @@ function recipeNameToSlug(recipeName: string): string {
     .trim()
 }
 
-function storeRecipeNavigationHistory(slug: string) {
-  // Store the current recipe path as the back destination for the linked recipe
-  sessionStorage.setItem(`navigationHistory-/recipes/${slug}`, window.location.pathname)
-}
-
 function renderRecipeLink(slug: string, linkText: string) {
   return (
     <Link
       href={`/recipes/${slug}`}
       className="hover:underline"
       style={{ color: 'var(--accent)' }}
-      onClick={() => storeRecipeNavigationHistory(slug)}
+      onClick={() => storeRecipeLinkNavigation(slug, window.location.pathname)}
     >
       {linkText}
     </Link>
@@ -238,19 +238,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
   }
 
   const handleBack = () => {
-    // Get stored navigation history for THIS page
-    const currentPath = window.location.pathname
-    const navHistory = sessionStorage.getItem(`navigationHistory-${currentPath}`)
-
-    // If we have a valid stored path, use it; otherwise go to homepage
-    if (navHistory && navHistory.startsWith('/')) {
-      // Set flag to restore scroll position on the destination page
-      sessionStorage.setItem(`restoreScroll-${navHistory}`, 'true')
-      window.location.href = navHistory
-    } else {
-      sessionStorage.setItem('restoreScroll-/', 'true')
-      window.location.href = '/'
-    }
+    navigateToStoredBackDestination(window.location.pathname)
   }
 
   return (
@@ -292,8 +280,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
               key={category}
               onClick={() => {
                 const categorySlug = category.toLowerCase()
-                // Store current recipe as the back destination for the category page
-                sessionStorage.setItem(`navigationHistory-/category/${categorySlug}`, window.location.pathname)
+                storeCategoryEntryNavigation(`/category/${categorySlug}`, window.location.pathname)
                 window.location.href = `/category/${categorySlug}`
               }}
               className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-3 py-1 rounded text-sm font-medium capitalize hover:bg-[var(--accent)] hover:text-white transition-colors cursor-pointer border-none"

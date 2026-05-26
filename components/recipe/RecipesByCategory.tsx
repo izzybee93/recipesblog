@@ -4,6 +4,12 @@ import { RecipeCard } from '@/types/recipe'
 import RecipeGrid from './RecipeGrid'
 import CategoryIndex from './CategoryIndex'
 import { capitalize, shuffleByDate } from '@/lib/search'
+import { storeCategoryEntryNavigation } from '@/lib/navigation-actions'
+import {
+  clearSavedScrollPosition,
+  consumeRestoreScroll,
+  getSavedScrollPosition,
+} from '@/lib/scroll-state'
 
 interface RecipesByCategoryProps {
   recipesByCategory: Record<string, RecipeCard[]>
@@ -34,25 +40,23 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
 
   // Restore scroll position when returning to homepage - only on back navigation
   useEffect(() => {
-    const shouldRestore = sessionStorage.getItem('restoreScroll-/')
+    const shouldRestore = consumeRestoreScroll('/')
 
     if (shouldRestore) {
-      const savedPosition = sessionStorage.getItem('scroll-position-/')
-      if (savedPosition) {
+      const savedPosition = getSavedScrollPosition('/')
+      if (savedPosition !== null) {
         // Wait for content to render before scrolling
         setTimeout(() => {
-          window.scrollTo(0, parseInt(savedPosition))
-          sessionStorage.removeItem('scroll-position-/')
+          window.scrollTo(0, savedPosition)
+          clearSavedScrollPosition('/')
         }, 100)
       }
-      sessionStorage.removeItem('restoreScroll-/')
     }
   }, [visibleCategories])
 
   // Save scroll position and navigation history when clicking "View all"
   const handleViewAllClick = (category: string) => {
-    sessionStorage.setItem('scroll-position-/', window.scrollY.toString())
-    sessionStorage.setItem(`navigationHistory-/category/${category}`, '/')
+    storeCategoryEntryNavigation(`/category/${category}`, '/', window.scrollY)
   }
 
   // Maximum recipes to show per category on homepage
