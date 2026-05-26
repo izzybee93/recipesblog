@@ -1,3 +1,15 @@
+import { RecipeSearchDocument } from '@/types/recipe'
+
+export interface RecipeSearchMatchBuckets {
+  primarySlugs: string[]
+  bodySlugs: string[]
+}
+
+export interface RecipeSearchOptions {
+  candidateSlugs?: Set<string>
+  includeBodyMatches?: boolean
+}
+
 /**
  * Shared search utilities used across SearchableRecipes and CategoryPageClient
  */
@@ -15,6 +27,47 @@ export function removeDiacritics(str: string): string {
  */
 export function normalizeSearchText(str: string): string {
   return removeDiacritics(str.toLowerCase()).replace(/\s+/g, ' ').trim()
+}
+
+/**
+ * Match recipe search documents while preserving the existing ranking:
+ * title/category matches first, with optional body fallback and optional
+ * candidate narrowing for incremental query refinement.
+ */
+export function matchRecipeSearchDocuments(
+  documents: RecipeSearchDocument[],
+  query: string,
+  options: RecipeSearchOptions = {}
+): RecipeSearchMatchBuckets {
+  const normalizedQuery = normalizeSearchText(query)
+
+  if (normalizedQuery.length < 2) {
+    return { primarySlugs: [], bodySlugs: [] }
+  }
+
+  const { candidateSlugs, includeBodyMatches = true } = options
+  const primarySlugs: string[] = []
+  const bodySlugs: string[] = []
+
+  documents.forEach((document) => {
+    if (candidateSlugs && !candidateSlugs.has(document.slug)) {
+      return
+    }
+
+    if (
+      document.titleText.includes(normalizedQuery) ||
+      document.categoryText.includes(normalizedQuery)
+    ) {
+      primarySlugs.push(document.slug)
+      return
+    }
+
+    if (includeBodyMatches && document.bodyText.includes(normalizedQuery)) {
+      bodySlugs.push(document.slug)
+    }
+  })
+
+  return { primarySlugs, bodySlugs }
 }
 
 /**

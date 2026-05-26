@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useMemo, useCallback, useTransition, useEffect } from 'react'
+import { useState, useMemo, useCallback, useTransition, useEffect, useDeferredValue, useRef } from 'react'
 import { RecipeCard, RecipeSearchDocument } from '@/types/recipe'
 import SearchBar from '@/components/SearchBar'
 import RecipesByCategory from './RecipesByCategory'
 import RecipeGrid from './RecipeGrid'
-import { normalizeSearchText } from '@/lib/search'
+import { matchRecipeSearchDocuments, normalizeSearchText } from '@/lib/search'
 
 interface SearchableRecipesProps {
   recipesByCategory: Record<string, RecipeCard[]>
@@ -24,7 +24,11 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
     sessionStorage.removeItem('search-query-/')
     return ''
   })
-  const [isPending, startTransition] = useTransition()
+  const [, startTransition] = useTransition()
+  const deferredSearchQuery = useDeferredValue(searchQuery)
+  const queryCacheRef = useRef(new Map<string, string[]>())
+  const previousQueryRef = useRef('')
+  const previousResultSlugsRef = useRef<string[] | null>(null)
 
   // Save search query to sessionStorage whenever it changes
   useEffect(() => {
@@ -56,22 +60,50 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
   // Check if we should show search results
   const shouldSearch = searchQuery.trim().length >= 2
 
-  // Filter recipes based on search query
+  // Cache normalized queries and narrow candidates when a query extends the
+  // previous one. Results remain exhaustive: title/category matches stay first,
+  // but body matches are still included so narrowing remains safe.
   const filteredRecipes = useMemo(() => {
     if (!shouldSearch) {
+      previousQueryRef.current = ''
+      previousResultSlugsRef.current = null
       return null
     }
 
-    const query = normalizeSearchText(searchQuery)
-    return searchDocuments
-      .filter((document) => {
-        if (document.titleText.includes(query)) return true
-        if (document.categoryText.includes(query)) return true
-        return document.bodyText.includes(query)
-      })
-      .map((document) => recipeMap.get(document.slug))
+    const normalizedDeferredQuery = normalizeSearchText(deferredSearchQuery)
+    const cachedSlugs = queryCacheRef.current.get(normalizedDeferredQuery)
+
+    if (cachedSlugs) {
+      previousQueryRef.current = normalizedDeferredQuery
+      previousResultSlugsRef.current = cachedSlugs
+
+      return cachedSlugs
+        .map((slug) => recipeMap.get(slug))
+        .filter((recipe): recipe is RecipeCard => Boolean(recipe))
+    }
+
+    const candidateSlugs =
+      previousResultSlugsRef.current &&
+      previousQueryRef.current &&
+      normalizedDeferredQuery.startsWith(previousQueryRef.current)
+        ? new Set(previousResultSlugsRef.current)
+        : undefined
+
+    const matches = matchRecipeSearchDocuments(searchDocuments, normalizedDeferredQuery, {
+      candidateSlugs,
+      includeBodyMatches: true,
+    })
+
+    const finalSlugs = [...matches.primarySlugs, ...matches.bodySlugs]
+
+    queryCacheRef.current.set(normalizedDeferredQuery, finalSlugs)
+    previousQueryRef.current = normalizedDeferredQuery
+    previousResultSlugsRef.current = finalSlugs
+
+    return finalSlugs
+      .map((slug) => recipeMap.get(slug))
       .filter((recipe): recipe is RecipeCard => Boolean(recipe))
-  }, [recipeMap, searchDocuments, searchQuery, shouldSearch])
+  }, [deferredSearchQuery, recipeMap, searchDocuments, shouldSearch])
 
   // Memoize the search handler with transition for non-blocking updates
   const handleSearch = useCallback((query: string) => {

@@ -1,11 +1,10 @@
 'use client'
 
-import { useState, useMemo, useCallback, useTransition, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useMemo, useCallback, useTransition, useEffect, useDeferredValue, useRef } from 'react'
 import { RecipeCard, RecipeSearchDocument } from '@/types/recipe'
 import SearchBar from '@/components/SearchBar'
 import RecipeGrid from './RecipeGrid'
-import { normalizeSearchText, capitalize } from '@/lib/search'
+import { capitalize, matchRecipeSearchDocuments, normalizeSearchText } from '@/lib/search'
 
 interface CategoryPageClientProps {
   recipes: RecipeCard[]
@@ -14,7 +13,6 @@ interface CategoryPageClientProps {
 }
 
 export default function CategoryPageClient({ recipes, searchDocuments, category }: CategoryPageClientProps) {
-  const router = useRouter()
   // Only restore search query on back/forward navigation, not explicit clicks
   const [searchQuery, setSearchQuery] = useState(() => {
     if (typeof window === 'undefined') return ''
@@ -28,6 +26,10 @@ export default function CategoryPageClient({ recipes, searchDocuments, category 
     return ''
   })
   const [, startTransition] = useTransition()
+  const deferredSearchQuery = useDeferredValue(searchQuery)
+  const queryCacheRef = useRef(new Map<string, string[]>())
+  const previousQueryRef = useRef('')
+  const previousResultSlugsRef = useRef<string[] | null>(null)
 
   // Save search query to sessionStorage whenever it changes
   useEffect(() => {
@@ -65,20 +67,50 @@ export default function CategoryPageClient({ recipes, searchDocuments, category 
     return new Map(recipes.map((recipe) => [recipe.slug, recipe]))
   }, [recipes])
 
-  // Filter recipes based on search query
+  // Mirror homepage search behavior: keep exhaustive results, but reuse
+  // narrowed cached result sets as the query extends. Title/category matches
+  // still rank ahead of body matches.
   const filteredRecipes = useMemo(() => {
-    if (!shouldSearch) return recipes
+    if (!shouldSearch) {
+      previousQueryRef.current = ''
+      previousResultSlugsRef.current = null
+      return recipes
+    }
 
-    const query = normalizeSearchText(searchQuery)
-    return searchDocuments
-      .filter((document) => {
-        if (document.titleText.includes(query)) return true
-        if (document.categoryText.includes(query)) return true
-        return document.bodyText.includes(query)
-      })
-      .map((document) => recipeMap.get(document.slug))
+    const normalizedDeferredQuery = normalizeSearchText(deferredSearchQuery)
+    const cachedSlugs = queryCacheRef.current.get(normalizedDeferredQuery)
+
+    if (cachedSlugs) {
+      previousQueryRef.current = normalizedDeferredQuery
+      previousResultSlugsRef.current = cachedSlugs
+
+      return cachedSlugs
+        .map((slug) => recipeMap.get(slug))
+        .filter((recipe): recipe is RecipeCard => Boolean(recipe))
+    }
+
+    const candidateSlugs =
+      previousResultSlugsRef.current &&
+      previousQueryRef.current &&
+      normalizedDeferredQuery.startsWith(previousQueryRef.current)
+        ? new Set(previousResultSlugsRef.current)
+        : undefined
+
+    const matches = matchRecipeSearchDocuments(searchDocuments, normalizedDeferredQuery, {
+      candidateSlugs,
+      includeBodyMatches: true,
+    })
+
+    const finalSlugs = [...matches.primarySlugs, ...matches.bodySlugs]
+
+    queryCacheRef.current.set(normalizedDeferredQuery, finalSlugs)
+    previousQueryRef.current = normalizedDeferredQuery
+    previousResultSlugsRef.current = finalSlugs
+
+    return finalSlugs
+      .map((slug) => recipeMap.get(slug))
       .filter((recipe): recipe is RecipeCard => Boolean(recipe))
-  }, [recipeMap, recipes, searchDocuments, searchQuery, shouldSearch])
+  }, [deferredSearchQuery, recipeMap, recipes, searchDocuments, shouldSearch])
 
   // Memoize the search handler with transition for non-blocking updates
   const handleSearch = useCallback((query: string) => {
