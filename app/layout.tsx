@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://bakerbeanie.me'),
   title: "Baker Beanie",
   description: "A blog full of tasty vegetarian and vegan recipes",
+  applicationName: "Baker Beanie",
+  appleWebApp: {
+    title: "Baker Beanie",
+  },
   openGraph: {
     title: "Baker Beanie",
     description: "A blog full of tasty vegetarian and vegan recipes",

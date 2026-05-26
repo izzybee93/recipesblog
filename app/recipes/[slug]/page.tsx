@@ -39,6 +39,10 @@ export async function generateMetadata({ params }: RecipePageProps) {
   return {
     title: `${recipe.meta.title} | Baker Beanie`,
     description: recipeDescription,
+    applicationName: 'Baker Beanie',
+    appleWebApp: {
+      title: recipe.meta.title,
+    },
     openGraph: {
       title: recipe.meta.title,
       description: recipeDescription,
