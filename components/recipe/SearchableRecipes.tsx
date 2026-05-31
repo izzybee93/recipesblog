@@ -120,9 +120,9 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
 
       {showingSearch ? (
         <div>
-          <div className="mb-6 text-center">
+          <div className="mb-8 text-center">
             <h2 
-              className="font-display text-2xl font-bold"
+              className="font-display text-[clamp(2rem,5vw,3.25rem)] font-bold leading-none"
               style={{ 
                 color: 'var(--accent)'
               }}

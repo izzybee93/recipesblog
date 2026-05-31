@@ -2,12 +2,12 @@ import Image from 'next/image'
 
 export default function AboutFooter() {
   return (
-    <section className="about-footer bg-gray-50 dark:bg-gray-800 py-12 mt-16 rounded-lg">
-      <div className="container mx-auto px-4">
+    <section className="about-footer relative left-1/2 mt-16 w-screen -translate-x-1/2 bg-[var(--surface)] py-14 md:py-20">
+      <div className="mx-auto max-w-[760px] px-4 md:px-8">
         <div className="max-w-3xl mx-auto text-center">
           {/* Author Image */}
-          <div className="mb-8">
-            <div className="w-32 h-32 mx-auto relative">
+          <div className="mb-6">
+            <div className="relative mx-auto h-32 w-32">
               <Image
                 src="/izzy-illustration.svg"
                 alt="Izzy Illustration"
@@ -20,21 +20,21 @@ export default function AboutFooter() {
           {/* About Content */}
           <div className="mb-8">
             <h2
-              className="font-display text-3xl font-bold mb-6"
+              className="font-display text-[clamp(1.75rem,4vw,2.5rem)] font-bold mb-6"
               style={{
                 color: 'var(--accent)'
               }}
             >
               About Baker Beanie
             </h2>
-            <p className="font-body text-gray-700 dark:text-gray-300 text-lg leading-relaxed max-w-2xl mx-auto">
+            <p className="font-body mx-auto max-w-2xl text-base leading-relaxed text-gray-700 dark:text-gray-300">
               Welcome to baker beanie! A blog full of tasty, mostly plant-based recipes.
             </p>
           </div>
 
           {/* Every day is treat day section */}
-          <div>
-            <div className="w-24 h-24 mx-auto mb-3 relative">
+          <div className="pt-2">
+            <div className="relative mx-auto mb-2 h-24 w-24">
               <Image
                 src="/author.jpg"
                 alt="Baker Beanie Author"

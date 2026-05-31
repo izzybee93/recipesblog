@@ -131,12 +131,13 @@ export default function CategoryPageClient({ recipes, searchDocuments, category 
   const categoryName = capitalize(category)
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="mx-auto py-6 md:py-8">
       {/* Back button */}
-      <div className="mb-6">
+      <div className="mb-4">
         <button
           onClick={handleBack}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-[var(--accent)] hover:text-white dark:hover:text-white transition-colors"
+          className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold !no-underline transition-colors hover:bg-[var(--surface)] hover:!no-underline focus:!no-underline active:!no-underline focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+          style={{ color: 'var(--accent)' }}
         >
           <svg
             className="w-4 h-4"
@@ -156,12 +157,11 @@ export default function CategoryPageClient({ recipes, searchDocuments, category 
       </div>
 
       {/* Category header */}
-      <header className="text-center mb-8">
+      <header className="mb-10 text-center">
         <h1
-          className="font-display font-bold mb-4"
+          className="font-display mb-4 font-bold text-[clamp(2.5rem,7vw,4rem)] leading-none"
           style={{
-            color: 'var(--accent)',
-            fontSize: '4rem'
+            color: 'var(--accent)'
           }}
         >
           {categoryName}

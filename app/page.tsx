@@ -9,7 +9,7 @@ export default async function HomePage() {
 
   return (
     <div>
-      <div className="px-4 pt-4 pb-8">
+      <div className="pt-6 pb-12 md:pt-8 md:pb-16">
         {totalRecipes === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-600">No recipes yet. Add your first recipe in the content/recipes folder!</p>

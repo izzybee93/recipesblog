@@ -144,10 +144,10 @@ export default function RecipeMode() {
   }, [])
 
   return (
-    <div className="flex items-center gap-3 mb-4">
+    <div className="mb-0 flex shrink-0 items-center gap-2">
       <button
         onClick={toggleRecipeMode}
-        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+        className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent)] ${
           isRecipeMode ? '' : 'bg-gray-300 dark:bg-gray-600'
         }`}
         style={{
@@ -158,7 +158,7 @@ export default function RecipeMode() {
         role="switch"
       >
         <span
-          className={`inline-block h-4 w-4 transform rounded-full bg-white dark:bg-gray-200 transition-transform ${
+          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform dark:bg-gray-200 ${
             isRecipeMode ? 'translate-x-6' : 'translate-x-1'
           }`}
         />
@@ -177,7 +177,7 @@ export default function RecipeMode() {
       <div className="group relative" ref={tooltipRef}>
         <button
           onClick={() => setShowTooltip(!showTooltip)}
-          className="w-4 h-4 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 cursor-help focus:outline-none"
+          className="flex min-h-11 min-w-11 cursor-help items-center justify-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] dark:text-gray-500 dark:hover:text-gray-300"
           aria-label="Information about cooking mode"
           type="button"
         >
@@ -196,7 +196,7 @@ export default function RecipeMode() {
           </svg>
         </button>
         <div
-          className={`absolute bottom-full right-0 mb-2 whitespace-nowrap p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10 transition-opacity ${
+          className={`absolute bottom-full right-0 z-10 mb-2 whitespace-nowrap rounded bg-gray-800 p-2 text-xs text-white transition-opacity ${
             showTooltip ? 'block' : 'hidden group-hover:block'
           }`}
         >

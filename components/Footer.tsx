@@ -2,8 +2,8 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
   
   return (
-    <footer className="text-center py-8 text-gray-500 dark:text-gray-400 text-sm border-t border-gray-200 dark:border-gray-700 mt-16">
-      <div className="container mx-auto px-4">
+    <footer className="mt-16 border-t border-[var(--border)] py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+      <div className="page-shell">
         <p>
           &copy; Baker Beanie {currentYear}. All rights reserved.
         </p>

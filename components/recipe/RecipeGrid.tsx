@@ -4,13 +4,14 @@ import RecipeGridCard from './RecipeGridCard'
 
 interface RecipeGridProps {
   recipes: RecipeCard[]
+  featuredFirst?: boolean
 }
 
-const RecipeGrid = memo(function RecipeGrid({ recipes }: RecipeGridProps) {
+const RecipeGrid = memo(function RecipeGrid({ recipes, featuredFirst = false }: RecipeGridProps) {
   return (
-    <div className="recipes flex flex-wrap gap-4" style={{ contain: 'layout' }}>
-      {recipes.map((recipe) => (
-        <RecipeGridCard key={recipe.slug} recipe={recipe} />
+    <div className="recipes grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" style={{ contain: 'layout' }}>
+      {recipes.map((recipe, index) => (
+        <RecipeGridCard key={recipe.slug} recipe={recipe} featured={featuredFirst && index === 0} />
       ))}
     </div>
   )

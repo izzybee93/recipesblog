@@ -21,8 +21,8 @@ export default function RecipeCard({ recipe, blurDataURL }: RecipeCardProps) {
   
   return (
     <Link href={`/recipes/${recipe.slug}`} className="group" onClick={handleClick}>
-      <article className="overflow-hidden rounded-lg shadow-lg dark:shadow-gray-800 bg-white dark:bg-gray-800 transition-transform group-hover:scale-105">
-        <div className="relative h-48 w-full">
+      <article className="overflow-hidden rounded-xl bg-white transition-transform group-hover:scale-[1.02] dark:bg-gray-800">
+        <div className="relative aspect-[4/3] w-full">
           {imageError ? (
             <RecipePlaceholder 
               title={recipe.title} 
@@ -52,7 +52,7 @@ export default function RecipeCard({ recipe, blurDataURL }: RecipeCardProps) {
             {recipe.categories.map((category) => (
               <span
                 key={category}
-                className="text-xs bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded"
+                className="rounded-full bg-gray-200 px-2 py-1 text-xs text-gray-700 dark:bg-gray-700 dark:text-gray-300"
               >
                 {category}
               </span>

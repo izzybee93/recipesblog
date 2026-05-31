@@ -61,7 +61,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <Header />
-          <div className="container mx-auto main-content">
+          <div className="page-shell main-content">
             <section className="content">{children}</section>
           </div>
           <Footer />

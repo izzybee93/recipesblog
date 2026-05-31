@@ -63,11 +63,11 @@ export default function SearchBar({ onSearch, placeholder = "Search recipes...",
   }, [])
 
   return (
-    <div className="search-bar mb-8">
-      <div className="relative max-w-md mx-auto">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+    <div className="search-bar mb-12">
+      <div className="relative mx-auto w-full max-w-[760px]">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
           <svg 
-            className="h-5 w-5 text-gray-400 dark:text-gray-500" 
+            className="h-5 w-5 text-gray-400 transition-colors focus-within:text-[var(--accent)] dark:text-gray-500" 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
@@ -86,13 +86,13 @@ export default function SearchBar({ onSearch, placeholder = "Search recipes...",
           value={query}
           onChange={handleInputChange}
           placeholder={placeholder}
-          className="block w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[color-mix(in_srgb,var(--accent)_20%,transparent)] focus:border-[var(--accent)] transition-all"
+          className="block h-12 w-full rounded-full bg-[var(--surface)] px-11 text-base text-gray-900 transition-colors duration-150 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[color-mix(in_srgb,var(--accent)_28%,transparent)] dark:text-white dark:placeholder:text-gray-400"
         />
         
         {query && (
           <button
             onClick={clearSearch}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            className="absolute inset-y-0 right-0 flex min-h-12 min-w-12 items-center justify-center text-gray-400 transition-colors hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--accent)] dark:text-gray-500 dark:hover:text-gray-300"
             aria-label="Clear search"
           >
             <svg 

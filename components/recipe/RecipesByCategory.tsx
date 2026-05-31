@@ -60,14 +60,14 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
   }
 
   // Maximum recipes to show per category on homepage
-  const RECIPES_PER_CATEGORY = 6
+  const RECIPES_PER_CATEGORY = 5
 
   return (
-    <div className="lg:flex lg:gap-8 lg:items-start">
+    <div className="lg:flex lg:items-start lg:gap-12">
       <CategoryIndex categories={categories} />
 
       <div className="lg:flex-1 lg:min-w-0">
-        <div className="space-y-16">
+        <div className="space-y-16 md:space-y-24">
           {categories.slice(0, visibleCategories).map(category => {
             const categoryRecipes = recipesByCategory[category]
             const shuffledRecipes = shuffleByDate(categoryRecipes)
@@ -78,14 +78,13 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
               <section
                 key={category}
                 id={`category-${category}`}
-                className="category-section scroll-mt-8 max-w-6xl mx-auto"
+                className="category-section mx-auto scroll-mt-8"
               >
-                <div className="flex items-baseline justify-between mb-8">
+                <div className="mb-6 flex items-end justify-between gap-6 border-b border-[var(--border)] pb-4">
                   <h2
-                    className="font-display font-bold text-left"
+                    className="font-display text-left font-bold text-[clamp(2.1rem,5vw,3.4rem)] leading-none"
                     style={{
-                      color: 'var(--accent)',
-                      fontSize: '4rem'
+                      color: 'var(--accent)'
                     }}
                   >
                     {capitalize(category)}
@@ -93,7 +92,7 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
                   {hasMore && (
                     <Link
                       href={`/category/${category}`}
-                      className="font-medium hover:underline"
+                      className="shrink-0 rounded-full px-3 py-2 text-sm font-semibold !no-underline transition-colors hover:bg-[var(--surface)] hover:!no-underline focus:!no-underline active:!no-underline focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
                       style={{ color: 'var(--accent)' }}
                       onClick={() => handleViewAllClick(category)}
                     >
@@ -101,7 +100,7 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
                     </Link>
                   )}
                 </div>
-                <RecipeGrid recipes={displayedRecipes} />
+                <RecipeGrid recipes={displayedRecipes} featuredFirst />
               </section>
             )
           })}

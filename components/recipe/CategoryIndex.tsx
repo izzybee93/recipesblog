@@ -34,17 +34,16 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
   return (
     <div className="category-index lg:sticky lg:top-8 lg:self-start">
       {/* Mobile/Tablet Layout (top) */}
-      <div className="lg:hidden mb-12 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="mb-12 lg:hidden">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {categories.map(category => (
             <button
               key={category}
               onClick={() => scrollToCategory(category)}
-              className="category-link py-3 px-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-[var(--accent)] hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200 text-center group"
+              className="category-link inline-flex min-h-11 w-full items-center justify-center rounded-full bg-[var(--surface)] px-4 py-2 text-center transition-colors hover:bg-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] group"
             >
               <span
-                className="font-medium text-gray-700 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white transition-colors"
-                style={{ fontSize: '0.95rem' }}
+                className="text-sm font-medium text-gray-600 transition-colors group-hover:text-white dark:text-gray-300"
               >
                 {capitalize(category)}
               </span>
@@ -56,18 +55,17 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
       {/* Desktop Sidebar Layout (left) */}
       <div
         ref={sidebarRef}
-        className="hidden lg:block w-64 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto"
+        className="hidden w-56 lg:block lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto"
       >
-        <nav className="space-y-2">
+        <nav className="space-y-2 border-l border-[var(--border)] pl-4">
           {categories.map(category => (
             <button
               key={category}
               onClick={() => scrollToCategory(category)}
-              className="w-full text-left py-3 px-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-[var(--accent)] hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200 group"
+              className="inline-flex min-h-11 w-full items-center rounded-full bg-[var(--surface)] px-4 py-2 text-left transition-colors hover:bg-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] group"
             >
               <span
-                className="font-medium text-gray-700 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white transition-colors"
-                style={{ fontSize: '0.95rem' }}
+                className="text-sm font-medium text-gray-600 transition-colors group-hover:text-white dark:text-gray-300"
               >
                 {capitalize(category)}
               </span>

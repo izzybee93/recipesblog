@@ -216,8 +216,8 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
     ? getBackupImageUrl(recipe.featured_image)
     : recipe.featured_image
 
-  // Show green placeholder while fallback is loading — but only if we don't
-  // already have a blur preview (the blur looks better than a solid gradient).
+  // Show placeholder while fallback is loading, but only if we do not already
+  // have a blur preview.
   const showPlaceholder = !blurDataURL && useFallback && !imageLoaded && !imageError
   // Hide the Image element while loading fallback so alt text doesn't show over the blur
   const hideImage = useFallback && !imageLoaded && !imageError
@@ -228,7 +228,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
       setUseFallback(true)
       setImageLoaded(false)
     } else if (!blurDataURL) {
-      // Backup also failed — show green placeholder only if there's no blur
+      // Backup also failed; show placeholder only if there is no blur.
       setImageError(true)
     }
   }
@@ -242,18 +242,19 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
   }
 
   return (
-    <article className="post max-w-4xl mx-auto px-4 py-8">
+    <article className="post mx-auto max-w-[760px] py-6 md:py-8">
       {recipe.draft && (
-        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6">
+        <div className="mb-8 border-l-4 border-yellow-500 bg-yellow-100 p-4 text-yellow-700">
           <p className="font-bold">Draft Mode</p>
           <p className="text-sm">This recipe is not yet published.</p>
         </div>
       )}
 
-      <div className="mb-6">
+      <div className="mb-4">
         <button
           onClick={handleBack}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-[var(--accent)] hover:text-white dark:hover:text-white transition-colors"
+          className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold !no-underline transition-colors hover:bg-[var(--surface)] hover:!no-underline focus:!no-underline active:!no-underline focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+          style={{ color: 'var(--accent)' }}
         >
           <svg
             className="w-4 h-4"
@@ -272,9 +273,9 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
         </button>
       </div>
 
-      <header className="text-center mb-8">
-        <h1 className="font-body text-4xl md:text-5xl font-bold text-gray-800 dark:text-white" style={{ marginBottom: '24px' }}>{recipe.title}</h1>
-        <div className="flex flex-wrap justify-center gap-2 mb-4">
+      <header className="mb-8 grid grid-cols-1 gap-5 text-center md:mb-10 md:gap-6">
+        <h1 className="block font-body !text-[clamp(1.7rem,3.6vw,2.35rem)] font-bold !leading-tight text-gray-800 dark:text-white">{recipe.title}</h1>
+        <div className="flex flex-wrap justify-center gap-3">
           {recipe.categories.map((category) => (
             <button
               key={category}
@@ -283,7 +284,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
                 storeCategoryEntryNavigation(`/category/${categorySlug}`, window.location.pathname)
                 window.location.href = `/category/${categorySlug}`
               }}
-              className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-3 py-1 rounded text-sm font-medium capitalize hover:bg-[var(--accent)] hover:text-white transition-colors cursor-pointer border-none"
+              className="inline-flex min-h-11 items-center rounded-full bg-[var(--surface)] px-4 py-2 text-sm font-medium capitalize text-gray-600 transition-colors hover:bg-[var(--accent)] hover:text-white focus:outline-none focus:ring-2 focus:ring-[var(--accent)] dark:text-gray-300"
             >
               {category}
             </button>
@@ -292,7 +293,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
       </header>
 
       <div
-        className="image mb-8 relative rounded-lg overflow-hidden"
+        className="image relative mb-10 overflow-hidden rounded-xl"
         style={blurDataURL ? {
           backgroundImage: `url(${blurDataURL})`,
           backgroundSize: 'cover',
@@ -302,16 +303,16 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
         {imageError ? (
           <RecipePlaceholder
             title={recipe.title}
-            className="w-full rounded-lg"
+            className="w-full rounded-xl"
             style={{ height: '400px' }}
           />
         ) : (
           <>
-            {/* Show green placeholder only when no blur is available */}
+            {/* Show placeholder only when no blur is available. */}
             {showPlaceholder && (
               <RecipePlaceholder
                 title={recipe.title}
-                className="w-full rounded-lg absolute inset-0 z-10"
+                className="absolute inset-0 z-10 w-full rounded-xl"
                 style={{ height: '400px' }}
               />
             )}
@@ -320,7 +321,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
               alt={recipe.title}
               width={1200}
               height={800}
-              className={`w-full h-auto rounded-lg transition-opacity duration-300 ${showPlaceholder || hideImage ? 'opacity-0' : 'opacity-100'}`}
+              className={`h-auto w-full rounded-xl transition-opacity duration-300 ${showPlaceholder || hideImage ? 'opacity-0' : 'opacity-100'}`}
               priority
               placeholder={blurDataURL ? 'blur' : 'empty'}
               blurDataURL={blurDataURL}
@@ -332,28 +333,32 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
       </div>
 
       {children && (
-        <div className="recipe-body prose prose-lg max-w-none mb-8">
+        <div className="recipe-body prose prose-lg mb-10 max-w-none leading-relaxed">
           {children}
         </div>
       )}
 
-      <div className="recipe-contents grid md:grid-cols-2 gap-8">
+      <div className="recipe-contents grid gap-12 border-t border-[var(--border)] pt-10 md:grid-cols-2">
         <div className="ingredients">
-          <h2 className="text-2xl font-semibold dark:text-white" style={{ marginBottom: '16px' }}>Ingredients</h2>
+          <div className="mb-6 grid grid-cols-1 gap-5">
+            <div className="flex min-h-11 items-center">
+              <h2 className="block !text-[1.25rem] !leading-tight font-semibold md:!text-[1.375rem] dark:text-white">Ingredients</h2>
+            </div>
 
-          <div className="recipe-overview mb-4 flex items-center gap-2">
-            <svg
-              className="w-4 h-4"
-              style={{ color: 'var(--accent)' }}
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z" />
-            </svg>
-            <span className="text-gray-700 dark:text-gray-300">{recipe.servings}</span>
+            <div className="recipe-overview flex items-center gap-2">
+              <svg
+                className="w-4 h-4"
+                style={{ color: 'var(--accent)' }}
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z" />
+              </svg>
+              <span className="text-gray-700 dark:text-gray-300">{recipe.servings}</span>
+            </div>
           </div>
 
-          <ul className="space-y-2">
+          <ul className="space-y-3">
             {recipe.ingredients.map((rawIngredient, index) => {
               // Coerce to string in case YAML parsed an object (e.g. trailing colon)
               const ingredient = typeof rawIngredient === 'string'
@@ -367,7 +372,7 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
               if (sectionMatch) {
                 const headerText = sectionMatch[1].trim()
                 return (
-                  <li key={index} className="mt-4 mb-2">
+                  <li key={index} className="mb-2 mt-6">
                     <h3 className="font-semibold text-lg" style={{ color: 'var(--accent)' }}>
                       {headerText}
                     </h3>
@@ -376,8 +381,8 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
               }
 
               return (
-                <li key={index} className="flex items-start">
-                  <span className="mr-2" style={{ color: 'var(--accent)' }}>•</span>
+                <li key={index} className="flex items-start gap-2">
+                  <span style={{ color: 'var(--accent)' }}>•</span>
                   <span>{renderIngredientWithLinks(ingredient, recipeLinkMatcher.titleToSlug)}</span>
                 </li>
               )
@@ -386,13 +391,15 @@ export default function RecipeLayout({ recipe, knownRecipes = [], blurDataURL, c
         </div>
 
         <div className="directions">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold dark:text-white" style={{ marginBottom: '16px' }}>Directions</h2>
-            <RecipeMode />
+          <div className="mb-6 grid grid-cols-1 gap-5">
+            <div className="flex min-h-11 items-center justify-between gap-4">
+              <h2 className="!text-[1.25rem] !leading-tight font-semibold md:!text-[1.375rem] dark:text-white">Directions</h2>
+              <RecipeMode />
+            </div>
           </div>
-          <ol className="space-y-4">
+          <ol className="-mt-2 space-y-5">
             {recipe.directions.map((direction, index) => (
-              <li key={index} className="flex gap-2">
+              <li key={index} className="flex gap-3">
                 <span className="font-bold flex-shrink-0" style={{ color: 'var(--accent)' }}>
                   {index + 1}.{' '}
                 </span>

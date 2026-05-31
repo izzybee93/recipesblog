@@ -2,8 +2,8 @@ import Image from 'next/image'
 
 export default function RecipeFooter() {
   return (
-    <div className="py-12 mt-16 text-center">
-      <div className="w-24 h-24 mx-auto mb-3 relative">
+    <div className="mt-16 py-6 text-center">
+      <div className="relative mx-auto mb-2 h-24 w-24">
         <Image
           src="/author.jpg"
           alt="Baker Beanie Author"
