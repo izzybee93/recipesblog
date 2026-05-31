@@ -62,7 +62,7 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
             <button
               key={category}
               onClick={() => scrollToCategory(category)}
-              className="inline-flex min-h-11 w-full items-center rounded-full bg-[var(--surface)] px-4 py-2 text-left transition-colors hover:bg-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] group"
+              className="inline-flex min-h-12 w-full items-center rounded-full bg-[var(--surface)] px-4 py-2 text-left transition-colors hover:bg-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] group"
             >
               <span
                 className="text-sm font-medium text-gray-600 transition-colors group-hover:text-white dark:text-gray-300"
