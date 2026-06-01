@@ -1,12 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
-@font-face {
-  font-family: "SimplySweetSerif";
-  src: url("/SimplySweet_Serif.ttf") format("truetype");
-  font-display: swap;
-}
-
 :root {
   --background: #ffffff;
   --foreground: #222222;
@@ -48,7 +42,7 @@ html, body {
 }
 
 .font-display {
-  font-family: "SimplySweetSerif", serif;
+  font-family: var(--font-display), serif;
 }
 
 img {

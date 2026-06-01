@@ -82,7 +82,7 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
               >
                 <div className="mb-6 flex items-end justify-between gap-6 border-b border-[var(--border)] pb-4">
                   <h2
-                    className="font-display text-left font-bold text-[clamp(2.1rem,5vw,3.4rem)] leading-none"
+                    className="font-display text-left font-bold text-[clamp(2rem,4.75vw,3.2rem)] leading-none"
                     style={{
                       color: 'var(--accent)'
                     }}

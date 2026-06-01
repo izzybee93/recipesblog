@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -6,6 +7,13 @@ import BackToTop from "@/components/BackToTop";
 import ThemeProvider from "@/components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+
+const simplySweetSerif = localFont({
+  src: "../public/SimplySweet_Serif.ttf",
+  variable: "--font-display",
+  display: "block",
+  preload: true,
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bakerbeanie.me'),
@@ -43,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={simplySweetSerif.variable} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
