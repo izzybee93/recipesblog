@@ -46,7 +46,7 @@ This guide explains how to add new recipes to your Baker Beanie Next.js blog, in
      servings: "Makes 24 cookies"
      ingredients_markdown: |
        * 2 cups all-purpose flour
-       * 1 tsp baking soda
+       * 1 tsp bicarbonate of soda
        * 1 tsp sea salt
        * 1 cup butter, softened
        * 3/4 cup brown sugar
@@ -56,7 +56,7 @@ This guide explains how to add new recipes to your Baker Beanie Next.js blog, in
        * 2 cups chocolate chips
      directions_markdown: |
        1. Preheat oven to 375°F (190°C).
-       2. Mix flour, baking soda, and salt in a bowl.
+       2. Mix flour, bicarbonate of soda, and salt in a bowl.
        3. Cream butter and sugars until fluffy.
        4. Beat in eggs and vanilla.
        5. Gradually add flour mixture.
