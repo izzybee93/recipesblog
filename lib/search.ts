@@ -1,4 +1,4 @@
-import { RecipeSearchDocument } from '@/types/recipe'
+import type { RecipeSearchDocument } from '@/types/recipe'
 
 export interface RecipeSearchMatchBuckets {
   primarySlugs: string[]
@@ -29,6 +29,15 @@ export function normalizeSearchText(str: string): string {
   return removeDiacritics(str.toLowerCase()).replace(/\s+/g, ' ').trim()
 }
 
+function textMatchesQuery(text: string, normalizedQuery: string): boolean {
+  if (text.includes(normalizedQuery)) {
+    return true
+  }
+
+  const queryTerms = normalizedQuery.split(' ').filter(Boolean)
+  return queryTerms.length > 1 && queryTerms.every((term) => text.includes(term))
+}
+
 /**
  * Match recipe search documents while preserving the existing ranking:
  * title/category matches first, with optional body fallback and optional
@@ -55,14 +64,14 @@ export function matchRecipeSearchDocuments(
     }
 
     if (
-      document.titleText.includes(normalizedQuery) ||
-      document.categoryText.includes(normalizedQuery)
+      textMatchesQuery(document.titleText, normalizedQuery) ||
+      textMatchesQuery(document.categoryText, normalizedQuery)
     ) {
       primarySlugs.push(document.slug)
       return
     }
 
-    if (includeBodyMatches && document.bodyText.includes(normalizedQuery)) {
+    if (includeBodyMatches && textMatchesQuery(document.bodyText, normalizedQuery)) {
       bodySlugs.push(document.slug)
     }
   })
