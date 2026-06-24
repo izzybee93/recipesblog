@@ -27,17 +27,24 @@ const { put, del } = require('@vercel/blob');
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const sharp = require('sharp');
 
 const RECIPES_DIR = path.join(__dirname, '../public/images/recipes');
 const MAPPING_FILE = path.join(__dirname, '../blob-image-mapping.json');
+const PRODUCTION_MAX_BYTES = 1024 * 1024;
+const PRODUCTION_QUALITY_STEPS = [88, 82, 75];
+const PRODUCTION_FALLBACK_WIDTHS = [1280, 1024, 960];
 
 // Parse command line args
 const args = process.argv.slice(2);
 const FORCE_UPLOAD = args.includes('--force');
 const DELETE_REMOVED = !args.includes('--no-delete'); // Delete by default, unless --no-delete is specified
 
-// Check for Blob token
-if (!process.env.BLOB_READ_WRITE_TOKEN) {
+function requireBlobToken() {
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    return;
+  }
+
   console.error('❌ Error: BLOB_READ_WRITE_TOKEN environment variable is required');
   console.error('');
   console.error('Please set it in your .env.local file or run:');
@@ -45,6 +52,58 @@ if (!process.env.BLOB_READ_WRITE_TOKEN) {
   console.error('');
   console.error('Get your token from: https://vercel.com/dashboard → Storage → Blob');
   process.exit(1);
+}
+
+async function optimizeProductionImage(filePath) {
+  const beforeBytes = fs.statSync(filePath).size;
+
+  if (beforeBytes <= PRODUCTION_MAX_BYTES) {
+    return {
+      optimized: false,
+      beforeBytes,
+      afterBytes: beforeBytes,
+      method: 'unchanged',
+    };
+  }
+
+  const source = fs.readFileSync(filePath);
+
+  for (const quality of PRODUCTION_QUALITY_STEPS) {
+    const buffer = await sharp(source)
+      .jpeg({ quality, mozjpeg: true })
+      .toBuffer();
+
+    if (buffer.length <= PRODUCTION_MAX_BYTES) {
+      fs.writeFileSync(filePath, buffer);
+      return {
+        optimized: true,
+        beforeBytes,
+        afterBytes: buffer.length,
+        method: `q${quality}, mozjpeg`,
+      };
+    }
+  }
+
+  for (const width of PRODUCTION_FALLBACK_WIDTHS) {
+    for (const quality of PRODUCTION_QUALITY_STEPS) {
+      const buffer = await sharp(source)
+        .resize({ width, withoutEnlargement: true })
+        .jpeg({ quality, mozjpeg: true })
+        .toBuffer();
+
+      if (buffer.length <= PRODUCTION_MAX_BYTES) {
+        fs.writeFileSync(filePath, buffer);
+        return {
+          optimized: true,
+          beforeBytes,
+          afterBytes: buffer.length,
+          method: `${width}w, q${quality}, mozjpeg`,
+        };
+      }
+    }
+  }
+
+  throw new Error(`Could not optimize ${path.basename(filePath)} below 1MB`);
 }
 
 /**
@@ -78,6 +137,8 @@ function saveMapping(mapping) {
 }
 
 async function uploadImages() {
+  requireBlobToken();
+
   console.log('🖼️  Smart recipe image upload to Vercel Blob...\n');
 
   // Check if recipes directory exists
@@ -111,6 +172,14 @@ async function uploadImages() {
   for (const filename of files) {
     currentFiles.add(filename);
     const filePath = path.join(RECIPES_DIR, filename);
+    const optimization = await optimizeProductionImage(filePath);
+
+    if (optimization.optimized) {
+      const beforeKB = (optimization.beforeBytes / 1024).toFixed(0);
+      const afterKB = (optimization.afterBytes / 1024).toFixed(0);
+      console.log(`   📦 Optimized production image: ${filename} ${beforeKB}KB → ${afterKB}KB (${optimization.method})`);
+    }
+
     const currentHash = getFileHash(filePath);
     const stats = fs.statSync(filePath);
 
@@ -261,7 +330,15 @@ async function uploadImages() {
   process.exit(errors.length > 0 ? 1 : 0);
 }
 
-uploadImages().catch(error => {
-  console.error('\n❌ Fatal error:', error);
-  process.exit(1);
-});
+if (require.main === module) {
+  uploadImages().catch(error => {
+    console.error('\n❌ Fatal error:', error);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  PRODUCTION_MAX_BYTES,
+  optimizeProductionImage,
+  uploadImages,
+};
