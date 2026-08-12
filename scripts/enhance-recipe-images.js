@@ -103,7 +103,6 @@ const CONFIG = {
   model: 'gpt-image-2',                // Image editing model
   imageSize: '1536x1024',              // Image size (1024x1024, 1536x1024, 1024x1536)
   imageQuality: 'medium',              // Quality tier: low ($0.013), medium ($0.05), high ($0.20)
-  maxCostLimit: 50,                    // Maximum budget limit ($)
   estimatedCostPerImage: 0.05,         // Cost per image (medium quality editing)
   maxRetriesPerImage: 5,               // Max retries per image to prevent runaway costs
   testMode: false,                     // Test mode: process only first 10 images
@@ -493,13 +492,7 @@ async function main() {
   console.log(`💰 Estimated cost for remaining: $${estimatedCost.toFixed(2)} (${unprocessed.length} images × $${costPerImage.toFixed(3)})`);
   console.log(`💰 Model: ${CONFIG.model}, Quality: ${CONFIG.imageQuality} ($${costPerImage.toFixed(3)}/image)`);
   console.log(`💰 Spent so far: $${progress.totalCost.toFixed(2)}`);
-  console.log(`💰 Total estimated: $${(progress.totalCost + estimatedCost).toFixed(2)}`);
-  console.log(`💰 Cost limit: $${CONFIG.maxCostLimit.toFixed(2)}\n`);
-
-  if (progress.totalCost + estimatedCost > CONFIG.maxCostLimit) {
-    console.log('⚠️  Warning: Estimated total cost may exceed limit!');
-    console.log('   You can increase the limit in scripts/enhance-recipe-images.js\n');
-  }
+  console.log(`💰 Total estimated: $${(progress.totalCost + estimatedCost).toFixed(2)}\n`);
 
   // Process each recipe
   for (let i = 0; i < unprocessed.length; i++) {
@@ -527,13 +520,6 @@ async function main() {
 
     // Save progress after each image
     fs.writeFileSync(progressFile, JSON.stringify(progress, null, 2));
-
-    // Check cost limit
-    if (progress.totalCost >= CONFIG.maxCostLimit) {
-      console.log(`\n💰 Cost limit reached ($${CONFIG.maxCostLimit}). Stopping.`);
-      console.log(`   Edit CONFIG.maxCostLimit in the script to continue.\n`);
-      break;
-    }
   }
 
   // Final summary
