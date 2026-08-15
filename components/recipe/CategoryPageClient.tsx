@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback, useTransition, useEffect, useDeferredValue, useRef } from 'react'
 import { RecipeCard, RecipeSearchDocument } from '@/types/recipe'
 import SearchBar from '@/components/SearchBar'
-import RecipeGrid from './RecipeGrid'
+import CategoryPageLayout from './CategoryPageLayout'
 import { capitalize, matchRecipeSearchDocuments, normalizeSearchText } from '@/lib/search'
 import { getInitialSearchQuery, persistSearchQuery } from '@/lib/search-state'
 import { navigateToStoredBackDestination } from '@/lib/navigation-actions'
@@ -15,11 +15,12 @@ import {
 
 interface CategoryPageClientProps {
   recipes: RecipeCard[]
+  dailyPicks: RecipeCard[]
   searchDocuments: RecipeSearchDocument[]
   category: string
 }
 
-export default function CategoryPageClient({ recipes, searchDocuments, category }: CategoryPageClientProps) {
+export default function CategoryPageClient({ recipes, dailyPicks, searchDocuments, category }: CategoryPageClientProps) {
   // Only restore search query on back/forward navigation, not explicit clicks
   const [searchQuery, setSearchQuery] = useState(() => getInitialSearchQuery(`/category/${category}`))
   const [, startTransition] = useTransition()
@@ -131,73 +132,20 @@ export default function CategoryPageClient({ recipes, searchDocuments, category 
   const categoryName = capitalize(category)
 
   return (
-    <div className="mx-auto py-6 md:py-8">
-      {/* Back button */}
-      <div className="mb-4">
-        <button
-          onClick={handleBack}
-          className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold !no-underline transition-colors hover:bg-[var(--surface)] hover:!no-underline focus:!no-underline active:!no-underline focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
-          style={{ color: 'var(--accent)' }}
-        >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          Back to Recipes
-        </button>
-      </div>
-
-      {/* Category header */}
-      <header className="mb-10 text-center">
-        <h1
-          className="font-display mb-4 font-bold text-[clamp(2.5rem,7vw,4rem)] leading-none"
-          style={{
-            color: 'var(--accent)'
-          }}
-        >
-          {categoryName}
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400">
-          {recipes.length} recipe{recipes.length !== 1 ? 's' : ''}
-        </p>
-      </header>
-
-      {/* Search bar */}
-      <SearchBar
-        placeholder={`Search ${categoryName.toLowerCase()} recipes...`}
-        onSearch={handleSearch}
-        initialQuery={searchQuery}
-      />
-
-      {/* Search results count (only when searching) */}
-      {shouldSearch && (
-        <div className="mb-6 text-center">
-          <p className="text-gray-600 dark:text-gray-400">
-            {filteredRecipes.length} recipe{filteredRecipes.length !== 1 ? 's' : ''} found
-          </p>
-        </div>
+    <CategoryPageLayout
+      recipes={recipes}
+      dailyPicks={dailyPicks}
+      displayRecipes={displayRecipes}
+      categoryName={categoryName}
+      shouldSearch={shouldSearch}
+      onBack={handleBack}
+      search={(
+        <SearchBar
+          placeholder={`Search ${categoryName.toLowerCase()} recipes...`}
+          onSearch={handleSearch}
+          initialQuery={searchQuery}
+        />
       )}
-
-      {/* Recipe grid or no results message */}
-      {displayRecipes.length > 0 ? (
-        <RecipeGrid recipes={displayRecipes} />
-      ) : (
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg mb-2">No recipes found</p>
-          <p className="text-gray-400 text-sm">
-            Try searching with different keywords.
-          </p>
-        </div>
-      )}
-    </div>
+    />
   )
 }

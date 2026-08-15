@@ -1,7 +1,10 @@
 import { notFound } from 'next/navigation'
 import { getAllCategories, getRecipeCardsByCategory, getRecipeSearchDocumentsByCategory, getRecipesByCategory } from '@/lib/mdx'
 import { capitalize } from '@/lib/search'
+import { selectDailyRecipePicks } from '@/lib/category-picks'
 import CategoryPageClient from '@/components/recipe/CategoryPageClient'
+
+export const revalidate = 3600
 
 interface CategoryPageProps {
   params: Promise<{
@@ -66,6 +69,16 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   const recipes = getRecipeCardsByCategory(slug)
   const searchDocuments = getRecipeSearchDocumentsByCategory(slug)
+  const categoryName = capitalize(slug)
+  const day = new Date().toISOString().slice(0, 10)
+  const dailyPicks = selectDailyRecipePicks(recipes, categoryName, day, 3)
 
-  return <CategoryPageClient recipes={recipes} searchDocuments={searchDocuments} category={slug} />
+  return (
+    <CategoryPageClient
+      recipes={recipes}
+      dailyPicks={dailyPicks}
+      searchDocuments={searchDocuments}
+      category={slug}
+    />
+  )
 }
