@@ -108,7 +108,7 @@ export default function CategoryPageLayout({
   const supporting = dailyPicks.slice(1, 3)
 
   return (
-    <div className="py-6 md:py-8">
+    <div className="mx-auto max-w-[960px] py-6 md:py-8 [&_.recipes]:lg:grid-cols-2">
       <button
         onClick={onBack}
         className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-[var(--accent-strong)] !no-underline transition-colors hover:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"

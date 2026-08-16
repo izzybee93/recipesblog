@@ -141,7 +141,7 @@ export default function CategoryPageClient({ recipes, dailyPicks, searchDocument
       onBack={handleBack}
       search={(
         <SearchBar
-          placeholder={`Search ${categoryName.toLowerCase()} recipes...`}
+          placeholder="Find a recipe..."
           onSearch={handleSearch}
           initialQuery={searchQuery}
         />

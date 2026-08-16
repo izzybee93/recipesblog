@@ -2,7 +2,6 @@ import { memo, useState, useEffect, startTransition } from 'react'
 import Link from 'next/link'
 import { RecipeCard } from '@/types/recipe'
 import RecipeGrid from './RecipeGrid'
-import CategoryIndex from './CategoryIndex'
 import { capitalize, shuffleByDate } from '@/lib/search'
 import { storeCategoryEntryNavigation } from '@/lib/navigation-actions'
 import {
@@ -63,49 +62,42 @@ const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }:
   const RECIPES_PER_CATEGORY = 5
 
   return (
-    <div className="lg:flex lg:items-start lg:gap-12">
-      <CategoryIndex categories={categories} />
+    <div className="space-y-14 md:space-y-18">
+      {categories.slice(0, visibleCategories).map(category => {
+        const categoryRecipes = recipesByCategory[category]
+        const shuffledRecipes = shuffleByDate(categoryRecipes)
+        const displayedRecipes = shuffledRecipes.slice(0, RECIPES_PER_CATEGORY)
+        const hasMore = categoryRecipes.length > RECIPES_PER_CATEGORY
 
-      <div className="lg:flex-1 lg:min-w-0">
-        <div className="space-y-16 md:space-y-24">
-          {categories.slice(0, visibleCategories).map(category => {
-            const categoryRecipes = recipesByCategory[category]
-            const shuffledRecipes = shuffleByDate(categoryRecipes)
-            const displayedRecipes = shuffledRecipes.slice(0, RECIPES_PER_CATEGORY)
-            const hasMore = categoryRecipes.length > RECIPES_PER_CATEGORY
-
-            return (
-              <section
-                key={category}
-                id={`category-${category}`}
-                className="category-section mx-auto scroll-mt-8"
+        return (
+          <section
+            key={category}
+            id={`category-${category}`}
+            className="category-section mx-auto scroll-mt-8"
+          >
+            <div className="mb-5 flex items-end justify-between gap-4 border-b border-[var(--border)] pb-3">
+              <h2
+                className="font-display text-left font-bold text-[clamp(2rem,4.5vw,3rem)] leading-none"
+                style={{
+                  color: 'var(--accent)'
+                }}
               >
-                <div className="mb-6 flex items-end justify-between gap-6 border-b border-[var(--border)] pb-4">
-                  <h2
-                    className="font-display text-left font-bold text-[clamp(2rem,4.75vw,3.2rem)] leading-none"
-                    style={{
-                      color: 'var(--accent)'
-                    }}
-                  >
-                    {capitalize(category)}
-                  </h2>
-                  {hasMore && (
-                    <Link
-                      href={`/category/${category}`}
-                      className="shrink-0 rounded-full px-3 py-2 text-sm font-semibold !no-underline transition-colors hover:bg-[var(--surface)] hover:!no-underline focus:!no-underline active:!no-underline focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
-                      style={{ color: 'var(--accent)' }}
-                      onClick={() => handleViewAllClick(category)}
-                    >
-                      View all
-                    </Link>
-                  )}
-                </div>
-                <RecipeGrid recipes={displayedRecipes} featuredFirst />
-              </section>
-            )
-          })}
-        </div>
-      </div>
+                {capitalize(category)}
+              </h2>
+              {hasMore && (
+                <Link
+                  href={`/category/${category}`}
+                  className="shrink-0 rounded-full px-3 py-2 text-sm font-semibold !text-[var(--accent)] !no-underline transition-colors hover:bg-[var(--surface)] hover:!text-[var(--accent-strong)] hover:!no-underline focus:!no-underline active:!no-underline focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+                  onClick={() => handleViewAllClick(category)}
+                >
+                  View all
+                </Link>
+              )}
+            </div>
+            <RecipeGrid recipes={displayedRecipes} featuredFirst />
+          </section>
+        )
+      })}
     </div>
   )
 })

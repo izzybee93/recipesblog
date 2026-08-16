@@ -3,8 +3,10 @@
 import { useState, useMemo, useCallback, useTransition, useEffect, useDeferredValue, useRef } from 'react'
 import { RecipeCard, RecipeSearchDocument } from '@/types/recipe'
 import SearchBar from '@/components/SearchBar'
+import CategoryIndex from './CategoryIndex'
 import RecipesByCategory from './RecipesByCategory'
 import RecipeGrid from './RecipeGrid'
+import { formatRecipeCount } from '@/lib/homepage-layout'
 import { matchRecipeSearchDocuments, normalizeSearchText } from '@/lib/search'
 import { getInitialSearchQuery, persistSearchQuery } from '@/lib/search-state'
 
@@ -109,45 +111,59 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
   // Determine what to render - only show search UI for 2+ characters
   const showingSearch = searchQuery.trim().length >= 2
   const showingResults = shouldSearch && filteredRecipes !== null
+  const categories = useMemo(() => Object.keys(recipesByCategory).sort(), [recipesByCategory])
+  const resultCount = filteredRecipes?.length || 0
 
   return (
-    <div>
-      <SearchBar
-        onSearch={handleSearch}
-        placeholder="Search recipes..."
-        initialQuery={searchQuery}
-      />
+    <div className={showingSearch
+      ? 'mx-auto max-w-[960px]'
+      : 'lg:grid lg:grid-cols-[230px_minmax(0,1fr)] lg:items-start lg:gap-12'}
+    >
+      {!showingSearch && <CategoryIndex categories={categories} layout="desktop" />}
 
-      {showingSearch ? (
-        <div>
-          <div className="mb-8 text-center">
-            <h2 
-              className="font-display text-[clamp(2rem,5vw,3.25rem)] font-bold leading-none"
-              style={{ 
-                color: 'var(--accent)'
-              }}
-            >
-              Search Results
-            </h2>
-            <p className="text-gray-600 mt-2">
-              {filteredRecipes?.length || 0} recipe{(filteredRecipes?.length || 0) !== 1 ? 's' : ''} found
-            </p>
-          </div>
+      <main className="min-w-0">
+        <div className={`${showingSearch ? 'mb-2 [&_.search-bar]:mb-6' : 'mb-8 [&_.search-bar]:mb-0'} [&_.search-bar>div]:max-w-none`}>
+          <p className="mb-3 hidden px-1 text-xs font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400 lg:block">
+            Search
+          </p>
+          <SearchBar
+            onSearch={handleSearch}
+            placeholder="Find a recipe..."
+            initialQuery={searchQuery}
+          />
+        </div>
 
-          {showingResults && filteredRecipes.length > 0 ? (
-            <RecipeGrid recipes={filteredRecipes} />
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg mb-2">No recipes found</p>
-              <p className="text-gray-400 text-sm">
-                Try searching with different keywords or browse all categories below.
+        {!showingSearch && <CategoryIndex categories={categories} layout="mobile" />}
+
+        {showingSearch ? (
+          <section aria-labelledby="homepage-search-results" className="pt-2 [&_.recipes]:lg:grid-cols-2">
+            <div className="mb-6 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 border-b border-[var(--border)] pb-4">
+              <h2
+                id="homepage-search-results"
+                className="font-display text-[clamp(1.9rem,4vw,2.65rem)] font-bold leading-none text-[var(--accent)]"
+              >
+                Search results
+              </h2>
+              <p className="shrink-0 whitespace-nowrap text-right text-sm text-gray-600 dark:text-gray-400">
+                {formatRecipeCount(resultCount)}
               </p>
             </div>
-          )}
-        </div>
-      ) : (
-        <RecipesByCategory recipesByCategory={recipesByCategory} />
-      )}
+
+            {showingResults && filteredRecipes.length > 0 ? (
+              <RecipeGrid recipes={filteredRecipes} />
+            ) : (
+              <div className="py-12 text-center">
+                <p className="mb-2 text-lg text-gray-500">No recipes found</p>
+                <p className="text-sm text-gray-400">
+                  Try searching with different keywords or browse the categories.
+                </p>
+              </div>
+            )}
+          </section>
+        ) : (
+          <RecipesByCategory recipesByCategory={recipesByCategory} />
+        )}
+      </main>
     </div>
   )
 }
