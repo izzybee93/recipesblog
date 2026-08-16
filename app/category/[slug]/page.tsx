@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: CategoryPageProps) {
 
   const recipes = getRecipesByCategory(slug)
   const categoryName = capitalize(slug)
-  const description = `Browse ${recipes.length} delicious ${categoryName.toLowerCase()} recipes. Find vegetarian and vegan ${categoryName.toLowerCase()} dishes at Baker Beanie.`
+  const description = `Browse ${recipes.length} delicious ${categoryName.toLowerCase()} recipes. Find plant-based ${categoryName.toLowerCase()} dishes at Baker Beanie.`
 
   return {
     title: `${categoryName} Recipes | Baker Beanie`,
@@ -52,6 +52,7 @@ export async function generateMetadata({ params }: CategoryPageProps) {
       categoryName.toLowerCase(),
       'vegetarian',
       'vegan',
+      'plant-based',
       'recipes',
       'cooking',
       'baking',

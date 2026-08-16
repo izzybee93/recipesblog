@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Baker Beanie is a vegetarian and vegan recipe blog that has been **migrated from Jekyll to Next.js** for better performance and modern web features. The site maintains the original design aesthetic while adding significant performance improvements and new functionality.
+Baker Beanie is a plant-based recipe blog that has been **migrated from Jekyll to Next.js** for better performance and modern web features. The site maintains the original design aesthetic while adding significant performance improvements and new functionality.
 
 ## Development Commands
 

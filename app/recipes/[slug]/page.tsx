@@ -20,14 +20,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: RecipePageProps) {
   const { slug } = await params
   const recipe = getRecipeBySlug(slug)
-  
+
   if (!recipe) {
     return {
       title: 'Recipe Not Found',
     }
   }
 
-  const recipeDescription = recipe.meta.excerpt || `Delicious ${recipe.meta.categories.join(', ')} recipe for ${recipe.meta.title}. ${recipe.meta.servings}.`
+  const recipeDescription = recipe.meta.excerpt || `Delicious recipe for ${recipe.meta.title}. ${recipe.meta.servings}.`
   const recipeUrl = `https://bakerbeanie.me/recipes/${slug}`
   // Route OG image through Next.js Image Optimizer so crawlers get a cached,
   // optimized ~150KB image instead of hitting Blob for the ~2.6MB original.
@@ -72,6 +72,7 @@ export async function generateMetadata({ params }: RecipePageProps) {
       ...recipe.meta.categories,
       'vegetarian',
       'vegan',
+      "plant-based",
       'recipe',
       'cooking',
       'baking',

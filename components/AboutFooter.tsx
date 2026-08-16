@@ -28,7 +28,7 @@ export default function AboutFooter() {
               About Baker Beanie
             </h2>
             <p className="font-body mx-auto max-w-2xl text-base leading-relaxed text-gray-700 dark:text-gray-300">
-              Welcome to baker beanie! A blog full of tasty, mostly plant-based recipes.
+              Welcome to baker beanie! A blog full of tasty plant-based recipes.
             </p>
           </div>
 
