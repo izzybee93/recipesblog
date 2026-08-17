@@ -116,7 +116,7 @@ export default function CategoryPageLayout({
         <span aria-hidden="true">←</span> Back to Recipes
       </button>
 
-      <header className="my-8 grid items-center gap-6 sm:grid-cols-[1fr_1.15fr]">
+      <header className="my-8 grid items-center gap-6 sm:grid-cols-[minmax(0,1fr)_320px]">
         <h1 className="font-display text-[clamp(2.75rem,6vw,4.25rem)] font-bold leading-none text-[var(--accent)]">
           {categoryName}
         </h1>
