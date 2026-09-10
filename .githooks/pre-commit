@@ -81,6 +81,22 @@ if [ ! -z "$RECIPES" ]; then
   echo "✅ Recipe categories alphabetized!"
 fi
 
+# Regenerate blur placeholders on every commit. Recipe images are ignored by
+# Git, so they do not normally appear in the staged-file list below.
+echo ""
+echo "🔮 Generating blur placeholders..."
+if ! npm run generate-blur --silent; then
+  echo "❌ Error: Blur data generation failed"
+  echo "   Run manually: npm run generate-blur"
+  exit 1
+fi
+
+if ! git add blur-data.json; then
+  echo "❌ Error: Could not stage blur-data.json"
+  exit 1
+fi
+echo "✅ Blur data updated"
+
 # Process recipe images - strip metadata and resize if needed
 echo "🖼️ Processing recipe images..."
 
@@ -124,18 +140,6 @@ if [ ! -z "$IMAGES" ]; then
   done
   echo "✅ Recipe images processed successfully!"
 
-  # Regenerate blur placeholders for new/changed images
-  echo ""
-  echo "🔮 Generating blur placeholders..."
-  npm run generate-blur --silent
-
-  if [ $? -eq 0 ]; then
-    git add blur-data.json
-    echo "✅ Blur data updated"
-  else
-    echo "⚠️  Warning: Blur data generation failed"
-    echo "   Run manually: npm run generate-blur"
-  fi
 fi
 
 # Upload recipe images to Vercel Blob Storage
