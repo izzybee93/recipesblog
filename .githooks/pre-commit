@@ -81,21 +81,9 @@ if [ ! -z "$RECIPES" ]; then
   echo "✅ Recipe categories alphabetized!"
 fi
 
-# Regenerate blur placeholders on every commit. Recipe images are ignored by
-# Git, so they do not normally appear in the staged-file list below.
-echo ""
-echo "🔮 Generating blur placeholders..."
-if ! npm run generate-blur --silent; then
-  echo "❌ Error: Blur data generation failed"
-  echo "   Run manually: npm run generate-blur"
-  exit 1
-fi
-
-if ! git add blur-data.json; then
-  echo "❌ Error: Could not stage blur-data.json"
-  exit 1
-fi
-echo "✅ Blur data updated"
+# Generate blur data and offer a full refresh every 30 days.
+# Failures are advisory and do not block the commit.
+./scripts/generate-blur-for-commit.sh
 
 # Process recipe images - strip metadata and resize if needed
 echo "🖼️ Processing recipe images..."
