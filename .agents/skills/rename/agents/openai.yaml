@@ -1,0 +1,3 @@
+interface:
+  display_name: "Rename"
+  short_description: "Rename recipe files, images, and references"
