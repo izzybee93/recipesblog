@@ -1,66 +1,19 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-
 interface SearchBarProps {
   onSearch: (query: string) => void
   placeholder?: string
-  initialQuery?: string
+  query?: string
 }
 
-export default function SearchBar({ onSearch, placeholder = "Search recipes...", initialQuery = '' }: SearchBarProps) {
-  const [query, setQuery] = useState(initialQuery)
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
-  const lastValueRef = useRef('')
-
+export default function SearchBar({ onSearch, placeholder = "Search recipes...", query = '' }: SearchBarProps) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setQuery(value)
-    
-    // Clear any existing timer
-    if (timerRef.current) {
-      clearTimeout(timerRef.current)
-      timerRef.current = null
-    }
-    
-    // If clearing from a non-empty state, do it immediately
-    if (value === '' && lastValueRef.current !== '') {
-      onSearch('')
-      lastValueRef.current = ''
-      return
-    }
-    
-    lastValueRef.current = value
-    
-    // Only debounce non-empty values
-    if (value !== '') {
-      timerRef.current = setTimeout(() => {
-        onSearch(value)
-      }, 300)
-    }
+    onSearch(e.target.value)
   }
 
   const clearSearch = () => {
-    // Clear any pending search
-    if (timerRef.current) {
-      clearTimeout(timerRef.current)
-      timerRef.current = null
-    }
-    
-    // Immediately clear everything
-    setQuery('')
-    lastValueRef.current = ''
     onSearch('')
   }
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current)
-      }
-    }
-  }, [])
 
   return (
     <div className="search-bar mb-12">
@@ -85,7 +38,9 @@ export default function SearchBar({ onSearch, placeholder = "Search recipes...",
           type="text"
           value={query}
           onChange={handleInputChange}
-          placeholder={placeholder}
+          placeholder={query ? undefined : placeholder}
+          aria-label={placeholder}
+          autoComplete="off"
           className="block h-12 w-full rounded-full bg-[var(--surface)] px-11 text-base text-gray-900 transition-colors duration-150 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[color-mix(in_srgb,var(--accent)_28%,transparent)] dark:text-white dark:placeholder:text-gray-400"
         />
         

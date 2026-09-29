@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useCallback, useTransition, useEffect, useDeferredValue, useRef } from 'react'
+import { useState, useMemo, useCallback, useEffect, useDeferredValue, useRef } from 'react'
 import { RecipeCard, RecipeSearchDocument } from '@/types/recipe'
 import SearchBar from '@/components/SearchBar'
 import CategoryIndex from './CategoryIndex'
@@ -18,7 +18,6 @@ interface SearchableRecipesProps {
 export default function SearchableRecipes({ recipesByCategory, searchDocuments }: SearchableRecipesProps) {
   // Only restore search query on back/forward navigation, not explicit clicks
   const [searchQuery, setSearchQuery] = useState(() => getInitialSearchQuery('/'))
-  const [, startTransition] = useTransition()
   const deferredSearchQuery = useDeferredValue(searchQuery)
   const queryCacheRef = useRef(new Map<string, string[]>())
   const previousQueryRef = useRef('')
@@ -95,17 +94,10 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
       .filter((recipe): recipe is RecipeCard => Boolean(recipe))
   }, [deferredSearchQuery, recipeMap, searchDocuments, shouldSearch])
 
-  // Memoize the search handler with transition for non-blocking updates
+  // Keep the input controlled by this single source of truth. The deferred
+  // query keeps the more expensive recipe matching non-blocking.
   const handleSearch = useCallback((query: string) => {
-    // For clearing (empty query), update immediately
-    if (query === '') {
-      setSearchQuery('')
-    } else {
-      // For typing, use transition to keep UI responsive
-      startTransition(() => {
-        setSearchQuery(query)
-      })
-    }
+    setSearchQuery(query)
   }, [])
 
   // Determine what to render - only show search UI for 2+ characters
@@ -129,7 +121,7 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
           <SearchBar
             onSearch={handleSearch}
             placeholder="Find a recipe..."
-            initialQuery={searchQuery}
+            query={searchQuery}
           />
         </div>
 

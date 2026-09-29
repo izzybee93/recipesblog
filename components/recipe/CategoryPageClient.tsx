@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useCallback, useTransition, useEffect, useDeferredValue, useRef } from 'react'
+import { useState, useMemo, useCallback, useEffect, useDeferredValue, useRef } from 'react'
 import { RecipeCard, RecipeSearchDocument } from '@/types/recipe'
 import SearchBar from '@/components/SearchBar'
 import CategoryPageLayout from './CategoryPageLayout'
@@ -23,7 +23,6 @@ interface CategoryPageClientProps {
 export default function CategoryPageClient({ recipes, dailyPicks, searchDocuments, category }: CategoryPageClientProps) {
   // Only restore search query on back/forward navigation, not explicit clicks
   const [searchQuery, setSearchQuery] = useState(() => getInitialSearchQuery(`/category/${category}`))
-  const [, startTransition] = useTransition()
   const deferredSearchQuery = useDeferredValue(searchQuery)
   const queryCacheRef = useRef(new Map<string, string[]>())
   const previousQueryRef = useRef('')
@@ -115,13 +114,10 @@ export default function CategoryPageClient({ recipes, dailyPicks, searchDocument
       .filter((recipe): recipe is RecipeCard => Boolean(recipe))
   }, [deferredSearchQuery, recipeMap, recipes, searchDocuments, shouldSearch])
 
-  // Memoize the search handler with transition for non-blocking updates
+  // Keep the input controlled by this single source of truth. The deferred
+  // query keeps the more expensive recipe matching non-blocking.
   const handleSearch = useCallback((query: string) => {
-    if (query === '') {
-      setSearchQuery('')
-    } else {
-      startTransition(() => setSearchQuery(query))
-    }
+    setSearchQuery(query)
   }, [])
 
   const handleBack = () => {
@@ -143,7 +139,7 @@ export default function CategoryPageClient({ recipes, dailyPicks, searchDocument
         <SearchBar
           placeholder="Find a recipe..."
           onSearch={handleSearch}
-          initialQuery={searchQuery}
+          query={searchQuery}
         />
       )}
     />
