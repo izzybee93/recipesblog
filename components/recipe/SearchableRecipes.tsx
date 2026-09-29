@@ -48,12 +48,13 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
 
   // Check if we should show search results
   const shouldSearch = searchQuery.trim().length >= 2
+  const deferredShouldSearch = deferredSearchQuery.trim().length >= 2
 
   // Cache normalized queries and narrow candidates when a query extends the
   // previous one. Results remain exhaustive: title/category matches stay first,
   // but body matches are still included so narrowing remains safe.
   const filteredRecipes = useMemo(() => {
-    if (!shouldSearch) {
+    if (!deferredShouldSearch) {
       previousQueryRef.current = ''
       previousResultSlugsRef.current = null
       return null
@@ -92,7 +93,7 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
     return finalSlugs
       .map((slug) => recipeMap.get(slug))
       .filter((recipe): recipe is RecipeCard => Boolean(recipe))
-  }, [deferredSearchQuery, recipeMap, searchDocuments, shouldSearch])
+  }, [deferredSearchQuery, deferredShouldSearch, recipeMap, searchDocuments])
 
   // Keep the input controlled by this single source of truth. The deferred
   // query keeps the more expensive recipe matching non-blocking.

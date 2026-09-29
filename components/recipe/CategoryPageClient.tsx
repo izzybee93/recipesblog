@@ -64,6 +64,7 @@ export default function CategoryPageClient({ recipes, dailyPicks, searchDocument
 
   // Check if we should show search results (2+ characters)
   const shouldSearch = searchQuery.trim().length >= 2
+  const deferredShouldSearch = deferredSearchQuery.trim().length >= 2
 
   const recipeMap = useMemo(() => {
     return new Map(recipes.map((recipe) => [recipe.slug, recipe]))
@@ -73,7 +74,7 @@ export default function CategoryPageClient({ recipes, dailyPicks, searchDocument
   // narrowed cached result sets as the query extends. Title/category matches
   // still rank ahead of body matches.
   const filteredRecipes = useMemo(() => {
-    if (!shouldSearch) {
+    if (!deferredShouldSearch) {
       previousQueryRef.current = ''
       previousResultSlugsRef.current = null
       return recipes
@@ -112,7 +113,7 @@ export default function CategoryPageClient({ recipes, dailyPicks, searchDocument
     return finalSlugs
       .map((slug) => recipeMap.get(slug))
       .filter((recipe): recipe is RecipeCard => Boolean(recipe))
-  }, [deferredSearchQuery, recipeMap, recipes, searchDocuments, shouldSearch])
+  }, [deferredSearchQuery, deferredShouldSearch, recipeMap, recipes, searchDocuments])
 
   // Keep the input controlled by this single source of truth. The deferred
   // query keeps the more expensive recipe matching non-blocking.
