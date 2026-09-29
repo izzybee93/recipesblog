@@ -37,9 +37,9 @@ function recipeNameToSlug(recipeName: string): string {
     'strawberry jam filling': 'strawberry-jam-filling',
     'whipped cream filling': 'whipped-cream-filling',
     'sesame, ginger and lime stir fry sauce': 'sesame-ginger-and-lime-stir-fry-sauce',
-    'sesame salad dressing': 'sesame-salad-dressing',
+    'sesame dressing': 'sesame-dressing',
     'meringue drops': 'meringue-drops',
-    'miso salad dressing': 'miso-salad-dressing'
+    'miso dressing': 'miso-dressing'
   }
 
   const normalizedName = recipeName.toLowerCase().trim()
