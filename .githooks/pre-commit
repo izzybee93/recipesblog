@@ -33,10 +33,16 @@ if [ ! -z "$RECIPES" ]; then
       -e 's/\([0-9]\{1,3\}\)F/\1°F/g' \
       "$RECIPE"
     
+    # Use unspaced en dashes for numerical ranges and time spans.
+    if ! node scripts/normalize-recipe-ranges.js "$RECIPE"; then
+      echo "❌ Error: Could not normalize numerical ranges in $RECIPE"
+      exit 1
+    fi
+
     # Re-add the processed file to git
     git add "$RECIPE"
   done
-  echo "✅ Recipe fractions converted successfully!"
+  echo "✅ Recipe fractions and numerical ranges converted successfully!"
 
   # Alphabetize categories in recipe frontmatter
   for RECIPE in $RECIPES; do

@@ -88,6 +88,8 @@ Preserve these ingredient conventions exactly:
 - `## Heading` inside ingredients is a section heading. Keep the `##` prefix exactly as written.
 - `(see recipe)` inside an ingredient triggers site linking. Keep that text exactly as written.
 
+Format numerical ranges and time spans with an unspaced en dash, for example `2–4 tbsp`, `serves 2–3`, and `15–20 minutes`. Keep ASCII hyphens in ISO dates such as `2026-10-03`.
+
 Apply casing rules:
 - Title uses sentence case. Capitalize only the first word unless a later word is a proper noun.
 - Ingredients that start with a quantity stay lowercase, for example `250g blueberries`.
