@@ -3,11 +3,11 @@
 /**
  * AI-Enhanced Recipe Images Script
  *
- * Uses OpenAI's gpt-image-2 to edit and enhance recipe food photography
- * - Edits existing images directly with gpt-image-2 (preserves food appearance)
+ * Uses OpenAI's gpt-image-2.5 to edit and enhance recipe food photography
+ * - Edits existing images directly with gpt-image-2.5 (preserves food appearance)
  * - Interactive approval workflow with custom retry instructions
  * - Progress tracking and resumable sessions
- * - Faster and cheaper than generation (no vision analysis needed)
+ * - Edits directly without a separate vision-analysis step
  *
  * Usage:
  *   npm run enhance-images
@@ -15,7 +15,7 @@
  * Requirements:
  *   - OPENAI_API_KEY in .env.local
  *   - openai package installed
- *   - Verified OpenAI organization (for gpt-image-2 access)
+ *   - Verified OpenAI organization (for gpt-image-2.5 access)
  *
  * ---------------------------------------------------------------------------
  * IMAGE STORAGE LAYOUT
@@ -23,7 +23,7 @@
  * When an image is approved, two copies are written:
  *
  *   1. public/images/recipes-enhanced/approved/<slug>.jpeg
- *      → FULL-QUALITY MASTER (1536×1024, straight from gpt-image-2).
+ *      → FULL-QUALITY MASTER (1536×1024, straight from gpt-image-2.5).
  *        This is the archive. Never resized. Use this if you ever need to
  *        re-process, re-crop, or regenerate production images at different
  *        dimensions or quality settings. Not deployed to production.
@@ -100,13 +100,28 @@ async function saveResizedToProduction(srcPath, destPath) {
 
 // Configuration
 const CONFIG = {
-  model: 'gpt-image-2',                // Image editing model
+  model: 'gpt-image-2.5-flare',        // Image editing model
   imageSize: '1536x1024',              // Image size (1024x1024, 1536x1024, 1024x1536)
-  imageQuality: 'medium',              // Quality tier: low ($0.013), medium ($0.05), high ($0.20)
-  estimatedCostPerImage: 0.05,         // Cost per image (medium quality editing)
-  maxRetriesPerImage: 5,               // Max retries per image to prevent runaway costs
+  imageQuality: 'medium',              // Image quality tier
+  maxRetriesPerImage: 5,               // Bound the retry loop for each image
   testMode: false,                     // Test mode: process only first 10 images
 };
+
+function createProgress(saved = {}) {
+  const stats = saved.stats || {};
+
+  return {
+    processed: Array.isArray(saved.processed) ? saved.processed : [],
+    stats: {
+      approved: Number.isFinite(stats.approved) ? stats.approved : 0,
+      rejected: Number.isFinite(stats.rejected) ? stats.rejected : 0,
+      skipped: Number.isFinite(stats.skipped) ? stats.skipped : 0,
+      errors: Number.isFinite(stats.errors) ? stats.errors : 0,
+    },
+    totalAttempts: Number.isFinite(saved.totalAttempts) ? saved.totalAttempts : 0,
+    lastUpdated: saved.lastUpdated || null,
+  };
+}
 
 // Initialize OpenAI client
 let openai;
@@ -149,7 +164,7 @@ function getAllRecipes(includeDrafts = true) {
 }
 
 /**
- * Edit and enhance image with gpt-image-2
+ * Edit and enhance image with -2
  */
 async function editEnhancedImage(originalImagePath, recipe, customInstructions = '') {
   let enhancementPrompt = `Edit this ${recipe.title} photo to enhance it for a professional recipe blog.
@@ -310,7 +325,6 @@ async function processRecipe(recipe, index, total) {
   );
 
   let attempts = 0;
-  let totalCost = 0;
   let customInstructions = ''; // Preserve across loop iterations
 
   try {
@@ -318,7 +332,7 @@ async function processRecipe(recipe, index, total) {
     if (!fs.existsSync(originalPath)) {
       console.log(`⚠️  Original image not found: ${originalPath}`);
       console.log('   Skipping...\n');
-      return { status: 'skipped', cost: 0, attempts: 0 };
+      return { status: 'skipped', attempts: 0 };
     }
 
     // Strip GPS metadata from original image
@@ -335,21 +349,17 @@ async function processRecipe(recipe, index, total) {
       if (attempts >= CONFIG.maxRetriesPerImage) {
         console.log(`⚠️  Maximum retries (${CONFIG.maxRetriesPerImage}) reached for this image`);
         console.log('   Moving to next image...\n');
-        return { status: 'skipped', cost: totalCost, attempts };
+        return { status: 'skipped', attempts };
       }
 
       attempts++;
 
-      // Step 1: Edit image with gpt-image-2
-      console.log(`🎨 Editing image with gpt-image-2 (attempt ${attempts}/${CONFIG.maxRetriesPerImage})...`);
+      // Step 1: Edit image with gpt-image-2.5
+      console.log(`🎨 Editing image with gpt-image-2.5 (attempt ${attempts}/${CONFIG.maxRetriesPerImage})...`);
       console.log(`   Size: ${CONFIG.imageSize} (landscape)`);
 
       const enhancedBuffer = await editEnhancedImage(originalPath, recipe, customInstructions);
       console.log('   ✅ Edited successfully\n');
-      // gpt-image-1.5 pricing for 1536x1024: low=$0.013, medium=$0.05, high=$0.20
-      const imageCost = CONFIG.imageQuality === 'low' ? 0.013 :
-        CONFIG.imageQuality === 'medium' ? 0.05 : 0.20;
-      totalCost += imageCost;
 
       // Step 4: Save preview
       fs.writeFileSync(previewPath, enhancedBuffer);
@@ -369,12 +379,12 @@ async function processRecipe(recipe, index, total) {
           fs.copyFileSync(previewPath, approvedPath);          // Archive: full quality master
           await saveResizedToProduction(previewPath, productionPath); // Production: sharp q88, <1MB
           console.log('✅ Approved and saved to production!\n');
-          return { status: 'approved', cost: totalCost, attempts };
+          return { status: 'approved', attempts };
 
         case 'reject':
           fs.copyFileSync(previewPath, rejectedPath);
           console.log('❌ Rejected and saved to rejected folder\n');
-          return { status: 'rejected', cost: totalCost, attempts };
+          return { status: 'rejected', attempts };
 
         case 'retry':
           customInstructions = ''; // Clear any custom instructions
@@ -400,13 +410,13 @@ async function processRecipe(recipe, index, total) {
 
         case 'skip':
           console.log('⏭️  Skipped (no changes made)\n');
-          return { status: 'skipped', cost: totalCost, attempts };
+          return { status: 'skipped', attempts };
       }
     }
 
   } catch (error) {
     console.error(`❌ Error processing ${recipe.title}:`, error.message);
-    return { status: 'error', cost: totalCost, error: error.message, attempts };
+    return { status: 'error', error: error.message, attempts };
   }
 }
 
@@ -451,16 +461,10 @@ async function main() {
 
   // Load or initialize progress
   const progressFile = path.join(process.cwd(), 'enhancement-progress.json');
-  let progress = {
-    processed: [],
-    stats: { approved: 0, rejected: 0, skipped: 0, errors: 0 },
-    totalCost: 0,
-    totalAttempts: 0,
-    lastUpdated: null
-  };
+  let progress = createProgress();
 
   if (fs.existsSync(progressFile)) {
-    progress = JSON.parse(fs.readFileSync(progressFile, 'utf8'));
+    progress = createProgress(JSON.parse(fs.readFileSync(progressFile, 'utf8')));
     console.log(`📊 Resuming from previous session\n`);
   }
 
@@ -485,14 +489,7 @@ async function main() {
     return;
   }
 
-  // Cost estimate (gpt-image-1.5 editing: low=$0.013, medium=$0.05, high=$0.20)
-  const costPerImage = CONFIG.imageQuality === 'low' ? 0.013 :
-    CONFIG.imageQuality === 'medium' ? 0.05 : 0.20;
-  const estimatedCost = unprocessed.length * costPerImage;
-  console.log(`💰 Estimated cost for remaining: $${estimatedCost.toFixed(2)} (${unprocessed.length} images × $${costPerImage.toFixed(3)})`);
-  console.log(`💰 Model: ${CONFIG.model}, Quality: ${CONFIG.imageQuality} ($${costPerImage.toFixed(3)}/image)`);
-  console.log(`💰 Spent so far: $${progress.totalCost.toFixed(2)}`);
-  console.log(`💰 Total estimated: $${(progress.totalCost + estimatedCost).toFixed(2)}\n`);
+  console.log(`Model: ${CONFIG.model}, Quality: ${CONFIG.imageQuality}\n`);
 
   // Process each recipe
   for (let i = 0; i < unprocessed.length; i++) {
@@ -504,8 +501,7 @@ async function main() {
       console.log(`   ✅ Approved: ${progress.stats.approved}`);
       console.log(`   ❌ Rejected: ${progress.stats.rejected}`);
       console.log(`   ⏭️  Skipped:  ${progress.stats.skipped}`);
-      console.log(`   ❗ Errors:   ${progress.stats.errors}`);
-      console.log(`   💰 Cost:     $${progress.totalCost.toFixed(2)}\n`);
+      console.log(`   ❗ Errors:   ${progress.stats.errors}\n`);
     }
 
     // Process recipe
@@ -514,7 +510,6 @@ async function main() {
     // Update progress
     progress.processed.push(recipe.slug);
     progress.stats[result.status]++;
-    progress.totalCost += result.cost;
     progress.totalAttempts += result.attempts || 0;
     progress.lastUpdated = new Date().toISOString();
 
@@ -531,7 +526,6 @@ async function main() {
   console.log(`⏭️  Skipped:        ${progress.stats.skipped}`);
   console.log(`❗ Errors:         ${progress.stats.errors}`);
   console.log(`🔄 Total attempts:  ${progress.totalAttempts}`);
-  console.log(`💰 Total cost:     $${progress.totalCost.toFixed(2)}`);
   console.log(`\n📁 Approved images: public/images/recipes-enhanced/approved/`);
 
   const remaining = recipesWithImages.length - progress.processed.length;
@@ -540,8 +534,11 @@ async function main() {
   }
 }
 
-// Run the script
-main().catch(error => {
-  console.error('\n❌ Fatal error:', error);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(error => {
+    console.error('\n❌ Fatal error:', error);
+    process.exit(1);
+  });
+}
+
+module.exports = { createProgress };
