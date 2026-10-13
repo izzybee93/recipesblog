@@ -6,9 +6,10 @@ import { capitalize } from '@/lib/search'
 interface CategoryIndexProps {
   categories: string[]
   layout: 'mobile' | 'desktop'
+  recipeCount: number
 }
 
-export default function CategoryIndex({ categories, layout }: CategoryIndexProps) {
+export default function CategoryIndex({ categories, layout, recipeCount }: CategoryIndexProps) {
   const sidebarRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -63,9 +64,14 @@ export default function CategoryIndex({ categories, layout }: CategoryIndexProps
       className="category-index hidden w-[230px] lg:sticky lg:top-6 lg:block lg:max-h-[calc(100vh-3rem)] lg:self-start lg:overflow-y-auto"
     >
       <nav aria-label="Recipe categories">
-        <p className="mb-3 px-1 text-xs font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
-          Browse
-        </p>
+        <div className="mb-3 flex items-baseline justify-between gap-3 px-1">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+            Browse
+          </p>
+          <p className="shrink-0 whitespace-nowrap text-right text-xs text-gray-600 dark:text-gray-400">
+            {recipeCount} recipe{recipeCount === 1 ? '' : 's'}
+          </p>
+        </div>
         <div className="grid grid-cols-1 gap-2">
           {categories.map(category => (
             <button

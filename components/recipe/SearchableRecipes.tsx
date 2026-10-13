@@ -116,7 +116,7 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
       ? 'mx-auto max-w-[960px]'
       : 'lg:grid lg:grid-cols-[230px_minmax(0,1fr)] lg:items-start lg:gap-12'}
     >
-      {!showingSearch && <CategoryIndex categories={categories} layout="desktop" />}
+      {!showingSearch && <CategoryIndex categories={categories} layout="desktop" recipeCount={allRecipes.length} />}
 
       <main className="min-w-0">
         <div className={`${showingSearch ? 'mb-2 [&_.search-bar]:mb-6' : 'mb-8 [&_.search-bar]:mb-0'} [&_.search-bar>div]:max-w-none`}>
@@ -130,7 +130,7 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
           />
         </div>
 
-        {!showingSearch && <CategoryIndex categories={categories} layout="mobile" />}
+        {!showingSearch && <CategoryIndex categories={categories} layout="mobile" recipeCount={allRecipes.length} />}
 
         {showingSearch ? (
           <section aria-labelledby="homepage-search-results" className="pt-2 [&_.recipes]:lg:grid-cols-2">

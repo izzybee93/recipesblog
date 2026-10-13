@@ -184,10 +184,13 @@ export default function CategoryPageLayout({
           </section>
 
           <section>
-            <div className="mb-6 border-b border-[var(--border)] pb-4">
+            <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-[var(--border)] pb-4">
               <h2 className="font-body text-xs font-bold uppercase tracking-[0.22em] text-[var(--accent-strong)]">
                 All {categoryName.toLowerCase()} recipes
               </h2>
+              <p className="shrink-0 whitespace-nowrap text-right text-sm text-gray-500 dark:text-gray-400">
+                {recipes.length} recipe{recipes.length === 1 ? '' : 's'}
+              </p>
             </div>
             <RecipeGrid recipes={orderedRecipes} />
           </section>
