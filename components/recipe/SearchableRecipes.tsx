@@ -7,6 +7,7 @@ import CategoryIndex from './CategoryIndex'
 import RecipesByCategory from './RecipesByCategory'
 import RecipeGrid from './RecipeGrid'
 import { formatRecipeCount } from '@/lib/homepage-layout'
+import { sortCategories } from '@/lib/category-order'
 import { matchRecipeSearchDocuments, normalizeSearchText } from '@/lib/search'
 import { getInitialSearchQuery, persistSearchQuery } from '@/lib/search-state'
 
@@ -104,7 +105,10 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
   // Determine what to render - only show search UI for 2+ characters
   const showingSearch = searchQuery.trim().length >= 2
   const showingResults = shouldSearch && filteredRecipes !== null
-  const categories = useMemo(() => Object.keys(recipesByCategory).sort(), [recipesByCategory])
+  const categories = useMemo(
+    () => sortCategories(Object.keys(recipesByCategory)),
+    [recipesByCategory],
+  )
   const resultCount = filteredRecipes?.length || 0
 
   return (
@@ -154,7 +158,7 @@ export default function SearchableRecipes({ recipesByCategory, searchDocuments }
             )}
           </section>
         ) : (
-          <RecipesByCategory recipesByCategory={recipesByCategory} />
+          <RecipesByCategory recipesByCategory={recipesByCategory} categories={categories} />
         )}
       </main>
     </div>

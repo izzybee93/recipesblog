@@ -12,11 +12,10 @@ import {
 
 interface RecipesByCategoryProps {
   recipesByCategory: Record<string, RecipeCard[]>
+  categories: string[]
 }
 
-const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory }: RecipesByCategoryProps) {
-  const categories = Object.keys(recipesByCategory).sort()
-
+const RecipesByCategory = memo(function RecipesByCategory({ recipesByCategory, categories }: RecipesByCategoryProps) {
   // Always start with 3 categories for immediate render
   const [visibleCategories, setVisibleCategories] = useState(3)
 
