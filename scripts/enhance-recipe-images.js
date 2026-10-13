@@ -173,10 +173,10 @@ Recipe: ${recipe.title}
 Ingredients: ${recipe.ingredients.join(', ')}
 
 EDITING INSTRUCTIONS:
-1. Correct white balance and improve lighting to make the food look appetizing
+1. Correct white balance and improve lighting to make the food look appetizing, without editing the food itself
 2. Enhance the background - remove clutter and make it clean, minimal and professional
 3. Keep the actual food EXACTLY as it appears (preserve its homemade appearance WITHOUT adding or removing any ingredients on the plate or serving dish)
-4. Add subtle touches like a light sprinkle or slice of relevant ingredients AROUND THE EDGES with random placement, or a vegetable, fruit, or herb in the background that is in the recipe. DO NOT MAKE IT TOO BUSY. KEEP IT VERY MINIMAL.
+4. Add subtle touches like a light sprinkle or slice of only 1 or 2 ingredients AROUND THE EDGES with random placement, such as a relevant vegetable, fruit, or herb in the background that is in the recipe. DO NOT MAKE IT TOO BUSY. KEEP IT VERY MINIMAL.
 5. Make it look like professional food photography while maintaining authenticity
 
 CRITICAL: The result should look inviting, professional and minimalist (no clutter in the background), but still clearly homemade. Make EXTREMELY MINIMAL edits to the food itself - only light polish and enhancement. The food must remain authentic and very recognizable from the original photo.`;
@@ -403,7 +403,7 @@ async function processRecipe(recipe, index, total) {
           continue; // Loop back to edit with (possibly updated) instructions
 
         case 'retry-no-sprinkles':
-          customInstructions = 'DO NOT add any sprinkles, ingredients, garnishes, vegetables or fruits around the edge. Make the background clean and minimal';
+          customInstructions = 'DO NOT add ANY sprinkles, ingredients, garnishes, vegetables or fruits around the edge. Make the background completely clean and minimal';
           console.log('\n🚫 Removing sprinkles/garnish...\n');
           console.log('🔄 Re-editing without decoration...\n');
           continue; // Loop back to edit with no-sprinkles instruction

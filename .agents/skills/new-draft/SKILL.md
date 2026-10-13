@@ -1,6 +1,6 @@
 ---
 name: new-draft
-description: Convert messy pasted Baker Beanie recipe drafts into clean `content/recipes/<slug>.mdx` draft files. Use when the user mentions `new-draft`, asks for the old Claude `/new-draft` workflow, or pastes a recipe that should be parsed, cleaned, validated, and written as a draft recipe with Baker Beanie frontmatter.
+description: Convert messy pasted Baker Beanie recipe drafts into clean MDX draft files in `content/recipes/`. Use when the user mentions `new-draft`, asks for the old Claude `/new-draft` workflow, or pastes a recipe that should be parsed, cleaned, validated, and written as a draft recipe with Baker Beanie frontmatter.
 ---
 
 # New Draft
@@ -87,6 +87,7 @@ Standardize units to match the existing recipe corpus:
 Preserve these ingredient conventions exactly:
 - `## Heading` inside ingredients is a section heading. Keep the `##` prefix exactly as written.
 - `(see recipe)` inside an ingredient triggers site linking. Keep that text exactly as written.
+- Canned ingredients use the count followed directly by the can weight: `1 400g can chickpeas, drained and rinsed` or `2 400g cans chickpeas, drained and rinsed`. Normalize `1 x 400g can` and `1 × 400g can` to `1 400g can`, preserving the count, weight and preparation text. Apply the same format to other can counts and weights.
 
 Format numerical ranges and time spans with an unspaced en dash, for example `2–4 tbsp`, `serves 2–3`, and `15–20 minutes`. Keep ASCII hyphens in ISO dates such as `2026-10-03`.
 
@@ -154,6 +155,8 @@ directions: []
 Write the file to `content/recipes/<slug>.mdx` relative to the repo root.
 
 If a file with that slug already exists, stop and ask the user before overwriting it.
+
+Before reporting completion, parse the written frontmatter with `gray-matter` and check that canned ingredients follow the count-and-weight format above.
 
 ## 5. Report back
 
