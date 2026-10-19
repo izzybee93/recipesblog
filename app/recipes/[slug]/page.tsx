@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation'
-import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getRecipeBySlug, getAllRecipes } from '@/lib/mdx'
 import { getImageWithBlur } from '@/lib/image'
 import RecipeLayout from '@/components/recipe/RecipeLayout'
@@ -84,10 +83,6 @@ export async function generateMetadata({ params }: RecipePageProps) {
 export default async function RecipePage({ params }: RecipePageProps) {
   const { slug } = await params
   const recipe = getRecipeBySlug(slug)
-  const knownRecipes = getAllRecipes(true).map((knownRecipe) => ({
-    title: knownRecipe.title,
-    slug: knownRecipe.slug
-  }))
 
   if (!recipe) {
     notFound()
@@ -103,11 +98,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
   return (
     <RecipeLayout
+      key={recipe.meta.slug}
       recipe={recipe.meta}
-      knownRecipes={knownRecipes}
       blurDataURL={imageData.blurDataURL}
-    >
-      <MDXRemote source={recipe.content} />
-    </RecipeLayout>
+    />
   )
 }
