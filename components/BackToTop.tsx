@@ -1,10 +1,16 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import styles from './BackToTop.module.css'
 
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
+  const pathname = usePathname()
+  const useAccentBackground = pathname === '/' || pathname.startsWith('/category/')
+  const colourClasses = useAccentBackground
+    ? 'bg-[var(--accent)] text-white hover:bg-[var(--accent-strong)]'
+    : 'bg-[var(--surface)] text-gray-600 hover:bg-[var(--accent)] hover:text-white dark:text-gray-300 dark:hover:text-white'
 
   useEffect(() => {
     const updateVisibility = () => {
@@ -31,7 +37,7 @@ export default function BackToTop() {
     <div className={styles.track}>
       <button
         onClick={scrollToTop}
-        className={`${styles.button} z-50 flex cursor-pointer items-center justify-center rounded-full bg-[var(--surface)] text-gray-600 transition-colors duration-150 hover:bg-[var(--accent)] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)] dark:text-gray-300 dark:hover:text-white`}
+        className={`${styles.button} ${colourClasses} z-50 flex cursor-pointer items-center justify-center rounded-full transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]`}
         aria-label="Back to top"
       >
         <svg

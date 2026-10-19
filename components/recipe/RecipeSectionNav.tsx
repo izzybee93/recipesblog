@@ -3,11 +3,33 @@
 import { useEffect, useRef } from 'react'
 import type { MouseEvent } from 'react'
 import { animateRecipeScroll, recipeSectionTarget } from '@/lib/recipe-section-navigation'
+import { watchRecipeTabPosition } from '@/lib/recipe-tab-cover'
 import styles from './RecipeLayout.module.css'
 
 export default function RecipeSectionNav() {
   const navRef = useRef<HTMLElement>(null)
+  const coverRef = useRef<HTMLSpanElement>(null)
   const stopAnimation = useRef<() => void>(() => {})
+
+  useEffect(() => {
+    const nav = navRef.current
+    const cover = coverRef.current
+    if (!nav || !cover) return
+    return watchRecipeTabPosition({
+      window,
+      visualViewport: window.visualViewport,
+      getBounds: () => nav.getBoundingClientRect(),
+      // Only update on pinned/unpinned transitions, without a queued React paint.
+      onChange: pinned => { cover.hidden = !pinned },
+      observeResize: update => {
+        const observer = new ResizeObserver(update)
+        observer.observe(nav)
+        const article = nav.closest('article')
+        if (article) observer.observe(article)
+        return () => observer.disconnect()
+      },
+    })
+  }, [])
 
   useEffect(() => {
     const cancel = () => stopAnimation.current()
@@ -61,7 +83,7 @@ export default function RecipeSectionNav() {
   }
 
   return <>
-    <span className={styles.mobileTopCover} aria-hidden="true" data-testid="recipe-top-cover" />
+    <span ref={coverRef} hidden className={styles.mobileTopCover} aria-hidden="true" data-testid="recipe-top-cover" />
     <nav ref={navRef} className={styles.jumpNav} aria-label="Recipe sections">
       <div className={styles.jumpNavLinks}>
         <a href="#ingredients" onClick={event => navigate(event, 'ingredients')}>Ingredients</a>
