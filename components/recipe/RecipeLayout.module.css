@@ -10,6 +10,7 @@
 .title { font-size: clamp(1.7rem, 3.6vw, 2.35rem); font-weight: 700; line-height: 1.2; margin: 0; text-wrap: balance; }
 .categoryRow { display: flex; align-self: stretch; align-items: flex-start; gap: 12px; width: 100%; }
 .categories { display: flex; flex: 1; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 12px; min-width: 0; }
+.categories > button { max-width: 100%; overflow-wrap: anywhere; }
 .copyControl { position: relative; display: inline-flex; flex-shrink: 0; margin-inline-start: auto; }
 .copyButton { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; color: var(--accent); }
 .copyButton:hover { background: var(--surface); }
@@ -54,10 +55,7 @@
 
 @media (min-width: 768px) {
   .ingredients, .directions { scroll-margin-top: 24px; }
-  .header { max-width: none; }
-  .heading { align-items: center; }
-  .header > div:last-child { width: 100%; max-width: 760px; justify-self: center; }
-  .title { width: 100%; text-align: center; text-wrap: wrap; }
+  .title { width: 100%; text-wrap: wrap; }
   .ingredients > .sectionHeading { padding-inline-end: 12px; }
   .ingredientScroller { padding-inline-end: 12px; scrollbar-gutter: stable; scroll-padding-block-end: 64px; }
   .ingredientScrollCue { display: flex; align-items: flex-end; justify-content: center; position: absolute; inset: auto 12px 0 0; height: 64px; padding-bottom: 5px; color: var(--accent); background: linear-gradient(to bottom, transparent, var(--background) 75%); pointer-events: none; }
@@ -71,6 +69,7 @@
   .heading { gap: 20px; }
   .recipeMeta { font-size: .75rem; gap: 4px 12px; }
   .sectionHeading h2 { font-size: 1.25rem; }
+  .servings, .cookingControls { margin-inline-end: 12px; }
   .body { grid-template-columns: 1fr; gap: 30px; border: 0; padding-top: 22px; }
   .ingredients { display: block; position: static; max-height: none; }
   .ingredientViewport { display: block; }
