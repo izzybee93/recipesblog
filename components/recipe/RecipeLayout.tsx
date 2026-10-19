@@ -24,6 +24,7 @@ function ingredientText(value: unknown): string {
 export default function RecipeLayout({ recipe, blurDataURL }: RecipeLayoutProps) {
   const [useBackupImage, setUseBackupImage] = useState(false)
   const [imageFailed, setImageFailed] = useState(false)
+  const [keyboardNavigation, setKeyboardNavigation] = useState(false)
   const imageUrl = useBackupImage ? getBackupImageUrl(recipe.featured_image) : recipe.featured_image
 
   const handleImageError = () => {
@@ -32,7 +33,16 @@ export default function RecipeLayout({ recipe, blurDataURL }: RecipeLayoutProps)
   }
 
   return (
-    <article className={styles.recipe}>
+    <article
+      className={styles.recipe}
+      data-keyboard-navigation={keyboardNavigation}
+      onPointerDownCapture={() => setKeyboardNavigation(false)}
+      onKeyDownCapture={event => {
+        if (['Tab', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'].includes(event.key)) {
+          setKeyboardNavigation(true)
+        }
+      }}
+    >
       {recipe.draft && (
         <div className="mb-8 border-l-4 border-yellow-500 bg-yellow-100 p-4 text-yellow-700">
           <p className="font-bold">Draft Mode</p>

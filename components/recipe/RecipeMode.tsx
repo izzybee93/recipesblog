@@ -5,7 +5,6 @@ import styles from './RecipeLayout.module.css'
 
 export default function RecipeMode() {
   const [enabled, setEnabled] = useState(false)
-  const [status, setStatus] = useState('')
   const [showInfo, setShowInfo] = useState(false)
   const infoRef = useRef<HTMLDivElement>(null)
   const tooltipId = useId()
@@ -16,16 +15,9 @@ export default function RecipeMode() {
     let acquiring = false
     let lock: WakeLockSentinel | null = null
 
-    const onRelease = () => {
-      if (!disposed) setStatus('Screen awake paused')
-    }
-
     const acquire = async () => {
       if (disposed || acquiring || document.visibilityState !== 'visible' || (lock && !lock.released)) return
-      if (!navigator.wakeLock) {
-        setStatus('Screen awake unavailable')
-        return
-      }
+      if (!navigator.wakeLock) return
       acquiring = true
       try {
         const next = await navigator.wakeLock.request('screen')
@@ -33,12 +25,9 @@ export default function RecipeMode() {
           await next.release()
           return
         }
-        lock?.removeEventListener('release', onRelease)
         lock = next
-        lock.addEventListener('release', onRelease)
-        setStatus('Screen awake')
       } catch {
-        if (!disposed) setStatus('Screen awake unavailable')
+        // The browser may decline a wake lock; keep the control free of status text.
       } finally {
         acquiring = false
       }
@@ -53,7 +42,6 @@ export default function RecipeMode() {
     return () => {
       disposed = true
       document.removeEventListener('visibilitychange', onVisibilityChange)
-      lock?.removeEventListener('release', onRelease)
       void lock?.release().catch(() => {})
     }
   }, [enabled])
@@ -83,10 +71,7 @@ export default function RecipeMode() {
         aria-label="Cooking mode"
         title="Keep the screen awake while cooking"
         className={`${styles.cookingToggle} text-gray-700 dark:text-gray-300`}
-        onClick={() => {
-          setEnabled(value => !value)
-          setStatus('')
-        }}
+        onClick={() => setEnabled(value => !value)}
       >
         <span
           className={`${styles.toggleTrack} bg-gray-300 dark:bg-gray-600`}
@@ -125,7 +110,6 @@ export default function RecipeMode() {
           Prevents device sleep
         </div>
       </div>
-      {enabled && <span role="status" className={styles.wakeStatus}>{status || 'Starting…'}</span>}
     </div>
   )
 }
