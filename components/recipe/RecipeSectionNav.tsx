@@ -1,15 +1,13 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import type { MouseEvent } from 'react'
 import { animateRecipeScroll, recipeSectionTarget } from '@/lib/recipe-section-navigation'
 import styles from './RecipeLayout.module.css'
 
 export default function RecipeSectionNav() {
   const navRef = useRef<HTMLElement>(null)
-  const sentinelRef = useRef<HTMLSpanElement>(null)
   const stopAnimation = useRef<() => void>(() => {})
-  const [stuck, setStuck] = useState(false)
 
   useEffect(() => {
     const cancel = () => stopAnimation.current()
@@ -21,13 +19,8 @@ export default function RecipeSectionNav() {
     window.addEventListener('keydown', cancelKey)
     window.addEventListener('resize', cancel)
     window.visualViewport?.addEventListener('resize', cancel)
-    const observer = new IntersectionObserver(([entry]) => {
-      setStuck(!entry.isIntersecting && entry.boundingClientRect.top <= 0)
-    })
-    if (sentinelRef.current) observer.observe(sentinelRef.current)
     return () => {
       cancel()
-      observer.disconnect()
       window.removeEventListener('wheel', cancel)
       window.removeEventListener('touchstart', cancel)
       window.removeEventListener('keydown', cancelKey)
@@ -68,10 +61,12 @@ export default function RecipeSectionNav() {
   }
 
   return <>
-    <span ref={sentinelRef} className={styles.jumpSentinel} aria-hidden="true" />
-    <nav ref={navRef} className={styles.jumpNav} aria-label="Recipe sections" data-stuck={stuck}>
-      <a href="#ingredients" onClick={event => navigate(event, 'ingredients')}>Ingredients</a>
-      <a href="#directions" onClick={event => navigate(event, 'directions')}>Directions</a>
+    <span className={styles.mobileTopCover} aria-hidden="true" data-testid="recipe-top-cover" />
+    <nav ref={navRef} className={styles.jumpNav} aria-label="Recipe sections">
+      <div className={styles.jumpNavLinks}>
+        <a href="#ingredients" onClick={event => navigate(event, 'ingredients')}>Ingredients</a>
+        <a href="#directions" onClick={event => navigate(event, 'directions')}>Directions</a>
+      </div>
     </nav>
   </>
 }
