@@ -88,6 +88,8 @@ export default async function RecipePage({ params }: RecipePageProps) {
     notFound()
   }
 
+  const knownRecipes = getAllRecipes(true).map(({ title, slug }) => ({ title, slug }))
+
   let imageData
   try {
     imageData = await getImageWithBlur(recipe.meta.featured_image)
@@ -100,6 +102,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
     <RecipeLayout
       key={recipe.meta.slug}
       recipe={recipe.meta}
+      knownRecipes={knownRecipes}
       blurDataURL={imageData.blurDataURL}
     />
   )

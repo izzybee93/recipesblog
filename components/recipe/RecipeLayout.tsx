@@ -1,10 +1,13 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import Link from 'next/link'
+import { useMemo, useState } from 'react'
 import type { Recipe } from '@/types/recipe'
 import { getBackupImageUrl } from '@/lib/blob-image'
-import { navigateToStoredBackDestination, storeCategoryEntryNavigation } from '@/lib/navigation-actions'
+import { navigateToStoredBackDestination, storeCategoryEntryNavigation, storeRecipeLinkNavigation } from '@/lib/navigation-actions'
+import { buildRecipeLinkMatcher, ingredientRecipeParts, directionRecipeParts } from '@/lib/recipe-links'
+import type { KnownRecipe, RecipeTextPart } from '@/lib/recipe-links'
 import RecipeFooter from './RecipeFooter'
 import RecipeMode from './RecipeMode'
 import RecipePlaceholder from './RecipePlaceholder'
@@ -12,6 +15,7 @@ import styles from './RecipeLayout.module.css'
 
 interface RecipeLayoutProps {
   recipe: Recipe
+  knownRecipes: KnownRecipe[]
   blurDataURL?: string
 }
 
@@ -21,10 +25,25 @@ function ingredientText(value: unknown): string {
   return String(value ?? '')
 }
 
-export default function RecipeLayout({ recipe, blurDataURL }: RecipeLayoutProps) {
+function renderRecipeParts(parts: RecipeTextPart[]) {
+  return parts.map((part, index) => part.slug ? (
+    <Link
+      key={index}
+      href={`/recipes/${part.slug}`}
+      className="hover:underline"
+      style={{ color: 'var(--accent)' }}
+      onClick={() => storeRecipeLinkNavigation(part.slug!, window.location.pathname)}
+    >
+      {part.text}
+    </Link>
+  ) : part.text)
+}
+
+export default function RecipeLayout({ recipe, knownRecipes, blurDataURL }: RecipeLayoutProps) {
   const [useBackupImage, setUseBackupImage] = useState(false)
   const [imageFailed, setImageFailed] = useState(false)
   const [keyboardNavigation, setKeyboardNavigation] = useState(false)
+  const recipeLinkMatcher = useMemo(() => buildRecipeLinkMatcher(knownRecipes), [knownRecipes])
   const imageUrl = useBackupImage ? getBackupImageUrl(recipe.featured_image) : recipe.featured_image
 
   const handleImageError = () => {
@@ -134,7 +153,7 @@ export default function RecipeLayout({ recipe, blurDataURL }: RecipeLayoutProps)
               ) : (
                 <li key={index} className={styles.ingredientRow}>
                   <span className={styles.ingredientBullet} aria-hidden="true" />
-                  <span>{ingredient}</span>
+                  <span>{renderRecipeParts(ingredientRecipeParts(ingredient, recipeLinkMatcher))}</span>
                 </li>
               )
             })}
@@ -150,7 +169,7 @@ export default function RecipeLayout({ recipe, blurDataURL }: RecipeLayoutProps)
             {recipe.directions.map((direction, index) => (
               <li key={index} className={styles.directionRow}>
                 <span className={styles.stepNumber} aria-hidden="true">{index + 1}</span>
-                <span>{direction}</span>
+                <span>{renderRecipeParts(directionRecipeParts(direction, recipeLinkMatcher))}</span>
               </li>
             ))}
           </ol>
