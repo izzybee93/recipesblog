@@ -14,6 +14,7 @@ import RecipeMode from './RecipeMode'
 import RecipeCopyButton from './RecipeCopyButton'
 import RecipePlaceholder from './RecipePlaceholder'
 import IngredientScroll from './IngredientScroll'
+import RecipeSectionNav from './RecipeSectionNav'
 import styles from './RecipeLayout.module.css'
 import backButtonStyles from './RecipesBackButton.module.css'
 
@@ -129,13 +130,10 @@ export default function RecipeLayout({ recipe, knownRecipes, blurDataURL }: Reci
         </div>
       </header>
 
-      <nav className={styles.jumpNav} aria-label="Recipe sections">
-        <a href="#ingredients">Ingredients</a>
-        <a href="#directions">Directions</a>
-      </nav>
+      <RecipeSectionNav />
 
       <div className={styles.body}>
-        <section id="ingredients" className={styles.ingredients} aria-labelledby="ingredients-title">
+        <section id="ingredients" className={styles.ingredients} aria-labelledby="ingredients-title" tabIndex={-1}>
           <div className={styles.sectionHeading}>
             <h2 id="ingredients-title">Ingredients</h2>
             <span className={`${styles.servings} text-gray-700 dark:text-gray-300`}>
@@ -162,7 +160,7 @@ export default function RecipeLayout({ recipe, knownRecipes, blurDataURL }: Reci
           </IngredientScroll>
         </section>
 
-        <section id="directions" className={styles.directions} aria-labelledby="directions-title">
+        <section id="directions" className={styles.directions} aria-labelledby="directions-title" tabIndex={-1}>
           <div className={`${styles.sectionHeading} ${styles.directionsHeading}`}>
             <h2 id="directions-title">Directions</h2>
             <RecipeMode />

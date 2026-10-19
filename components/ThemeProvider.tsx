@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { markBackNavigation } from '@/lib/navigation-state'
+import { isRecipeDetailPath } from '@/lib/recipe-reload'
 import {
   clearSavedScrollPosition,
   getSavedScrollPosition,
@@ -48,6 +49,15 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
 
   // Handle scroll restoration
   useEffect(() => {
+    // The browser restores recipe scroll positions. Do not overwrite them with
+    // a stale application-saved offset; saved positions are for listing pages.
+    if (isRecipeDetailPath(pathname)) {
+      clearSavedScrollPosition(pathname)
+      return
+    }
+
+    let restoreTimer: ReturnType<typeof setTimeout> | undefined
+
     // Restore scroll position after page load or navigation
     const restoreScrollPosition = () => {
       const savedPosition = getSavedScrollPosition(pathname)
@@ -69,12 +79,12 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
             clearSavedScrollPosition(pathname)
           } else {
             // Content not ready, try again
-            setTimeout(scrollToPosition, 100)
+            restoreTimer = setTimeout(scrollToPosition, 100)
           }
         }
 
         // Start attempting to scroll after a short delay
-        setTimeout(scrollToPosition, 100)
+        restoreTimer = setTimeout(scrollToPosition, 100)
       }
     }
 
@@ -89,6 +99,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     window.addEventListener('beforeunload', handleBeforeUnload)
 
     return () => {
+      clearTimeout(restoreTimer)
       window.removeEventListener('beforeunload', handleBeforeUnload)
     }
   }, [pathname])

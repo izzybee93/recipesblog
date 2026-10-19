@@ -7,6 +7,7 @@ import BackToTop from "@/components/BackToTop";
 import ThemeProvider from "@/components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { recipeReloadScript } from '@/lib/recipe-reload';
 
 const simplySweetSerif = localFont({
   src: "../public/SimplySweet_Serif.ttf",
@@ -53,6 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={simplySweetSerif.variable} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: recipeReloadScript }} />
         <script
           dangerouslySetInnerHTML={{
             __html: `
