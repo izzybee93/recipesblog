@@ -31,7 +31,7 @@ export default function BackToTop() {
     <div className={styles.track}>
       <button
         onClick={scrollToTop}
-        className={`${styles.button} z-50 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-[var(--surface)] text-gray-600 transition-colors duration-150 hover:bg-[var(--accent)] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)] dark:text-gray-300 dark:hover:text-white`}
+        className={`${styles.button} z-50 flex cursor-pointer items-center justify-center rounded-full bg-[var(--surface)] text-gray-600 transition-colors duration-150 hover:bg-[var(--accent)] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)] dark:text-gray-300 dark:hover:text-white`}
         aria-label="Back to top"
       >
         <svg

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
+import { watchIngredientOverflow } from '@/lib/ingredient-scroll'
 import styles from './RecipeLayout.module.css'
 
 export default function IngredientScroll({ children }: { children: ReactNode }) {
@@ -14,19 +15,12 @@ export default function IngredientScroll({ children }: { children: ReactNode }) 
     const content = contentRef.current
     if (!scroller || !content) return
 
-    const update = () => {
-      setHasMoreBelow(scroller.scrollHeight - scroller.clientHeight - scroller.scrollTop > 1)
-    }
-    const observer = new ResizeObserver(update)
-    observer.observe(scroller)
-    observer.observe(content)
-    scroller.addEventListener('scroll', update, { passive: true })
-    update()
-
-    return () => {
-      observer.disconnect()
-      scroller.removeEventListener('scroll', update)
-    }
+    return watchIngredientOverflow(scroller, setHasMoreBelow, update => {
+      const observer = new ResizeObserver(update)
+      observer.observe(scroller)
+      observer.observe(content)
+      return () => observer.disconnect()
+    })
   }, [])
 
   return (

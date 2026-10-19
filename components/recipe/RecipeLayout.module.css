@@ -21,7 +21,8 @@
 .ingredients, .directions { scroll-margin-top: 72px; min-width: 0; outline: none; -webkit-tap-highlight-color: transparent; }
 .ingredients { display: flex; flex-direction: column; align-self: start; position: sticky; top: 24px; max-height: calc(100dvh - 48px); }
 .ingredientViewport { display: flex; flex-direction: column; position: relative; min-height: 0; }
-.ingredientScroller { min-height: 0; overflow-y: auto; scrollbar-width: thin; outline: none; -webkit-tap-highlight-color: transparent; }
+.ingredientScroller { min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--color-gray-500) transparent; outline: none; -webkit-tap-highlight-color: transparent; }
+:global(.dark) .ingredientScroller { scrollbar-color: var(--color-gray-400) transparent; }
 .ingredientScrollCue { display: none; }
 .sectionHeading { display: flex; flex-shrink: 0; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; margin-bottom: 12px; }
 .sectionHeading h2 { font-size: 1.375rem; font-weight: 600; }

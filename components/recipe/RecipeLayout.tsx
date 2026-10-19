@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import type { Recipe } from '@/types/recipe'
 import { getBackupImageUrl } from '@/lib/blob-image'
+import { parseRecipeIngredient } from '@/lib/recipe-ingredients'
 import { navigateToStoredBackDestination, storeCategoryEntryNavigation, storeRecipeLinkNavigation } from '@/lib/navigation-actions'
 import { buildRecipeLinkMatcher, ingredientRecipeParts, directionRecipeParts } from '@/lib/recipe-links'
 import type { KnownRecipe, RecipeTextPart } from '@/lib/recipe-links'
@@ -20,12 +21,6 @@ interface RecipeLayoutProps {
   recipe: Recipe
   knownRecipes: KnownRecipe[]
   blurDataURL?: string
-}
-
-function ingredientText(value: unknown): string {
-  if (typeof value === 'string') return value
-  if (value && typeof value === 'object') return Object.keys(value)[0] ?? ''
-  return String(value ?? '')
 }
 
 function renderRecipeParts(parts: RecipeTextPart[]) {
@@ -153,14 +148,13 @@ export default function RecipeLayout({ recipe, knownRecipes, blurDataURL }: Reci
           <IngredientScroll>
             <ul className={styles.ingredientList} role="list">
               {recipe.ingredients.map((value, index) => {
-                const ingredient = ingredientText(value)
-                const group = ingredient.match(/^##\s+(.+)$/)
-                return group ? (
-                  <li key={index} className={styles.ingredientGroup}><h3>{group[1]}</h3></li>
+                const ingredient = parseRecipeIngredient(value)
+                return ingredient.kind === 'group' ? (
+                  <li key={index} className={styles.ingredientGroup}><h3>{ingredient.text}</h3></li>
                 ) : (
                   <li key={index} className={styles.ingredientRow}>
                     <span className={styles.ingredientBullet} aria-hidden="true" />
-                    <span>{renderRecipeParts(ingredientRecipeParts(ingredient, recipeLinkMatcher))}</span>
+                    <span>{renderRecipeParts(ingredientRecipeParts(ingredient.text, recipeLinkMatcher))}</span>
                   </li>
                 )
               })}

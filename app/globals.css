@@ -2,6 +2,7 @@
 @import "tailwindcss";
 
 :root {
+  --site-footer-gap: 4rem;
   --background: #ffffff;
   --foreground: #222222;
   --accent: rgb(140, 190, 175);

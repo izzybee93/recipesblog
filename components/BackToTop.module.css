@@ -1,16 +1,20 @@
 .track {
+  --control-size: 2.75rem;
+  --viewport-gap: 1.5rem;
+  --footer-clearance: 1rem;
   position: absolute;
-  /* Extend into the footer's 64px top margin, leaving 16px clearance. */
-  inset: 0 0 -48px;
+  inset: 0 0 calc(var(--footer-clearance) - var(--site-footer-gap));
   z-index: 50;
   pointer-events: none;
 }
 
 .button {
   position: sticky;
-  top: calc(100vh - 68px);
-  top: calc(100dvh - 68px);
+  top: calc(100vh - var(--control-size) - var(--viewport-gap));
+  top: calc(100dvh - var(--control-size) - var(--viewport-gap));
+  width: var(--control-size);
+  height: var(--control-size);
   margin-inline-start: auto;
-  margin-inline-end: 24px;
+  margin-inline-end: var(--viewport-gap);
   pointer-events: auto;
 }

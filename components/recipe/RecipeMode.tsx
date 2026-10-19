@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useId, useRef, useState } from 'react'
+import { startCookingModeSession } from '@/lib/cooking-mode'
 import styles from './RecipeLayout.module.css'
 
 export default function RecipeMode() {
@@ -11,39 +12,15 @@ export default function RecipeMode() {
 
   useEffect(() => {
     if (!enabled) return
-    let disposed = false
-    let acquiring = false
-    let lock: WakeLockSentinel | null = null
-
-    const acquire = async () => {
-      if (disposed || acquiring || document.visibilityState !== 'visible' || (lock && !lock.released)) return
-      if (!navigator.wakeLock) return
-      acquiring = true
-      try {
-        const next = await navigator.wakeLock.request('screen')
-        if (disposed || document.visibilityState !== 'visible') {
-          await next.release()
-          return
-        }
-        lock = next
-      } catch {
-        // The browser may decline a wake lock; keep the control free of status text.
-      } finally {
-        acquiring = false
-      }
-    }
-
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'visible') void acquire()
-    }
-    void acquire()
-    document.addEventListener('visibilitychange', onVisibilityChange)
-
-    return () => {
-      disposed = true
-      document.removeEventListener('visibilitychange', onVisibilityChange)
-      void lock?.release().catch(() => {})
-    }
+    return startCookingModeSession({
+      document,
+      window,
+      requestWakeLock: navigator.wakeLock ? () => navigator.wakeLock.request('screen') : undefined,
+      onReset: () => {
+        setEnabled(false)
+        setShowInfo(false)
+      },
+    })
   }, [enabled])
 
   useEffect(() => {
