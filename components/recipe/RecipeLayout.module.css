@@ -44,6 +44,11 @@
 .tooltipOpen { display: block; }
 
 @media (min-width: 768px) {
+  .header { max-width: none; }
+  .heading { align-items: center; }
+  .categories { justify-content: center; }
+  .header > div:last-child { width: 100%; max-width: 760px; justify-self: center; }
+  .title { width: 100%; text-align: center; text-wrap: wrap; }
   .ingredients { padding-inline-end: 12px; scrollbar-gutter: stable; }
   .recipe[data-keyboard-navigation="true"] .ingredients:focus-visible .sectionHeading h2::after { opacity: 1; }
   .recipe { max-width: 1024px; padding-inline: 32px; }
