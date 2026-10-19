@@ -10,6 +10,7 @@ import { buildRecipeLinkMatcher, ingredientRecipeParts, directionRecipeParts } f
 import type { KnownRecipe, RecipeTextPart } from '@/lib/recipe-links'
 import RecipeFooter from './RecipeFooter'
 import RecipeMode from './RecipeMode'
+import RecipeCopyButton from './RecipeCopyButton'
 import RecipePlaceholder from './RecipePlaceholder'
 import IngredientScroll from './IngredientScroll'
 import styles from './RecipeLayout.module.css'
@@ -79,21 +80,24 @@ export default function RecipeLayout({ recipe, knownRecipes, blurDataURL }: Reci
       <header className={styles.header}>
         <div className={styles.heading}>
           <h1 className={`${styles.title} text-gray-800 dark:text-white`}>{recipe.title}</h1>
-          <div className={styles.categories}>
-            {recipe.categories.map(category => (
-              <button
-                key={category}
-                type="button"
-                className="inline-flex min-h-11 items-center rounded-full bg-[var(--surface)] px-4 py-2 text-sm font-medium capitalize text-gray-600 transition-colors hover:bg-[var(--accent)] hover:text-white focus:outline-none focus:ring-2 focus:ring-[var(--accent)] dark:text-gray-300"
-                onClick={() => {
-                  const destination = `/category/${category.toLowerCase()}`
-                  storeCategoryEntryNavigation(destination, window.location.pathname)
-                  window.location.href = destination
-                }}
-              >
-                {category}
-              </button>
-            ))}
+          <div className={styles.categoryRow}>
+            <div className={styles.categories}>
+              {recipe.categories.map(category => (
+                <button
+                  key={category}
+                  type="button"
+                  className="inline-flex min-h-11 items-center rounded-full bg-[var(--surface)] px-4 py-2 text-sm font-medium capitalize text-gray-600 transition-colors hover:bg-[var(--accent)] hover:text-white focus:outline-none focus:ring-2 focus:ring-[var(--accent)] dark:text-gray-300"
+                  onClick={() => {
+                    const destination = `/category/${category.toLowerCase()}`
+                    storeCategoryEntryNavigation(destination, window.location.pathname)
+                    window.location.href = destination
+                  }}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+            <RecipeCopyButton recipe={recipe} />
           </div>
         </div>
 
