@@ -11,6 +11,7 @@ import type { KnownRecipe, RecipeTextPart } from '@/lib/recipe-links'
 import RecipeFooter from './RecipeFooter'
 import RecipeMode from './RecipeMode'
 import RecipePlaceholder from './RecipePlaceholder'
+import IngredientScroll from './IngredientScroll'
 import styles from './RecipeLayout.module.css'
 
 interface RecipeLayoutProps {
@@ -134,7 +135,7 @@ export default function RecipeLayout({ recipe, knownRecipes, blurDataURL }: Reci
       </nav>
 
       <div className={styles.body}>
-        <section id="ingredients" className={styles.ingredients} tabIndex={0} aria-labelledby="ingredients-title">
+        <section id="ingredients" className={styles.ingredients} aria-labelledby="ingredients-title">
           <div className={styles.sectionHeading}>
             <h2 id="ingredients-title">Ingredients</h2>
             <span className={`${styles.servings} text-gray-700 dark:text-gray-300`}>
@@ -144,20 +145,22 @@ export default function RecipeLayout({ recipe, knownRecipes, blurDataURL }: Reci
               {recipe.servings}
             </span>
           </div>
-          <ul className={styles.ingredientList} role="list">
-            {recipe.ingredients.map((value, index) => {
-              const ingredient = ingredientText(value)
-              const group = ingredient.match(/^##\s+(.+)$/)
-              return group ? (
-                <li key={index} className={styles.ingredientGroup}><h3>{group[1]}</h3></li>
-              ) : (
-                <li key={index} className={styles.ingredientRow}>
-                  <span className={styles.ingredientBullet} aria-hidden="true" />
-                  <span>{renderRecipeParts(ingredientRecipeParts(ingredient, recipeLinkMatcher))}</span>
-                </li>
-              )
-            })}
-          </ul>
+          <IngredientScroll>
+            <ul className={styles.ingredientList} role="list">
+              {recipe.ingredients.map((value, index) => {
+                const ingredient = ingredientText(value)
+                const group = ingredient.match(/^##\s+(.+)$/)
+                return group ? (
+                  <li key={index} className={styles.ingredientGroup}><h3>{group[1]}</h3></li>
+                ) : (
+                  <li key={index} className={styles.ingredientRow}>
+                    <span className={styles.ingredientBullet} aria-hidden="true" />
+                    <span>{renderRecipeParts(ingredientRecipeParts(ingredient, recipeLinkMatcher))}</span>
+                  </li>
+                )
+              })}
+            </ul>
+          </IngredientScroll>
         </section>
 
         <section id="directions" className={styles.directions} aria-labelledby="directions-title">

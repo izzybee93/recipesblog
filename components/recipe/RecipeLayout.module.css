@@ -14,8 +14,11 @@
 .recipeMeta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 20px; padding-top: 16px; font-size: .875rem; }
 .body { display: grid; grid-template-columns: minmax(240px, .8fr) minmax(0, 1.5fr); gap: 46px; border-top: 1px solid var(--border); padding-top: 26px; }
 .ingredients, .directions { scroll-margin-top: 72px; min-width: 0; outline: none; -webkit-tap-highlight-color: transparent; }
-.ingredients { align-self: start; position: sticky; top: 24px; max-height: calc(100dvh - 48px); overflow-y: auto; scrollbar-width: thin; }
-.sectionHeading { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; margin-bottom: 12px; }
+.ingredients { display: flex; flex-direction: column; align-self: start; position: sticky; top: 24px; max-height: calc(100dvh - 48px); }
+.ingredientViewport { display: flex; flex-direction: column; position: relative; min-height: 0; }
+.ingredientScroller { min-height: 0; overflow-y: auto; scrollbar-width: thin; outline: none; -webkit-tap-highlight-color: transparent; }
+.ingredientScrollCue { display: none; }
+.sectionHeading { display: flex; flex-shrink: 0; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; margin-bottom: 12px; }
 .sectionHeading h2 { font-size: 1.375rem; font-weight: 600; }
 .ingredients .sectionHeading h2::after { content: ""; display: inline-block; width: 4px; height: .85em; margin-left: 8px; border-radius: 2px; vertical-align: baseline; background: var(--accent); opacity: 0; }
 .servings { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-size: .875rem; }
@@ -44,13 +47,16 @@
 .tooltipOpen { display: block; }
 
 @media (min-width: 768px) {
+  .ingredients, .directions { scroll-margin-top: 24px; }
   .header { max-width: none; }
   .heading { align-items: center; }
   .categories { justify-content: center; }
   .header > div:last-child { width: 100%; max-width: 760px; justify-self: center; }
   .title { width: 100%; text-align: center; text-wrap: wrap; }
-  .ingredients { padding-inline-end: 12px; scrollbar-gutter: stable; }
-  .recipe[data-keyboard-navigation="true"] .ingredients:focus-visible .sectionHeading h2::after { opacity: 1; }
+  .ingredients > .sectionHeading { padding-inline-end: 12px; }
+  .ingredientScroller { padding-inline-end: 12px; scrollbar-gutter: stable; scroll-padding-block-end: 64px; }
+  .ingredientScrollCue { display: flex; align-items: flex-end; justify-content: center; position: absolute; inset: auto 12px 0 0; height: 64px; padding-bottom: 5px; color: var(--accent); background: linear-gradient(to bottom, transparent, var(--background) 75%); pointer-events: none; }
+  .recipe[data-keyboard-navigation="true"] .ingredients:focus-within .sectionHeading h2::after { opacity: 1; }
   .recipe { max-width: 1024px; padding-inline: 32px; }
 }
 
@@ -61,7 +67,9 @@
   .recipeMeta { font-size: .75rem; gap: 4px 12px; }
   .sectionHeading h2 { font-size: 1.25rem; }
   .body { grid-template-columns: 1fr; gap: 30px; border: 0; padding-top: 22px; }
-  .ingredients { position: static; max-height: none; overflow: visible; }
+  .ingredients { display: block; position: static; max-height: none; }
+  .ingredientViewport { display: block; }
+  .ingredientScroller { overflow: visible; }
   .jumpNav { display: flex; gap: 8px; position: sticky; top: 0; z-index: 4; padding: 8px 0; border-block: 1px solid var(--border); background: var(--background); }
   .jumpNav a { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 44px; color: var(--accent); border-radius: 9999px; font-size: .875rem; font-weight: 600; text-decoration: none; }
   .jumpNav a:hover { background: var(--surface); }
