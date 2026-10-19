@@ -14,6 +14,7 @@ import RecipeCopyButton from './RecipeCopyButton'
 import RecipePlaceholder from './RecipePlaceholder'
 import IngredientScroll from './IngredientScroll'
 import styles from './RecipeLayout.module.css'
+import backButtonStyles from './RecipesBackButton.module.css'
 
 interface RecipeLayoutProps {
   recipe: Recipe
@@ -72,8 +73,8 @@ export default function RecipeLayout({ recipe, knownRecipes, blurDataURL }: Reci
       )}
 
       <div className={styles.utilityRow}>
-        <button type="button" onClick={() => navigateToStoredBackDestination(window.location.pathname)}>
-          ← Recipes
+        <button type="button" className={backButtonStyles.button} onClick={() => navigateToStoredBackDestination(window.location.pathname)}>
+          <span aria-hidden="true">←</span> Recipes
         </button>
       </div>
 

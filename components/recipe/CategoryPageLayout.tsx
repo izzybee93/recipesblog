@@ -8,6 +8,7 @@ import { storeRecipeEntryNavigation } from '@/lib/navigation-actions'
 import { RecipeCard } from '@/types/recipe'
 import RecipeGrid from './RecipeGrid'
 import RecipePlaceholder from './RecipePlaceholder'
+import backButtonStyles from './RecipesBackButton.module.css'
 
 interface CategoryPageLayoutProps {
   recipes: RecipeCard[]
@@ -108,12 +109,12 @@ export default function CategoryPageLayout({
   const supporting = dailyPicks.slice(1, 3)
 
   return (
-    <div className="mx-auto max-w-[960px] py-6 md:py-8 [&_.recipes]:lg:grid-cols-2">
+    <div className="mx-auto max-w-[960px] pt-2 pb-6 md:pt-4 md:pb-8 [&_.recipes]:lg:grid-cols-2">
       <button
         onClick={onBack}
-        className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-[var(--accent-strong)] !no-underline transition-colors hover:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+        className={backButtonStyles.button}
       >
-        <span aria-hidden="true">←</span> Back to Recipes
+        <span aria-hidden="true">←</span> Recipes
       </button>
 
       <header className="my-8 grid items-center gap-6 sm:grid-cols-[minmax(0,1fr)_320px] lg:grid-cols-[minmax(0,1fr)_348px]">

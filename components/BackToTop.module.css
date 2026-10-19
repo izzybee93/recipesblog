@@ -1,0 +1,16 @@
+.track {
+  position: absolute;
+  /* Extend into the footer's 64px top margin, leaving 16px clearance. */
+  inset: 0 0 -48px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.button {
+  position: sticky;
+  top: calc(100vh - 68px);
+  top: calc(100dvh - 68px);
+  margin-inline-start: auto;
+  margin-inline-end: 24px;
+  pointer-events: auto;
+}

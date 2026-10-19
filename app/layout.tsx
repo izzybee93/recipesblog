@@ -69,11 +69,13 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <Header />
-          <div className="page-shell main-content">
-            <section className="content">{children}</section>
+          <div className="relative">
+            <div className="page-shell main-content">
+              <section className="content">{children}</section>
+            </div>
+            <BackToTop />
           </div>
           <Footer />
-          <BackToTop />
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>

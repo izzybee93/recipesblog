@@ -1,0 +1,18 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-inline-start: -12px;
+  padding: 8px 12px;
+  border-radius: 9999px;
+  color: var(--accent);
+  font-family: inherit;
+  font-size: .875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .15s;
+}
+
+.button:hover { background: var(--surface); }
+.button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }

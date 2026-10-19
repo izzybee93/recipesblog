@@ -2,9 +2,7 @@
 .recipe button { font-family: inherit; cursor: pointer; }
 .recipe button, .recipe a { -webkit-tap-highlight-color: transparent; }
 .recipe button:focus-visible, .recipe a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.utilityRow { display: flex; min-height: 44px; margin-bottom: 14px; }
-.utilityRow button { color: var(--accent); font-size: .875rem; font-weight: 600; padding: 8px 12px; border-radius: 9999px; }
-.utilityRow button:hover { background: var(--surface); }
+.utilityRow { display: flex; max-width: 760px; min-height: 44px; margin-inline: auto; margin-bottom: 14px; }
 .header { display: grid; grid-template-columns: 1fr; max-width: 760px; margin-inline: auto; gap: 32px; padding-bottom: 24px; }
 .heading { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; min-width: 0; }
 .title { font-size: clamp(1.7rem, 3.6vw, 2.35rem); font-weight: 700; line-height: 1.2; margin: 0; text-wrap: balance; }
@@ -78,6 +76,10 @@
   .jumpNav a { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 44px; color: var(--accent); border-radius: 9999px; font-size: .875rem; font-weight: 600; text-decoration: none; }
   .jumpNav a:hover { background: var(--surface); }
   .directionRow { gap: 12px; padding-block: 14px; }
+}
+
+@media (max-width: 359px) {
+  .cookingInfo { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
