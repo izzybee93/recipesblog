@@ -23,7 +23,6 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
       } else {
         document.documentElement.classList.remove('dark')
       }
-      console.log('Theme updated, dark mode:', darkModeMediaQuery.matches)
     }
 
     // Set initial theme

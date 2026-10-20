@@ -4,8 +4,9 @@
   --footer-clearance: 1rem;
   position: absolute;
   inset: 0 0 calc(var(--footer-clearance) - var(--site-footer-gap));
-  /* Keep this transparent track below the recipe tabs. Safari samples through
-     pointer-events:none layers when choosing its status-bar background. */
+  /* Shared layer order: this track (2), recipe top cover (3), recipe tabs (4).
+     Safari's status-bar sampling includes pointer-events:none layers, so this
+     transparent track must stay below the cover and tabs. See RecipeLayout.module.css. */
   z-index: 2;
   pointer-events: none;
 }
