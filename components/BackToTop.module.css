@@ -4,7 +4,9 @@
   --footer-clearance: 1rem;
   position: absolute;
   inset: 0 0 calc(var(--footer-clearance) - var(--site-footer-gap));
-  z-index: 50;
+  /* Keep this transparent track below the recipe tabs. Safari samples through
+     pointer-events:none layers when choosing its status-bar background. */
+  z-index: 2;
   pointer-events: none;
 }
 

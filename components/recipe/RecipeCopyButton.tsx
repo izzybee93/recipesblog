@@ -6,7 +6,7 @@ import { recipeClipboardText } from '@/lib/recipe-copy'
 import styles from './RecipeLayout.module.css'
 
 interface RecipeCopyButtonProps {
-  recipe: Pick<Recipe, 'title' | 'ingredients' | 'directions'>
+  recipe: Pick<Recipe, 'title' | 'servings' | 'ingredients' | 'directions'>
 }
 
 export default function RecipeCopyButton({ recipe }: RecipeCopyButtonProps) {

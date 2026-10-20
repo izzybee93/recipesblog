@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import { recipeClipboardText } from './recipe-copy.ts'
 
-test('copies only the recipe title, ingredients and numbered directions', () => {
+test('copies only the recipe title, yield, ingredients and numbered directions', () => {
   const recipe = {
     title: 'Crêpes',
     ingredients: ['125g plain flour', '250ml oat milk'],
@@ -14,8 +14,20 @@ test('copies only the recipe title, ingredients and numbered directions', () => 
     prep_time: '5 minutes',
   }
   assert.equal(recipeClipboardText(recipe), [
-    'Crêpes', '', 'Ingredients', '- 125g plain flour', '- 250ml oat milk', '',
+    'Crêpes', 'makes 10', '', 'Ingredients', '- 125g plain flour', '- 250ml oat milk', '',
     'Directions', '1. Whisk the batter.', '2. Cook each crêpe until golden.',
+  ].join('\n'))
+})
+
+test('copies the displayed servings wording and range below the title', () => {
+  const recipe = {
+    title: 'Tomato soup',
+    servings: 'serves 4–5',
+    ingredients: ['Tomatoes'],
+    directions: ['Simmer.'],
+  }
+  assert.equal(recipeClipboardText(recipe), [
+    'Tomato soup', 'serves 4–5', '', 'Ingredients', '- Tomatoes', '', 'Directions', '1. Simmer.',
   ].join('\n'))
 })
 
