@@ -12,6 +12,10 @@ export default function RecipeSectionNav() {
   const stopAnimation = useRef<() => void>(() => {})
 
   useEffect(() => {
+    // Safari 26+ and other supporting browsers keep this entirely in CSS.
+    if (CSS.supports('animation-timeline', '--recipe-pinned')
+      && CSS.supports('view-timeline-name', '--recipe-pinned')
+      && CSS.supports('animation-range', 'exit')) return
     const nav = navRef.current
     const cover = coverRef.current
     if (!nav || !cover) return
@@ -19,8 +23,7 @@ export default function RecipeSectionNav() {
       window,
       visualViewport: window.visualViewport,
       getBounds: () => nav.getBoundingClientRect(),
-      // Only update on pinned/unpinned transitions, without a queued React paint.
-      onChange: pinned => { cover.hidden = !pinned },
+      onChange: pinned => { cover.toggleAttribute('data-pinned', pinned) },
       observeResize: update => {
         const observer = new ResizeObserver(update)
         observer.observe(nav)
@@ -83,7 +86,9 @@ export default function RecipeSectionNav() {
   }
 
   return <>
-    <span ref={coverRef} hidden className={styles.mobileTopCover} aria-hidden="true" data-testid="recipe-top-cover" />
+    <div className={styles.jumpMarker} aria-hidden="true" data-testid="recipe-pin-marker">
+      <span ref={coverRef} className={styles.mobileTopCover} data-testid="recipe-top-cover" />
+    </div>
     <nav ref={navRef} className={styles.jumpNav} aria-label="Recipe sections">
       <div className={styles.jumpNavLinks}>
         <a href="#ingredients" onClick={event => navigate(event, 'ingredients')}>Ingredients</a>
