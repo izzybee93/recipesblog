@@ -109,13 +109,14 @@ const CONFIG = {
 
 function createProgress(saved = {}) {
   const stats = saved.stats || {};
+  // Older sessions tracked rejections separately; they now count as skips.
+  const legacyRejected = Number.isFinite(stats.rejected) ? stats.rejected : 0;
 
   return {
     processed: Array.isArray(saved.processed) ? saved.processed : [],
     stats: {
       approved: Number.isFinite(stats.approved) ? stats.approved : 0,
-      rejected: Number.isFinite(stats.rejected) ? stats.rejected : 0,
-      skipped: Number.isFinite(stats.skipped) ? stats.skipped : 0,
+      skipped: (Number.isFinite(stats.skipped) ? stats.skipped : 0) + legacyRejected,
       errors: Number.isFinite(stats.errors) ? stats.errors : 0,
     },
     totalAttempts: Number.isFinite(saved.totalAttempts) ? saved.totalAttempts : 0,
@@ -173,10 +174,10 @@ Recipe: ${recipe.title}
 Ingredients: ${recipe.ingredients.join(', ')}
 
 EDITING INSTRUCTIONS:
-1. Correct white balance and improve lighting to make the food look appetizing, without editing the food itself
+1. Make gentle exposure and white-balance corrections. Preserve the original direction of light, natural shadows and food texture. Keep the result natural and understated, with the care and clarity of professional food photography.
 2. Enhance the background - remove clutter and make it clean, minimal and professional
 3. Keep the actual food EXACTLY as it appears (preserve its homemade appearance WITHOUT adding or removing any ingredients on the plate or serving dish)
-4. Add subtle touches like a light sprinkle or slice of only 1 or 2 ingredients AROUND THE EDGES with random placement, such as a relevant vegetable, fruit, or herb in the background that is in the recipe. DO NOT MAKE IT TOO BUSY. KEEP IT VERY MINIMAL.
+4. Where it suits the photo, add a small amount of decoration using one or two ingredients from the recipe, placed casually near an edge outside the serving dish. Keep it sparse and secondary to the food, leaving most of the background clear. Skip decoration if the photo already feels complete. Added ingredients should have realistic texture and natural imperfections. Keep decoration sparse, leaving most edges of the frame clear.
 5. Make it look like professional food photography while maintaining authenticity
 
 CRITICAL: The result should look inviting, professional and minimalist (no clutter in the background), but still clearly homemade. Make EXTREMELY MINIMAL edits to the food itself - only light polish and enhancement. The food must remain authentic and very recognizable from the original photo.`;
@@ -262,25 +263,23 @@ async function getUserApproval() {
 
   return new Promise((resolve) => {
     console.log('\nWhat would you like to do?');
-    console.log('  1. ✅ Approve (save to approved/)');
-    console.log('  2. ❌ Reject (save to rejected/, move to next)');
-    console.log('  3. 🔄 Retry (re-edit with same prompt)');
-    console.log('  4. ✏️  Retry with custom instructions (add specific guidance)');
-    console.log('  5. 🚫 Retry without sprinkles (remove garnish/decoration)');
-    console.log('  6. ⏭️  Skip (keep original, move to next)');
+    console.log('  1. ✅ Approve');
+    console.log('  2. 🔄 Retry (same prompt)');
+    console.log('  3. 🚫 Retry (without sprinkles)');
+    console.log('  4. ✏️  Retry (custom instructions)');
+    console.log('  5. ⏭️  Skip');
     console.log('');
 
-    rl.question('Your choice [1-6]: ', (answer) => {
+    rl.question('Your choice [1-5]: ', (answer) => {
       rl.close();
       const choice = answer.trim();
 
       switch (choice) {
         case '1': resolve('approve'); break;
-        case '2': resolve('reject'); break;
-        case '3': resolve('retry'); break;
+        case '2': resolve('retry'); break;
+        case '3': resolve('retry-no-sprinkles'); break;
         case '4': resolve('retry-custom'); break;
-        case '5': resolve('retry-no-sprinkles'); break;
-        case '6': resolve('skip'); break;
+        case '5': resolve('skip'); break;
         default:
           console.log('Invalid choice, please try again.\n');
           resolve(getUserApproval());
@@ -311,11 +310,6 @@ async function processRecipe(recipe, index, total) {
   const approvedPath = path.join(
     process.cwd(),
     'public/images/recipes-enhanced/approved',
-    `${recipe.slug}.jpeg`
-  );
-  const rejectedPath = path.join(
-    process.cwd(),
-    'public/images/recipes-enhanced/rejected',
     `${recipe.slug}.jpeg`
   );
   const productionPath = path.join(
@@ -381,11 +375,6 @@ async function processRecipe(recipe, index, total) {
           console.log('✅ Approved and saved to production!\n');
           return { status: 'approved', attempts };
 
-        case 'reject':
-          fs.copyFileSync(previewPath, rejectedPath);
-          console.log('❌ Rejected and saved to rejected folder\n');
-          return { status: 'rejected', attempts };
-
         case 'retry':
           customInstructions = ''; // Clear any custom instructions
           console.log('🔄 Retrying with original prompt...\n');
@@ -446,8 +435,7 @@ async function main() {
   const dirs = [
     'public/images/recipes-enhanced',
     'public/images/recipes-enhanced/approved',
-    'public/images/recipes-enhanced/previews',
-    'public/images/recipes-enhanced/rejected'
+    'public/images/recipes-enhanced/previews'
   ];
 
   dirs.forEach(dir => {
@@ -499,7 +487,6 @@ async function main() {
     if (i > 0) {
       console.log('\n📊 Progress Summary:');
       console.log(`   ✅ Approved: ${progress.stats.approved}`);
-      console.log(`   ❌ Rejected: ${progress.stats.rejected}`);
       console.log(`   ⏭️  Skipped:  ${progress.stats.skipped}`);
       console.log(`   ❗ Errors:   ${progress.stats.errors}\n`);
     }
@@ -522,7 +509,6 @@ async function main() {
   console.log('🎉 Enhancement Session Complete!');
   console.log('='.repeat(70));
   console.log(`✅ Approved:       ${progress.stats.approved}`);
-  console.log(`❌ Rejected:       ${progress.stats.rejected}`);
   console.log(`⏭️  Skipped:        ${progress.stats.skipped}`);
   console.log(`❗ Errors:         ${progress.stats.errors}`);
   console.log(`🔄 Total attempts:  ${progress.totalAttempts}`);

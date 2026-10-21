@@ -29,6 +29,7 @@ test('legacy progress is rebuilt using only supported fields', () => {
       obsolete: true
     });
     console.log('PROGRESS_JSON:' + JSON.stringify(progress));
+    console.log('RELOADED_PROGRESS_JSON:' + JSON.stringify(createProgress(progress)));
   `;
   const result = spawnSync(process.execPath, ['-e', probe], {
     cwd: os.tmpdir(),
@@ -43,8 +44,16 @@ test('legacy progress is rebuilt using only supported fields', () => {
   assert.ok(jsonLine, `Missing progress output in:\n${result.stdout}`);
   assert.deepEqual(JSON.parse(jsonLine.slice('PROGRESS_JSON:'.length)), {
     processed: ['recipe-one'],
-    stats: { approved: 1, rejected: 2, skipped: 3, errors: 4 },
+    stats: { approved: 1, skipped: 5, errors: 4 },
     totalAttempts: 5,
     lastUpdated: '2026-10-03T00:00:00.000Z',
   });
+  const reloadedLine = result.stdout
+    .split('\n')
+    .find(line => line.startsWith('RELOADED_PROGRESS_JSON:'));
+  assert.ok(reloadedLine, `Missing reloaded progress output in:\n${result.stdout}`);
+  assert.deepEqual(
+    JSON.parse(reloadedLine.slice('RELOADED_PROGRESS_JSON:'.length)),
+    JSON.parse(jsonLine.slice('PROGRESS_JSON:'.length))
+  );
 });
