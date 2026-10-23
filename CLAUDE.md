@@ -66,7 +66,6 @@ bakerbeanie-nextjs/
 │   ├── SearchBar.tsx            # Real-time search component
 │   └── recipe/                  # Recipe-specific components
 │       ├── CategoryIndex.tsx    # Responsive category navigation
-│       ├── RecipeCard.tsx       # Recipe card component
 │       ├── RecipeGrid.tsx       # Recipe grid layout
 │       ├── RecipeGridCard.tsx   # Grid card with background image
 │       ├── RecipeLayout.tsx     # Individual recipe page layout

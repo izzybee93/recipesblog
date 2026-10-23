@@ -12,7 +12,7 @@ import type { KnownRecipe, RecipeTextPart } from '@/lib/recipe-links'
 import RecipeFooter from './RecipeFooter'
 import RecipeMode from './RecipeMode'
 import RecipeCopyButton from './RecipeCopyButton'
-import RecipePlaceholder from './RecipePlaceholder'
+import { recipePlaceholderBackground } from './RecipePlaceholder'
 import IngredientScroll from './IngredientScroll'
 import RecipeSectionNav from './RecipeSectionNav'
 import styles from './RecipeLayout.module.css'
@@ -41,11 +41,13 @@ function renderRecipeParts(parts: RecipeTextPart[]) {
 export default function RecipeLayout({ recipe, knownRecipes, blurDataURL }: RecipeLayoutProps) {
   const [useBackupImage, setUseBackupImage] = useState(false)
   const [imageFailed, setImageFailed] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
   const [keyboardNavigation, setKeyboardNavigation] = useState(false)
   const recipeLinkMatcher = useMemo(() => buildRecipeLinkMatcher(knownRecipes), [knownRecipes])
   const imageUrl = useBackupImage ? getBackupImageUrl(recipe.featured_image) : recipe.featured_image
 
   const handleImageError = () => {
+    setImageLoaded(false)
     if (!useBackupImage && getBackupImageUrl(recipe.featured_image) !== imageUrl) setUseBackupImage(true)
     else setImageFailed(true)
   }
@@ -101,23 +103,28 @@ export default function RecipeLayout({ recipe, knownRecipes, blurDataURL }: Reci
         <div>
           <div
             className={styles.photo}
-            style={blurDataURL ? { backgroundImage: `url(${blurDataURL})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+            style={{
+              backgroundImage: blurDataURL ? `url(${blurDataURL})` : recipePlaceholderBackground,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
             role={imageFailed ? 'img' : undefined}
             aria-label={imageFailed ? recipe.title : undefined}
           >
-            {imageFailed ? (
-              !blurDataURL && <RecipePlaceholder title={recipe.title} className="h-full w-full" />
-            ) : (
+            {!imageFailed && (
               <Image
+                key={imageUrl}
                 src={imageUrl}
                 alt={recipe.title}
                 fill
                 sizes="(max-width: 767px) calc(100vw - 32px), 760px"
                 className={styles.recipeImage}
+                style={{ opacity: imageLoaded ? 1 : 0 }}
                 priority
                 placeholder={blurDataURL ? 'blur' : 'empty'}
                 blurDataURL={blurDataURL}
                 onError={handleImageError}
+                onLoad={() => setImageLoaded(true)}
               />
             )}
           </div>

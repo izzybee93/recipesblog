@@ -35,37 +35,35 @@ function RecipeFeatureImage({
 }) {
   const [useFallback, setUseFallback] = useState(false)
   const [imageError, setImageError] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
   const backupUrl = getBackupImageUrl(recipe.featured_image)
   const imageUrl = useFallback ? backupUrl : recipe.featured_image
 
-  if (!imageUrl || imageError) {
-    return (
-      <div data-recipe-placeholder className="absolute inset-0 h-full w-full">
-        <RecipePlaceholder
-          title={recipe.title}
-          className="h-full w-full"
-          style={{ minHeight: '100%' }}
-        />
-      </div>
-    )
-  }
-
   return (
-    <Image
-      src={imageUrl}
-      alt=""
-      fill
-      priority={priority}
-      sizes={sizes}
-      className="!rounded-none object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-      onError={() => {
-        if (!useFallback && backupUrl !== recipe.featured_image) {
-          setUseFallback(true)
-        } else {
-          setImageError(true)
-        }
-      }}
-    />
+    <>
+      <RecipePlaceholder />
+      {imageUrl && !imageError && (
+        <Image
+          key={imageUrl}
+          src={imageUrl}
+          alt=""
+          fill
+          priority={priority}
+          sizes={sizes}
+          className="!rounded-none object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          style={{ opacity: imageLoaded ? 1 : 0 }}
+          onLoad={() => setImageLoaded(true)}
+          onError={() => {
+            setImageLoaded(false)
+            if (!useFallback && backupUrl !== recipe.featured_image) {
+              setUseFallback(true)
+            } else {
+              setImageError(true)
+            }
+          }}
+        />
+      )}
+    </>
   )
 }
 
